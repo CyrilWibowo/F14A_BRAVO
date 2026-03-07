@@ -1,0 +1,11 @@
+{
+  "name": "frontend",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "tailwindcss -i ./src/input.css -o ./public/output.css --watch",
+    "build": "tailwindcss -i ./src/input.css -o ./public/output.css --minify"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.0"
+  }
+}
