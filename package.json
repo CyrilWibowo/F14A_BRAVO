@@ -5,6 +5,29 @@
     "install:all": "cd backend && npm install && cd ../frontend && npm install",
     "start:backend": "cd backend && npm start",
     "build:frontend": "cd frontend && npm run build",
-    "dev:frontend": "cd frontend && npm run dev"
+    "dev:frontend": "cd frontend && npm run dev",
+    "test": "jest --coverage",
+    "lint": "eslint backend/src/**/*.js",
+    "typecheck": "tsc --noEmit",
+    "build": "tsc",
+    "ci": "npm run lint && npm run typecheck && npm test && npm run build"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^25.5.0",
+    "eslint": "^10.0.3",
+    "globals": "^17.4.0",
+    "jest": "^30.3.0",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.57.0"
+  },
+  "jest": {
+    "coverageThreshold": {
+      "global": {
+        "lines": 85,
+        "functions": 85,
+        "branches": 85
+      }
+    }
   }
 }
