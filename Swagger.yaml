@@ -1,0 +1,1804 @@
+openapi: 3.0.0
+info:
+  title: F14A_BRAVO Climate API Swagger 
+  version: 3.0.0
+  description: >
+    A RESTful API that collects, retrieves, preprocesses, and scores data from three
+    external sources to produce a composite liveability score (0–100) for cities worldwide.
+
+    Sources:
+      - World Bank Open Data using GDP (USD), GDP growth (annual %), exports of goods and services
+        (% of GDP), imports of goods and services (% of GDP)
+      - Numbeo Quality of Life Index includes Quality of Life Index, Climate Index,
+        Cost of Living Index, Health Care Index
+      - Open-Meteo API utilises Mean Temperature, Relative Humidity, Precipitation, UV Index, Air Quality
+
+    All three sources are open-access and require no authentication keys.
+  contact:
+    name: F14A_BRAVO
+    email: z5583126@ad.unsw.edu.au
+  license:
+    name: BRAVO
+
+servers:
+  - url: https://api.climatescore.dev/v1
+    description: Production (Vercel)
+  - url: https://dev.climatescore.dev/v1
+    description: Development (Vercel Preview)
+
+tags:
+  - name: Data Collection
+    description: Trigger ingestion from World Bank, Numbeo, and Open-Meteo into MongoDB
+  - name: Data Retrieval
+    description: Query raw records stored in MongoDB
+  - name: Preprocessing - Normalisation
+    description: Normalise raw data and compute per-source component scores
+  - name: Preprocessing - Scoring
+    description: Compute and query composite liveability scores
+  - name: Health
+    description: Service health check
+
+security:
+  - BearerAuth: []
+
+components:
+
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: >
+        Required for all POST (write) endpoints. GET (read) endpoints are publicly
+        accessible to support ecosystem interoperability.
+
+  schemas:
+
+    WorldBankRecord:
+      type: object
+      description: One year of World Bank economic indicator data for a country
+      properties:
+        year:
+          type: integer
+          example: 2024
+        gdp_usd:
+          type: number
+          description: GDP in current USD
+          example: 1723000000000
+        gdp_growth_annual_pct:
+          type: number
+          description: GDP growth rate (annual %)
+          example: 1.5
+        exports_pct_gdp:
+          type: number
+          description: Exports of goods and services as % of GDP
+          example: 26.3
+        imports_pct_gdp:
+          type: number
+          description: Imports of goods and services as % of GDP
+          example: 23.1
+
+    NumbeoRecord:
+      type: object
+      description: Numbeo quality of life index data for a city in a given year
+      properties:
+        year:
+          type: integer
+          example: 2025
+        quality_of_life_index:
+          type: number
+          example: 172.4
+        climate_index:
+          type: number
+          example: 90.1
+        cost_of_living_index:
+          type: number
+          example: 81.3
+        health_care_index:
+          type: number
+          example: 71.8
+
+    ClimateRecord:
+      type: object
+      description: One day of Open-Meteo climate data for a coordinate
+      properties:
+        date:
+          type: string
+          format: date
+          example: "2025-01-01"
+        mean_temperature_c:
+          type: number
+          description: Daily mean temperature in degrees Celsius
+          example: 23.4
+        relative_humidity_pct:
+          type: number
+          description: Relative humidity as a percentage
+          example: 68.2
+        precipitation_mm:
+          type: number
+          description: Total daily precipitation in millimetres
+          example: 2.1
+        uv_index:
+          type: number
+          description: Peak daily UV index
+          example: 11.2
+        air_quality_index:
+          type: integer
+          description: Air Quality Index (AQI) — composite of PM2.5, PM10, NO2, O3
+          example: 24
+
+    ScoreBreakdown:
+      type: object
+      description: Per-source weighted contribution to the composite liveability score
+      properties:
+        worldBank:
+          type: object
+          properties:
+            weight:
+              type: number
+              example: 0.25
+            score:
+              type: number
+              example: 73.5
+            contribution:
+              type: number
+              example: 18.4
+            indicators:
+              type: object
+              properties:
+                gdp_usd:
+                  type: number
+                  example: 80.1
+                gdp_growth_annual_pct:
+                  type: number
+                  example: 55.2
+                exports_pct_gdp:
+                  type: number
+                  example: 72.4
+                imports_pct_gdp:
+                  type: number
+                  example: 69.8
+        numbeo:
+          type: object
+          properties:
+            weight:
+              type: number
+              example: 0.45
+            score:
+              type: number
+              example: 80.1
+            contribution:
+              type: number
+              example: 36.1
+            indices:
+              type: object
+              properties:
+                quality_of_life_index:
+                  type: number
+                  example: 86.2
+                climate_index:
+                  type: number
+                  example: 90.1
+                cost_of_living_index:
+                  type: number
+                  example: 52.4
+                health_care_index:
+                  type: number
+                  example: 71.8
+        openMeteo:
+          type: object
+          properties:
+            weight:
+              type: number
+              example: 0.30
+            score:
+              type: number
+              example: 73.2
+            contribution:
+              type: number
+              example: 22.0
+            variables:
+              type: object
+              properties:
+                mean_temperature:
+                  type: number
+                  example: 74.3
+                relative_humidity:
+                  type: number
+                  example: 65.4
+                precipitation:
+                  type: number
+                  example: 70.1
+                uv_index:
+                  type: number
+                  example: 52.0
+                air_quality:
+                  type: number
+                  example: 81.6
+
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: error
+        message:
+          type: string
+          example: Required parameter missing
+
+    WeightsObject:
+      type: object
+      description: >
+        Custom weights for individual score factors. All values must sum to exactly 1.0.
+      additionalProperties:
+        type: number
+      example:
+        gdp_usd: 0.25
+        gdp_growth_annual_pct: 0.25
+        exports_pct_gdp: 0.25
+        imports_pct_gdp: 0.25
+
+  parameters:
+    CityParam:
+      name: city
+      in: query
+      required: true
+      schema:
+        type: string
+      example: Sydney
+
+    CountryParam:
+      name: country
+      in: query
+      required: true
+      schema:
+        type: string
+      example: Australia
+
+    CountryCodeParam:
+      name: country_code
+      in: query
+      required: true
+      description: ISO 3166-1 alpha-3 country code
+      schema:
+        type: string
+        pattern: "^[A-Z]{3}$"
+      example: AUS
+
+    LatParam:
+      name: lat
+      in: query
+      required: true
+      schema:
+        type: number
+        format: float
+        minimum: -90
+        maximum: 90
+      example: -33.8688
+
+    LonParam:
+      name: lon
+      in: query
+      required: true
+      schema:
+        type: number
+        format: float
+        minimum: -180
+        maximum: 180
+      example: 151.2093
+
+    StartDateParam:
+      name: start_date
+      in: query
+      required: false
+      schema:
+        type: string
+        format: date
+      example: "2025-01-01"
+
+    EndDateParam:
+      name: end_date
+      in: query
+      required: false
+      schema:
+        type: string
+        format: date
+      example: "2025-12-31"
+
+    LimitParam:
+      name: limit
+      in: query
+      required: false
+      schema:
+        type: integer
+        default: 100
+        minimum: 1
+        maximum: 1000
+
+    OffsetParam:
+      name: offset
+      in: query
+      required: false
+      schema:
+        type: integer
+        default: 0
+        minimum: 0
+
+paths:
+
+  # ─────────────────────────────────────────
+  # DATA COLLECTION
+  # ─────────────────────────────────────────
+
+  /worldbank/collect:
+    post:
+      tags: [Data Collection]
+      summary: Collect World Bank economic indicators
+      description: >
+        Fetches GDP (USD), GDP growth (annual %), exports of goods and services (% of GDP),
+        and imports of goods and services (% of GDP) for a given country from the World Bank
+        Open Data API and stores the records in MongoDB.
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [country_code, start_year, end_year]
+              properties:
+                country_code:
+                  type: string
+                  pattern: "^[A-Z]{3}$"
+                  example: AUS
+                start_year:
+                  type: integer
+                  example: 2015
+                end_year:
+                  type: integer
+                  example: 2024
+                indicators:
+                  type: array
+                  description: Indicators to collect. Defaults to all four.
+                  items:
+                    type: string
+                    enum:
+                      - gdp_usd
+                      - gdp_growth_annual_pct
+                      - exports_pct_gdp
+                      - imports_pct_gdp
+                  example: [gdp_usd, gdp_growth_annual_pct, exports_pct_gdp, imports_pct_gdp]
+      responses:
+        "200":
+          description: World Bank data collected successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  country:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: AUS
+                      name:
+                        type: string
+                        example: Australia
+                  yearRange:
+                    type: object
+                    properties:
+                      from:
+                        type: integer
+                        example: 2015
+                      to:
+                        type: integer
+                        example: 2024
+                  indicators:
+                    type: array
+                    items:
+                      type: string
+                    example: [gdp_usd, gdp_growth_annual_pct, exports_pct_gdp, imports_pct_gdp]
+                  recordsCollected:
+                    type: integer
+                    example: 10
+                  source:
+                    type: string
+                    example: World Bank
+                  collectedAt:
+                    type: string
+                    format: date-time
+                    example: "2026-03-01T10:00:00Z"
+        "400":
+          description: Missing or invalid country_code, start_year, or end_year
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Country code not recognised by World Bank API
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "502":
+          description: World Bank API unreachable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /numbeo/collect:
+    post:
+      tags: [Data Collection]
+      summary: Collect Numbeo quality of life indices
+      description: >
+        Fetches the Quality of Life Index, Climate Index, Cost of Living Index, and
+        Health Care Index for a given city from the Numbeo Quality of Life dataset
+        and stores the record in MongoDB.
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [city, country]
+              properties:
+                city:
+                  type: string
+                  example: Sydney
+                country:
+                  type: string
+                  example: Australia
+                year:
+                  type: integer
+                  description: Year to collect data for. Defaults to most recent available.
+                  example: 2025
+      responses:
+        "200":
+          description: Numbeo data collected successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  location:
+                    type: object
+                    properties:
+                      city:
+                        type: string
+                        example: Sydney
+                      country:
+                        type: string
+                        example: Australia
+                  year:
+                    type: integer
+                    example: 2025
+                  indices:
+                    type: array
+                    items:
+                      type: string
+                    example: [quality_of_life_index, climate_index, cost_of_living_index, health_care_index]
+                  recordsCollected:
+                    type: integer
+                    example: 1
+                  source:
+                    type: string
+                    example: Numbeo
+                  collectedAt:
+                    type: string
+                    format: date-time
+                    example: "2026-03-01T10:05:00Z"
+        "400":
+          description: Missing city or country parameter
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: City not found in Numbeo dataset
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "502":
+          description: Numbeo source unreachable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /climate/collect:
+    post:
+      tags: [Data Collection]
+      summary: Collect Open-Meteo climate data
+      description: >
+        Fetches mean temperature, relative humidity, precipitation, UV index, and
+        air quality for a given coordinate from the Open-Meteo API and stores
+        the daily records in MongoDB.
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [lat, lon, start_date, end_date]
+              properties:
+                lat:
+                  type: number
+                  format: float
+                  minimum: -90
+                  maximum: 90
+                  example: -33.8688
+                lon:
+                  type: number
+                  format: float
+                  minimum: -180
+                  maximum: 180
+                  example: 151.2093
+                start_date:
+                  type: string
+                  format: date
+                  example: "2025-01-01"
+                end_date:
+                  type: string
+                  format: date
+                  example: "2025-12-31"
+                variables:
+                  type: array
+                  description: Variables to collect. Defaults to all five.
+                  items:
+                    type: string
+                    enum:
+                      - mean_temperature
+                      - relative_humidity
+                      - precipitation
+                      - uv_index
+                      - air_quality
+                  example: [mean_temperature, relative_humidity, precipitation, uv_index, air_quality]
+      responses:
+        "200":
+          description: Climate data collected successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  location:
+                    type: object
+                    properties:
+                      lat:
+                        type: number
+                        example: -33.8688
+                      lon:
+                        type: number
+                        example: 151.2093
+                  dateRange:
+                    type: object
+                    properties:
+                      from:
+                        type: string
+                        format: date
+                        example: "2025-01-01"
+                      to:
+                        type: string
+                        format: date
+                        example: "2025-12-31"
+                  variables:
+                    type: array
+                    items:
+                      type: string
+                    example: [mean_temperature, relative_humidity, precipitation, uv_index, air_quality]
+                  recordsCollected:
+                    type: integer
+                    example: 365
+                  source:
+                    type: string
+                    example: Open-Meteo
+                  collectedAt:
+                    type: string
+                    format: date-time
+                    example: "2026-03-01T10:10:00Z"
+        "400":
+          description: Missing or invalid lat/lon or date range
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "422":
+          description: Requested variable not available for this location
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "502":
+          description: Open-Meteo API unreachable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /collect/bulk:
+    post:
+      tags: [Data Collection]
+      summary: Bulk collect from all sources for multiple locations
+      description: >
+        Triggers data collection from World Bank, Numbeo, and Open-Meteo for a list
+        of locations in a single request. Processing is asynchronous — returns a job ID
+        for status polling. Maximum 50 locations per request.
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [locations, start_date, end_date]
+              properties:
+                locations:
+                  type: array
+                  maxItems: 50
+                  items:
+                    type: object
+                    required: [city, country, country_code, lat, lon]
+                    properties:
+                      city:
+                        type: string
+                      country:
+                        type: string
+                      country_code:
+                        type: string
+                        pattern: "^[A-Z]{3}$"
+                      lat:
+                        type: number
+                        format: float
+                      lon:
+                        type: number
+                        format: float
+                  example:
+                    - { city: Sydney, country: Australia, country_code: AUS, lat: -33.8688, lon: 151.2093 }
+                    - { city: Tokyo, country: Japan, country_code: JPN, lat: 35.6762, lon: 139.6503 }
+                start_date:
+                  type: string
+                  format: date
+                  example: "2025-01-01"
+                end_date:
+                  type: string
+                  format: date
+                  example: "2025-12-31"
+                sources:
+                  type: array
+                  description: Sources to collect from. Defaults to all three.
+                  items:
+                    type: string
+                    enum: [worldbank, numbeo, open-meteo]
+                  default: [worldbank, numbeo, open-meteo]
+      responses:
+        "202":
+          description: Bulk collection job accepted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: accepted
+                  jobId:
+                    type: string
+                    example: bulk-job-7d2a94
+                  locationsQueued:
+                    type: integer
+                    example: 5
+                  sourcesQueued:
+                    type: array
+                    items:
+                      type: string
+                    example: [worldbank, numbeo, open-meteo]
+                  estimatedCompletionSeconds:
+                    type: integer
+                    example: 40
+                  statusUrl:
+                    type: string
+                    example: /v1/jobs/bulk-job-7d2a94
+        "400":
+          description: Missing or invalid location entries
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "413":
+          description: More than 50 locations in a single request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  # ─────────────────────────────────────────
+  # DATA RETRIEVAL
+  # ─────────────────────────────────────────
+
+  /worldbank:
+    get:
+      tags: [Data Retrieval]
+      summary: Retrieve World Bank records from MongoDB
+      description: >
+        Returns stored World Bank economic records (GDP USD, GDP growth annual %,
+        exports % of GDP, imports % of GDP) for a given country, optionally filtered
+        by year range or individual indicator.
+      security: []
+      parameters:
+        - $ref: "#/components/parameters/CountryCodeParam"
+        - name: start_year
+          in: query
+          required: false
+          schema:
+            type: integer
+          example: 2015
+        - name: end_year
+          in: query
+          required: false
+          schema:
+            type: integer
+          example: 2024
+        - name: indicator
+          in: query
+          required: false
+          description: Return a single indicator only
+          schema:
+            type: string
+            enum: [gdp_usd, gdp_growth_annual_pct, exports_pct_gdp, imports_pct_gdp]
+      responses:
+        "200":
+          description: Records retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  country:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: AUS
+                      name:
+                        type: string
+                        example: Australia
+                  totalRecords:
+                    type: integer
+                    example: 10
+                  records:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/WorldBankRecord"
+        "400":
+          description: Invalid country_code or year format
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: No World Bank data collected for this country yet
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /numbeo:
+    get:
+      tags: [Data Retrieval]
+      summary: Retrieve Numbeo index records from MongoDB
+      description: >
+        Returns stored Numbeo index records (Quality of Life, Climate, Cost of Living,
+        Health Care) for a given city, optionally filtered by year.
+      security: []
+      parameters:
+        - $ref: "#/components/parameters/CityParam"
+        - $ref: "#/components/parameters/CountryParam"
+        - name: year
+          in: query
+          required: false
+          schema:
+            type: integer
+          example: 2025
+      responses:
+        "200":
+          description: Records retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  location:
+                    type: object
+                    properties:
+                      city:
+                        type: string
+                        example: Sydney
+                      country:
+                        type: string
+                        example: Australia
+                  records:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/NumbeoRecord"
+        "400":
+          description: Missing city or country
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: No Numbeo data collected for this city yet
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /climate:
+    get:
+      tags: [Data Retrieval]
+      summary: Retrieve Open-Meteo climate records from MongoDB
+      description: >
+        Returns stored Open-Meteo daily climate records (mean temperature, relative humidity,
+        precipitation, UV index, air quality) for a given location, with optional date range
+        filtering, variable selection, and pagination.
+      security: []
+      parameters:
+        - $ref: "#/components/parameters/LatParam"
+        - $ref: "#/components/parameters/LonParam"
+        - $ref: "#/components/parameters/StartDateParam"
+        - $ref: "#/components/parameters/EndDateParam"
+        - name: variables
+          in: query
+          required: false
+          description: Comma-separated list of variables to include in the response
+          schema:
+            type: string
+          example: "mean_temperature,uv_index,air_quality"
+        - $ref: "#/components/parameters/LimitParam"
+        - $ref: "#/components/parameters/OffsetParam"
+      responses:
+        "200":
+          description: Records retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  location:
+                    type: object
+                    properties:
+                      lat:
+                        type: number
+                        example: -33.8688
+                      lon:
+                        type: number
+                        example: 151.2093
+                  totalRecords:
+                    type: integer
+                    example: 365
+                  records:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/ClimateRecord"
+        "400":
+          description: Invalid coordinates or date format
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: No climate data collected for this location yet
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /locations/summary:
+    get:
+      tags: [Data Retrieval]
+      summary: Retrieve combined data availability snapshot
+      description: >
+        Returns an availability snapshot across all three sources (World Bank, Numbeo,
+        Open-Meteo) for a given location. Use this to confirm what has been collected
+        before running the preprocessing or scoring pipeline.
+      security: []
+      parameters:
+        - $ref: "#/components/parameters/CityParam"
+        - $ref: "#/components/parameters/CountryParam"
+        - $ref: "#/components/parameters/CountryCodeParam"
+        - $ref: "#/components/parameters/LatParam"
+        - $ref: "#/components/parameters/LonParam"
+      responses:
+        "200":
+          description: Location summary retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  location:
+                    type: object
+                    properties:
+                      city:
+                        type: string
+                        example: Sydney
+                      country:
+                        type: string
+                        example: Australia
+                      lat:
+                        type: number
+                        example: -33.8688
+                      lon:
+                        type: number
+                        example: 151.2093
+                  worldBank:
+                    type: object
+                    properties:
+                      available:
+                        type: boolean
+                        example: true
+                      latestYear:
+                        type: integer
+                        example: 2024
+                      indicatorsCollected:
+                        type: integer
+                        example: 4
+                  numbeo:
+                    type: object
+                    properties:
+                      available:
+                        type: boolean
+                        example: true
+                      latestYear:
+                        type: integer
+                        example: 2025
+                      indicesCollected:
+                        type: integer
+                        example: 4
+                  climate:
+                    type: object
+                    properties:
+                      available:
+                        type: boolean
+                        example: true
+                      latestDate:
+                        type: string
+                        format: date
+                        example: "2025-12-31"
+                      recordsCollected:
+                        type: integer
+                        example: 365
+        "400":
+          description: Missing required parameters
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: No data collected for this location across any source
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  # ─────────────────────────────────────────
+  # PREPROCESSING — NORMALISATION
+  # ─────────────────────────────────────────
+
+  /process/normalise:
+    post:
+      tags: [Preprocessing - Normalisation]
+      summary: Normalise raw records from all three sources
+      description: >
+        Normalises raw MongoDB records from World Bank, Numbeo, and Open-Meteo for a
+        given location. Handles missing values using the selected strategy, standardises
+        all values to a common 0–100 scale, and removes statistical outliers. Stores the
+        normalised output ready for the scoring pipeline.
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [city, country, country_code, lat, lon]
+              properties:
+                city:
+                  type: string
+                  example: Sydney
+                country:
+                  type: string
+                  example: Australia
+                country_code:
+                  type: string
+                  pattern: "^[A-Z]{3}$"
+                  example: AUS
+                lat:
+                  type: number
+                  format: float
+                  example: -33.8688
+                lon:
+                  type: number
+                  format: float
+                  example: 151.2093
+                strategy:
+                  type: string
+                  enum: [interpolate, drop, mean_fill]
+                  default: interpolate
+                  description: Strategy for handling missing values
+                sources:
+                  type: array
+                  description: Limit normalisation to specific sources. Defaults to all three.
+                  items:
+                    type: string
+                    enum: [worldbank, numbeo, open-meteo]
+                  default: [worldbank, numbeo, open-meteo]
+      responses:
+        "200":
+          description: Data normalised successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  location:
+                    type: object
+                    properties:
+                      city:
+                        type: string
+                        example: Sydney
+                      country:
+                        type: string
+                        example: Australia
+                  strategy:
+                    type: string
+                    example: interpolate
+                  results:
+                    type: object
+                    properties:
+                      worldBank:
+                        type: object
+                        properties:
+                          recordsProcessed:
+                            type: integer
+                            example: 10
+                          missingValuesHandled:
+                            type: integer
+                            example: 1
+                          outliersRemoved:
+                            type: integer
+                            example: 0
+                      numbeo:
+                        type: object
+                        properties:
+                          recordsProcessed:
+                            type: integer
+                            example: 1
+                          missingValuesHandled:
+                            type: integer
+                            example: 0
+                          outliersRemoved:
+                            type: integer
+                            example: 0
+                      climate:
+                        type: object
+                        properties:
+                          recordsProcessed:
+                            type: integer
+                            example: 365
+                          missingValuesHandled:
+                            type: integer
+                            example: 3
+                          outliersRemoved:
+                            type: integer
+                            example: 2
+                  processedAt:
+                    type: string
+                    format: date-time
+                    example: "2026-03-01T10:20:00Z"
+        "400":
+          description: Invalid strategy value or missing required parameters
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: No raw data available for one or more sources for this location
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /process/economic-score:
+    post:
+      tags: [Preprocessing - Normalisation]
+      summary: Derive normalised economic component score from World Bank data
+      description: >
+        Derives a normalised economic component score (0–100) from the stored World Bank
+        indicators for a given country. Each indicator — GDP (USD), GDP growth (annual %),
+        exports (% of GDP), and imports (% of GDP) — is individually normalised and combined
+        into a single weighted sub-score. Requires /process/normalise to have been run first.
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [country_code]
+              properties:
+                country_code:
+                  type: string
+                  pattern: "^[A-Z]{3}$"
+                  example: AUS
+                year:
+                  type: integer
+                  description: Year to compute score for. Defaults to most recent available.
+                  example: 2024
+                weights:
+                  $ref: "#/components/schemas/WeightsObject"
+      responses:
+        "200":
+          description: Economic score computed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  country:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: AUS
+                      name:
+                        type: string
+                        example: Australia
+                  year:
+                    type: integer
+                    example: 2024
+                  economicScore:
+                    type: object
+                    properties:
+                      overall:
+                        type: number
+                        example: 73.5
+                      breakdown:
+                        type: object
+                        properties:
+                          gdp_usd:
+                            type: number
+                            example: 80.1
+                          gdp_growth_annual_pct:
+                            type: number
+                            example: 55.2
+                          exports_pct_gdp:
+                            type: number
+                            example: 72.4
+                          imports_pct_gdp:
+                            type: number
+                            example: 69.8
+                  computedAt:
+                    type: string
+                    format: date-time
+                    example: "2026-03-01T10:25:00Z"
+        "400":
+          description: Invalid country_code or weights do not sum to 1.0
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Normalised World Bank data not available; run /process/normalise first
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /process/liveability-factors:
+    post:
+      tags: [Preprocessing - Normalisation]
+      summary: Compute liveability factor scores from Numbeo and Open-Meteo data
+      description: >
+        Computes individual factor scores (0–100) for each Numbeo index (Quality of Life,
+        Climate, Cost of Living, Health Care) and each Open-Meteo variable (mean temperature,
+        relative humidity, precipitation, UV index, air quality). These factors feed directly
+        into the final composite liveability score. Requires /process/normalise to have been
+        run first.
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [city, country, lat, lon]
+              properties:
+                city:
+                  type: string
+                  example: Sydney
+                country:
+                  type: string
+                  example: Australia
+                lat:
+                  type: number
+                  format: float
+                  example: -33.8688
+                lon:
+                  type: number
+                  format: float
+                  example: 151.2093
+                weights:
+                  $ref: "#/components/schemas/WeightsObject"
+      responses:
+        "200":
+          description: Liveability factors computed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  location:
+                    type: object
+                    properties:
+                      city:
+                        type: string
+                        example: Sydney
+                      country:
+                        type: string
+                        example: Australia
+                  factors:
+                    type: object
+                    description: Normalised score (0–100) for each liveability factor
+                    properties:
+                      quality_of_life_index:
+                        type: number
+                        example: 86.2
+                      climate_index:
+                        type: number
+                        example: 90.1
+                      cost_of_living_index:
+                        type: number
+                        example: 52.4
+                      health_care_index:
+                        type: number
+                        example: 71.8
+                      mean_temperature:
+                        type: number
+                        example: 74.3
+                      relative_humidity:
+                        type: number
+                        example: 65.4
+                      precipitation:
+                        type: number
+                        example: 70.1
+                      uv_index:
+                        type: number
+                        example: 52.0
+                      air_quality:
+                        type: number
+                        example: 81.6
+                  computedAt:
+                    type: string
+                    format: date-time
+                    example: "2026-03-01T10:30:00Z"
+        "400":
+          description: Missing required parameters or weights do not sum to 1.0
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Normalised Numbeo or Open-Meteo data not available; run /process/normalise first
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  # ─────────────────────────────────────────
+  # PREPROCESSING — SCORING
+  # ─────────────────────────────────────────
+
+  /score:
+    get:
+      tags: [Preprocessing - Scoring]
+      summary: Get composite liveability score for a city
+      description: >
+        Returns the composite liveability score (0–100) for a given city. The score
+        combines World Bank economic data (25% weight), Numbeo quality of life indices
+        (45% weight), and Open-Meteo climate variables (30% weight). A higher score
+        indicates a more economically stable, high-quality-of-life, and climatically
+        comfortable location.
+      security: []
+      parameters:
+        - $ref: "#/components/parameters/CityParam"
+        - $ref: "#/components/parameters/CountryParam"
+        - $ref: "#/components/parameters/CountryCodeParam"
+        - $ref: "#/components/parameters/LatParam"
+        - $ref: "#/components/parameters/LonParam"
+      responses:
+        "200":
+          description: Liveability score retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  location:
+                    type: object
+                    properties:
+                      city:
+                        type: string
+                        example: Sydney
+                      country:
+                        type: string
+                        example: Australia
+                  score:
+                    type: number
+                    minimum: 0
+                    maximum: 100
+                    example: 76.4
+                  breakdown:
+                    type: object
+                    properties:
+                      worldBank:
+                        type: object
+                        properties:
+                          weight:
+                            type: number
+                            example: 0.25
+                          score:
+                            type: number
+                            example: 73.5
+                      numbeo:
+                        type: object
+                        properties:
+                          weight:
+                            type: number
+                            example: 0.45
+                          score:
+                            type: number
+                            example: 80.1
+                          indices:
+                            type: object
+                            properties:
+                              quality_of_life_index:
+                                type: number
+                                example: 86.2
+                              climate_index:
+                                type: number
+                                example: 90.1
+                              cost_of_living_index:
+                                type: number
+                                example: 52.4
+                              health_care_index:
+                                type: number
+                                example: 71.8
+                      openMeteo:
+                        type: object
+                        properties:
+                          weight:
+                            type: number
+                            example: 0.30
+                          score:
+                            type: number
+                            example: 73.2
+                          variables:
+                            type: object
+                            properties:
+                              mean_temperature:
+                                type: number
+                                example: 74.3
+                              relative_humidity:
+                                type: number
+                                example: 65.4
+                              precipitation:
+                                type: number
+                                example: 70.1
+                              uv_index:
+                                type: number
+                                example: 52.0
+                              air_quality:
+                                type: number
+                                example: 81.6
+                  calculatedAt:
+                    type: string
+                    format: date-time
+                    example: "2026-03-01T12:00:00Z"
+        "400":
+          description: Missing or invalid required parameters
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Score not available; run collection, normalise, and liveability-factors first
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /score/compare:
+    get:
+      tags: [Preprocessing - Scoring]
+      summary: Compare liveability scores across multiple cities
+      description: >
+        Compares composite liveability scores across multiple cities and returns them
+        ranked from highest to lowest. All cities must have been collected, normalised,
+        and scored prior to comparison. Maximum 20 cities per request.
+      security: []
+      parameters:
+        - name: locations
+          in: query
+          required: true
+          description: >
+            JSON-encoded array of location objects. Each object must include:
+            city, country, country_code, lat, lon.
+          schema:
+            type: string
+          example: '[{"city":"Sydney","country":"Australia","country_code":"AUS","lat":-33.87,"lon":151.21}]'
+      responses:
+        "200":
+          description: Comparison retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  comparison:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        rank:
+                          type: integer
+                          example: 1
+                        city:
+                          type: string
+                          example: Sydney
+                        country:
+                          type: string
+                          example: Australia
+                        score:
+                          type: number
+                          example: 76.4
+                  comparedAt:
+                    type: string
+                    format: date-time
+                    example: "2026-03-01T12:05:00Z"
+        "400":
+          description: Invalid or malformed locations parameter
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "413":
+          description: More than 20 cities in one request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: One or more cities have no score data available
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /score/ranking:
+    get:
+      tags: [Preprocessing - Scoring]
+      summary: Get ranked list of all cities by liveability score
+      description: >
+        Returns all cities stored in MongoDB ranked by composite liveability score,
+        highest first. Supports filtering by score range, world region, and pagination.
+      security: []
+      parameters:
+        - name: min_score
+          in: query
+          required: false
+          schema:
+            type: number
+            minimum: 0
+            maximum: 100
+          example: 60
+        - name: max_score
+          in: query
+          required: false
+          schema:
+            type: number
+            minimum: 0
+            maximum: 100
+          example: 100
+        - name: region
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [Oceania, Europe, Asia, "North America", "South America", Africa, "Middle East"]
+        - $ref: "#/components/parameters/LimitParam"
+        - $ref: "#/components/parameters/OffsetParam"
+      responses:
+        "200":
+          description: Rankings retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  totalResults:
+                    type: integer
+                    example: 38
+                  rankings:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        rank:
+                          type: integer
+                          example: 1
+                        city:
+                          type: string
+                          example: Melbourne
+                        country:
+                          type: string
+                          example: Australia
+                        score:
+                          type: number
+                          example: 79.8
+        "400":
+          description: Invalid filter parameters or score range
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /score/breakdown:
+    get:
+      tags: [Preprocessing - Scoring]
+      summary: Get full per-source, per-variable score breakdown
+      description: >
+        Returns the exact normalised score and weighted contribution from every
+        World Bank indicator, every Numbeo index, and every Open-Meteo variable
+        for a given city. Intended for transparency and downstream analytical use.
+      security: []
+      parameters:
+        - $ref: "#/components/parameters/CityParam"
+        - $ref: "#/components/parameters/CountryParam"
+        - $ref: "#/components/parameters/CountryCodeParam"
+        - $ref: "#/components/parameters/LatParam"
+        - $ref: "#/components/parameters/LonParam"
+      responses:
+        "200":
+          description: Score breakdown retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  location:
+                    type: object
+                    properties:
+                      city:
+                        type: string
+                        example: Sydney
+                      country:
+                        type: string
+                        example: Australia
+                  compositeScore:
+                    type: number
+                    example: 76.4
+                  sources:
+                    $ref: "#/components/schemas/ScoreBreakdown"
+                  calculatedAt:
+                    type: string
+                    format: date-time
+                    example: "2026-03-01T12:10:00Z"
+        "400":
+          description: Missing required parameters
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Score data not available for this location
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  # ─────────────────────────────────────────
+  # HEALTH
+  # ─────────────────────────────────────────
+
+  /health:
+    get:
+      tags: [Health]
+      summary: Service health check
+      description: >
+        Returns the current health status of the API and all dependencies including
+        MongoDB and each external data source.
+      security: []
+      responses:
+        "200":
+          description: Service is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: healthy
+                  version:
+                    type: string
+                    example: 3.0.0
+                  uptime:
+                    type: number
+                    description: Service uptime in seconds
+                    example: 86400
+                  dependencies:
+                    type: object
+                    properties:
+                      mongodb:
+                        type: string
+                        example: connected
+                      world_bank:
+                        type: string
+                        example: reachable
+                      numbeo:
+                        type: string
+                        example: reachable
+                      open_meteo:
+                        type: string
+                        example: reachable
+        "503":
+          description: Service or one or more dependencies are unhealthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
