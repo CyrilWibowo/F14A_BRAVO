@@ -1,9 +1,6 @@
 import fs from 'fs';
 import AsyncLock from 'async-lock';
 
-// CHANGE THIS FILE TO ACTUAL DATABASE
-// I TOOK THIS FROM 6080
-
 const lock = new AsyncLock();
 const DATABASE_FILE = './database.json';
 
