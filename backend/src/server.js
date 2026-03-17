@@ -5,7 +5,7 @@ import cors from 'cors';
 import morgan from 'morgan';
 
 import { InputError, AccessError } from './error';
-import { getScore, compareScores, getRanking, getSeasonalScore } from './score';
+import { getScore, compareScores, getRanking, getSeasonalScore, getMonthlyAverages } from './score';
 import { processLocation } from './processing';
 
 const app = express();
@@ -90,6 +90,14 @@ app.get(
   catchErrors(async (req, res) => {
     const { country_code } = req.query;
     return res.status(200).json(await getSeasonalScore(country_code));
+  }),
+);
+
+app.get(
+  '/score/monthly',
+  catchErrors(async (req, res) => {
+    const { country_code } = req.query;
+    return res.status(200).json(await getMonthlyAverages(country_code));
   }),
 );
 
