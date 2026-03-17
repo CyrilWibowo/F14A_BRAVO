@@ -1,0 +1,136 @@
+.prefs {
+  padding: 14px;
+  background: #f5f8f5;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Presets */
+.prefs-presets {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.prefs-presets-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #5a7060;
+}
+
+.prefs-preset-btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.preset-btn {
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 500;
+  border-radius: 999px;
+  border: 1px solid #d8e5d8;
+  background: #fff;
+  color: #3a5c3a;
+  cursor: pointer;
+  transition: all 0.12s;
+}
+
+.preset-btn:hover {
+  border-color: #2d6a2d;
+  color: #0f1f0f;
+}
+
+.preset-btn.active {
+  background: #2d6a2d;
+  border-color: #2d6a2d;
+  color: #fff;
+}
+
+/* Divider */
+.prefs-divider {
+  height: 1px;
+  background: #d8e5d8;
+}
+
+/* Individual fields */
+.prefs-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pref-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.pref-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #5a7060;
+}
+
+/* Slider */
+.pref-slider-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pref-slider {
+  flex: 1;
+  accent-color: #2d6a2d;
+  cursor: pointer;
+}
+
+.pref-slider-val {
+  font-size: 12px;
+  font-weight: 600;
+  color: #0f1f0f;
+  min-width: 36px;
+  text-align: right;
+}
+
+/* Segmented control */
+.seg-control {
+  display: flex;
+  border: 1px solid #d8e5d8;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.seg-btn {
+  flex: 1;
+  padding: 5px 4px;
+  font-size: 11px;
+  font-weight: 500;
+  color: #5a7060;
+  background: transparent;
+  border: none;
+  border-right: 1px solid #d8e5d8;
+  cursor: pointer;
+  transition: all 0.1s;
+  text-align: center;
+}
+
+.seg-btn:last-child {
+  border-right: none;
+}
+
+.seg-btn:hover {
+  background: #f0f4f0;
+  color: #0f1f0f;
+}
+
+.seg-btn.active {
+  background: #2d6a2d;
+  color: #fff;
+}
