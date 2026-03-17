@@ -73,14 +73,24 @@ const computeScoresFromMeans = (means) => {
   const ts = tempScore(means.temp);
   const hs = humidityScore(means.humidity);
   const comfortIndex = round(ts * 0.6 + hs * 0.4);
-  const uvRiskValue = round(means.uv);
-  const liveability = round(comfortIndex * 0.4 + uvScore(means.uv) * 0.2 + precipScore(means.precipitation) * 0.2 + windScore(means.wind) * 0.2);
+
+  const hasUv = means.uv !== null && means.uv !== undefined && !isNaN(means.uv);
+  const uvWeight = hasUv ? 0.2 : 0;
+  const precipWeight = (1 - 0.4 - uvWeight) / 2;
+  const windWeight = precipWeight;
+
+  const liveability = round(
+    comfortIndex * 0.4 +
+    (hasUv ? uvScore(means.uv) * uvWeight : 0) +
+    precipScore(means.precipitation) * precipWeight +
+    windScore(means.wind) * windWeight,
+  );
 
   return {
     liveability,
     comfort_index: comfortIndex,
-    uv_risk: uvClassification(means.uv),
-    uv_index_mean: uvRiskValue,
+    uv_risk: hasUv ? uvClassification(means.uv) : null,
+    uv_index_mean: hasUv ? round(means.uv) : null,
     temperature_mean: round(means.temp),
     humidity_mean: round(means.humidity),
     precipitation_mean: round(means.precipitation),
@@ -89,15 +99,42 @@ const computeScoresFromMeans = (means) => {
 };
 
 /***************************************************************
+                       Monthly Averages
+***************************************************************/
+
+const computeMonthlyAverages = (cleaned) => {
+  const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const fields = ['temp', 'humidity', 'precipitation', 'wind', 'uv'];
+
+  const buckets = Array.from({ length: 12 }, () => ({ temp: [], humidity: [], precipitation: [], wind: [], uv: [] }));
+
+  for (const field of fields) {
+    for (const { time, value } of cleaned[field]) {
+      const month = getMonth(time) - 1;
+      buckets[month][field].push(value);
+    }
+  }
+
+  return buckets.map((b, i) => ({
+    month: MONTH_NAMES[i],
+    temp: b.temp.length > 0 ? round(mean(b.temp)) : null,
+    humidity: b.humidity.length > 0 ? round(mean(b.humidity)) : null,
+    precipitation: b.precipitation.length > 0 ? round(mean(b.precipitation)) : null,
+    wind: b.wind.length > 0 ? round(mean(b.wind)) : null,
+    uv: b.uv.length > 0 ? round(mean(b.uv)) : null,
+  }));
+};
+
+/***************************************************************
                        Seasonal Computation
 ***************************************************************/
+
+const getMonth = (dateStr) => parseInt(dateStr.split('-')[1], 10);
 
 const SEASON_MONTHS = {
   northern: { spring: [3, 4, 5], summer: [6, 7, 8], autumn: [9, 10, 11], winter: [12, 1, 2] },
   southern: { spring: [9, 10, 11], summer: [12, 1, 2], autumn: [3, 4, 5], winter: [6, 7, 8] },
 };
-
-const getMonth = (dateStr) => parseInt(dateStr.split('-')[1], 10);
 
 const computeSeasonalScores = (cleaned, latitude) => {
   const hemisphere = latitude >= 0 ? 'northern' : 'southern';
@@ -113,7 +150,7 @@ const computeSeasonalScores = (cleaned, latitude) => {
       wind: filter(cleaned.wind),
       uv: filter(cleaned.uv),
     };
-    const hasData = Object.values(vals).every((arr) => arr.length > 0);
+    const hasData = ['temp', 'humidity', 'precipitation', 'wind'].every((k) => vals[k].length > 0);
     if (!hasData) {
       seasonal[season] = null;
       continue;
@@ -123,7 +160,7 @@ const computeSeasonalScores = (cleaned, latitude) => {
       humidity: mean(vals.humidity.map((p) => p.value)),
       precipitation: mean(vals.precipitation.map((p) => p.value)),
       wind: mean(vals.wind.map((p) => p.value)),
-      uv: mean(vals.uv.map((p) => p.value)),
+      uv: vals.uv.length > 0 ? mean(vals.uv.map((p) => p.value)) : null,
     };
     seasonal[season] = computeScoresFromMeans(means);
   }
@@ -160,11 +197,12 @@ export const processLocation = async (rawData) => {
     humidity: mean(cleaned.humidity.map((p) => p.value)),
     precipitation: mean(cleaned.precipitation.map((p) => p.value)),
     wind: mean(cleaned.wind.map((p) => p.value)),
-    uv: mean(cleaned.uv.map((p) => p.value)),
+    uv: cleaned.uv.length > 0 ? mean(cleaned.uv.map((p) => p.value)) : null,
   };
 
   const scores = computeScoresFromMeans(overallMeans);
   const seasonal = computeSeasonalScores(cleaned, rawData.latitude);
+  const monthly = computeMonthlyAverages(cleaned);
 
   await setLocation(rawData.country_code, {
     country: rawData.country,
@@ -175,6 +213,7 @@ export const processLocation = async (rawData) => {
     processed_at: new Date().toISOString(),
     scores,
     seasonal,
+    monthly,
   });
 
   return { country_code: rawData.country_code, ...scores };
