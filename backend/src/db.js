@@ -20,7 +20,7 @@ const persist = () =>
       try {
         fs.writeFileSync(DATABASE_FILE, JSON.stringify({ locations }, null, 2));
         resolve();
-      } catch (err) {
+      } catch (_err) {
         reject(new Error('Failed to write to database'));
       }
     });
