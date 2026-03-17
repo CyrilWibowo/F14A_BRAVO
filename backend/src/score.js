@@ -59,3 +59,10 @@ export const getSeasonalScore = async (countryCode) => {
   if (!loc) throw new InputError(`No data found for country_code: ${countryCode}`);
   return { country_code: countryCode, country: loc.country, capital: loc.capital, seasonal: loc.seasonal };
 };
+
+export const getMonthlyAverages = async (countryCode) => {
+  if (!countryCode) throw new InputError('Must provide a country_code');
+  const loc = await getLocation(countryCode);
+  if (!loc) throw new InputError(`No data found for country_code: ${countryCode}`);
+  return { country_code: countryCode, country: loc.country, capital: loc.capital, monthly: loc.monthly };
+};
