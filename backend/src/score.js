@@ -1,5 +1,5 @@
-import { InputError } from './error';
-import { getLocation, getAllLocations } from './db';
+import { InputError } from './error.js';
+import { getLocation, getAllLocations } from './db.js';
 
 /***************************************************************
                        Score Query Functions
