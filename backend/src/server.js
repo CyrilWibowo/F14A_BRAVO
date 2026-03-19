@@ -4,9 +4,9 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import morgan from 'morgan';
 
-import { InputError, AccessError } from './error';
-import { getScore, compareScores, getRanking, getSeasonalScore, getMonthlyAverages } from './score';
-import { processLocation } from './processing';
+import { InputError, AccessError } from './error.js';
+import { getScore, compareScores, getRanking, getSeasonalScore, getMonthlyAverages } from './score.js';
+import { processLocation } from './processing.js';
 
 const app = express();
 

@@ -1,5 +1,5 @@
-import { InputError } from './error';
-import { setLocation } from './db';
+import { InputError } from './error.js';
+import { setLocation } from './db.js';
 
 /***************************************************************
                        Normalisation Helpers
