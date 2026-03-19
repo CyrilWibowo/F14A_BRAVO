@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import { S3Client, GetObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3';
+import { S3Client, GetObjectCommand, PutObjectCommand, ListObjectsV2Command } from '@aws-sdk/client-s3';
 
 const s3 = new S3Client({
   region: process.env.AWS_REGION || 'us-east-1',
@@ -27,4 +27,9 @@ export const s3Put = async (key, data) => {
       ContentType: 'application/json',
     }),
   );
+};
+
+export const s3List = async (prefix) => {
+  const res = await s3.send(new ListObjectsV2Command({ Bucket: BUCKET, Prefix: prefix }));
+  return (res.Contents || []).map((obj) => obj.Key);
 };

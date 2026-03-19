@@ -1,26 +1,30 @@
-import fs from 'fs';
-import { s3Put } from './s3.js';
+import { s3Get, s3Put, s3List } from './s3.js';
 
-const DATABASE_FILE = './database.json';
-
-let locations = {};
-
-try {
-  const data = JSON.parse(fs.readFileSync(DATABASE_FILE));
-  locations = data.locations || {};
-} catch {
-  console.log('WARNING: No database found, creating a new one');
-  fs.writeFileSync(DATABASE_FILE, JSON.stringify({ locations: {} }, null, 2));
-}
+const cache = {};
 
 export const getLocation = async (code) => {
-  return locations[code] || null;
+  if (cache[code]) return cache[code];
+  try {
+    const data = await s3Get(`processed/${code}.json`);
+    cache[code] = data;
+    return data;
+  } catch {
+    return null;
+  }
 };
 
 export const getAllLocations = async () => {
-  return Object.values(locations);
+  const keys = await s3List('processed/');
+  const results = await Promise.all(
+    keys.map(async (key) => {
+      const code = key.replace('processed/', '').replace('.json', '');
+      return getLocation(code);
+    }),
+  );
+  return results.filter(Boolean);
 };
 
 export const setLocation = async (code, data) => {
   await s3Put(`processed/${code}.json`, data);
+  cache[code] = data;
 };
