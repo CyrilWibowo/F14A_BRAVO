@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1774943918372" clover="3.2.0">
-  <project timestamp="1774943918372" name="All files">
+<coverage generated="1774961721304" clover="3.2.0">
+  <project timestamp="1774961721304" name="All files">
     <metrics statements="161" coveredstatements="130" conditionals="96" coveredconditionals="88" methods="57" coveredmethods="48" elements="314" coveredelements="266" complexity="0" loc="161" ncloc="161" packages="1" files="5" classes="5"/>
     <file name="db.js" path="/home/huzaifa/F14A_BRAVO/backend/src/db.js">
       <metrics statements="17" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="4" coveredmethods="0"/>
