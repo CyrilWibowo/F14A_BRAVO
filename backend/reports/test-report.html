@@ -1,0 +1,260 @@
+<html><head><meta charset="utf-8"/><title>ClimateScore API Test Report — F14A_BRAVO</title><style type="text/css">html,
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1rem;
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
+body {
+  padding: 2rem 1rem;
+  font-size: 0.85rem;
+}
+.jesthtml-content {
+  margin: 0 auto;
+  max-width: 70rem;
+}
+header {
+  display: flex;
+  align-items: center;
+}
+#title {
+  margin: 0;
+  flex-grow: 1;
+}
+#logo {
+  height: 4rem;
+}
+#timestamp {
+  color: #777;
+  margin-top: 0.5rem;
+}
+
+/** SUMMARY */
+#summary {
+  color: #333;
+  margin: 2rem 0;
+  display: flex;
+  font-family: monospace;
+  font-size: 1rem;
+}
+#summary > div {
+  margin-right: 2rem;
+  background: #eee;
+  padding: 1rem;
+  min-width: 15rem;
+}
+#summary > div:last-child {
+  margin-right: 0;
+}
+@media only screen and (max-width: 720px) {
+  #summary {
+    flex-direction: column;
+  }
+  #summary > div {
+    margin-right: 0;
+    margin-top: 2rem;
+  }
+  #summary > div:first-child {
+    margin-top: 0;
+  }
+}
+
+.summary-total {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+.summary-passed {
+  color: #4f8a10;
+  border-left: 0.4rem solid #4f8a10;
+  padding-left: 0.5rem;
+}
+.summary-failed,
+.summary-obsolete-snapshots {
+  color: #d8000c;
+  border-left: 0.4rem solid #d8000c;
+  padding-left: 0.5rem;
+}
+.summary-pending {
+  color: #9f6000;
+  border-left: 0.4rem solid #9f6000;
+  padding-left: 0.5rem;
+}
+.summary-empty {
+  color: #999;
+  border-left: 0.4rem solid #999;
+}
+
+.test-result {
+  padding: 1rem;
+  margin-bottom: 0.25rem;
+}
+.test-result:last-child {
+  border: 0;
+}
+.test-result.passed {
+  background-color: #dff2bf;
+  color: #4f8a10;
+}
+.test-result.failed {
+  background-color: #ffbaba;
+  color: #d8000c;
+}
+.test-result.pending {
+  background-color: #ffdf61;
+  color: #9f6000;
+}
+
+.test-info {
+  display: flex;
+  justify-content: space-between;
+}
+.test-suitename {
+  width: 20%;
+  text-align: left;
+  font-weight: bold;
+  word-break: break-word;
+}
+.test-title {
+  width: 40%;
+  text-align: left;
+  font-style: italic;
+}
+.test-status {
+  width: 20%;
+  text-align: right;
+}
+.test-duration {
+  width: 10%;
+  text-align: right;
+  font-size: 0.75rem;
+}
+
+.failureMessages {
+  padding: 0 1rem;
+  margin-top: 1rem;
+  border-top: 1px dashed #d8000c;
+}
+.failureMessages.suiteFailure {
+  border-top: none;
+}
+.failureMsg {
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+}
+
+.suite-container {
+  margin-bottom: 2rem;
+}
+.suite-container > input[type="checkbox"] {
+  position: absolute;
+  left: -100vw;
+}
+.suite-container label {
+  display: block;
+}
+.suite-container .suite-tests {
+  overflow-y: hidden;
+  height: 0;
+}
+.suite-container > input[type="checkbox"]:checked ~ .suite-tests {
+  height: auto;
+  overflow: visible;
+}
+.suite-info {
+  padding: 1rem;
+  background-color: #eee;
+  color: #777;
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.25rem;
+}
+.suite-info:hover {
+  background-color: #ddd;
+  cursor: pointer;
+}
+.suite-info .suite-path {
+  word-break: break-all;
+  flex-grow: 1;
+  font-family: monospace;
+  font-size: 1rem;
+}
+.suite-info .suite-time {
+  margin-left: 0.5rem;
+  padding: 0.2rem 0.3rem;
+  font-size: 0.75rem;
+}
+.suite-info .suite-time.warn {
+  background-color: #d8000c;
+  color: #fff;
+}
+.suite-info:before {
+  content: "\2303";
+  display: inline-block;
+  margin-right: 0.5rem;
+  transform: rotate(0deg);
+}
+.suite-container > input[type="checkbox"]:checked ~ label .suite-info:before {
+  transform: rotate(180deg);
+}
+
+/* CONSOLE LOGS */
+.suite-consolelog {
+  margin-bottom: 0.25rem;
+  padding: 1rem;
+  background-color: #efefef;
+}
+.suite-consolelog-header {
+  font-weight: bold;
+}
+.suite-consolelog-item {
+  padding: 0.5rem;
+}
+.suite-consolelog-item pre {
+  margin: 0.5rem 0;
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+}
+.suite-consolelog-item-origin {
+  color: #777;
+  font-weight: bold;
+}
+.suite-consolelog-item-message {
+  color: #000;
+  font-size: 1rem;
+  padding: 0 0.5rem;
+}
+
+/* OBSOLETE SNAPSHOTS */
+.suite-obsolete-snapshots {
+  margin-bottom: 0.25rem;
+  padding: 1rem;
+  background-color: #ffbaba;
+  color: #d8000c;
+}
+.suite-obsolete-snapshots-header {
+  font-weight: bold;
+}
+.suite-obsolete-snapshots-item {
+  padding: 0.5rem;
+}
+.suite-obsolete-snapshots-item pre {
+  margin: 0.5rem 0;
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+}
+.suite-obsolete-snapshots-item-message {
+  color: #000;
+  font-size: 1rem;
+  padding: 0 0.5rem;
+}
+</style></head><body><div class="jesthtml-content"><header><h1 id="title">ClimateScore API Test Report — F14A_BRAVO</h1></header><div id="metadata-container"><div id="timestamp">Started: 2026-03-31 23:55:19</div><div id="summary"><div id="suite-summary"><div class="summary-total">Suites (2)</div><div class="summary-passed ">2 passed</div><div class="summary-failed  summary-empty">0 failed</div><div class="summary-pending  summary-empty">0 pending</div></div><div id="test-summary"><div class="summary-total">Tests (107)</div><div class="summary-passed ">107 passed</div><div class="summary-failed  summary-empty">0 failed</div><div class="summary-pending  summary-empty">0 pending</div></div></div></div><div id="suite-1" class="suite-container"><input id="collapsible-0" type="checkbox" class="toggle" checked="checked"/><label for="collapsible-0"><div class="suite-info"><div class="suite-path">/home/huzaifa/F14A_BRAVO/backend/tests/examplet.test.js</div><div class="suite-time">0.298s</div></div></label><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">example test</div><div class="test-title"/><div class="test-status">passed</div><div class="test-duration">0.004s</div></div></div></div></div><div id="suite-2" class="suite-container"><input id="collapsible-1" type="checkbox" class="toggle" checked="checked"/><label for="collapsible-1"><div class="suite-info"><div class="suite-path">/home/huzaifa/F14A_BRAVO/backend/tests/Climate.test.js</div><div class="suite-time">1.176s</div></div></label><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">UNIT — processLocation()</div><div class="test-title">[PASS] returns country_code and all score fields</div><div class="test-status">passed</div><div class="test-duration">0.01s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">UNIT — processLocation()</div><div class="test-title">[PASS] liveability is between 0 and 100</div><div class="test-status">passed</div><div class="test-duration">0.003s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">UNIT — processLocation()</div><div class="test-title">[PASS] comfort_index is between 0 and 100</div><div class="test-status">passed</div><div class="test-duration">0.002s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">UNIT — processLocation()</div><div class="test-title">[PASS] uv_risk is one of the five valid enum values</div><div class="test-status">passed</div><div class="test-duration">0.003s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">UNIT — processLocation()</div><div class="test-title">[PASS] temperature_mean matches the input when all values are identical</div><div class="test-status">passed</div><div class="test-duration">0.001s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">UNIT — processLocation()</div><div class="test-title">[PASS] humidity_mean matches the input when all values are identical</div><div class="test-status">passed</div><div class="test-duration">0.002s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">UNIT — processLocation()</div><div class="test-title">[PASS] low UV input produces low uv_risk</div><div class="test-status">passed</div><div class="test-duration">0.001s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">UNIT — processLocation()</div><div class="test-title">[PASS] UV between 8–10 produces very_high uv_risk</div><div class="test-status">passed</div><div class="test-duration">0.001s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">UNIT — processLocation()</div><div class="test-title">[PASS] UV &gt;= 11 produces extreme uv_risk</div><div class="test-status">passed</div><div class="test-duration">0.001s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">UNIT — processLocation()</div><div class="test-title">[PASS] UV 3–5 produces moderate uv_risk</div><div class="test-status">passed</div><div class="test-duration">0s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">UNIT — processLocation()</div><div class="test-title">[PASS] UV 6–7 produces high uv_risk</div><div class="test-status">passed</div><div class="test-duration">0s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">UNIT — processLocation()</div><div class="test-title">[PASS] setLocation is called once with correct country_code</div><div class="test-status">passed</div><div class="test-duration">0.002s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">UNIT — processLocation()</div><div class="test-title">[PASS] setLocation receives processed_at as an ISO timestamp</div><div class="test-status">passed</div><div class="test-duration">0.003s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">UNIT — processLocation()</div><div class="test-title">[PASS] setLocation receives seasonal and monthly in stored data</div><div class="test-status">passed</div><div class="test-duration">0.016s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">UNIT — processLocation()</div><div class="test-title">[PASS] optional capital is passed through to setLocation</div><div class="test-status">passed</div><div class="test-duration">0.001s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">UNIT — processLocation()</div><div class="test-title">[PASS] null values in daily arrays are skipped without crashing</div><div class="test-status">passed</div><div class="test-duration">0.001s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">UNIT — processLocation()</div><div class="test-title">[PASS] outlier removal does not crash with fewer than 4 data points</div><div class="test-status">passed</div><div class="test-duration">0s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">UNIT — processLocation()</div><div class="test-title">[PASS] southern hemisphere payload produces seasonal data</div><div class="test-status">passed</div><div class="test-duration">0.009s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">UNIT — processLocation()</div><div class="test-title">[PASS] northern hemisphere payload produces seasonal data</div><div class="test-status">passed</div><div class="test-duration">0.01s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">UNIT — processLocation()</div><div class="test-title">[PASS] monthly averages array has exactly 12 entries</div><div class="test-status">passed</div><div class="test-duration">0.008s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">UNIT — processLocation()</div><div class="test-title">[PASS] monthly entries have correct field names</div><div class="test-status">passed</div><div class="test-duration">0.01s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">UNIT — processLocation()</div><div class="test-title">[FAIL] throws InputError when country is missing</div><div class="test-status">passed</div><div class="test-duration">0.019s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">UNIT — processLocation()</div><div class="test-title">[FAIL] throws InputError when country_code is missing</div><div class="test-status">passed</div><div class="test-duration">0.001s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">UNIT — processLocation()</div><div class="test-title">[FAIL] throws InputError when latitude is missing</div><div class="test-status">passed</div><div class="test-duration">0s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">UNIT — processLocation()</div><div class="test-title">[FAIL] throws InputError when longitude is missing</div><div class="test-status">passed</div><div class="test-duration">0.001s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">UNIT — processLocation()</div><div class="test-title">[FAIL] throws InputError when daily is missing</div><div class="test-status">passed</div><div class="test-duration">0s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">UNIT — processLocation()</div><div class="test-title">[FAIL] throws InputError when daily.time is missing</div><div class="test-status">passed</div><div class="test-duration">0s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">UNIT — processLocation()</div><div class="test-title">[FAIL] throws InputError when daily.temperature_2m_mean is missing</div><div class="test-status">passed</div><div class="test-duration">0.001s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">UNIT — processLocation()</div><div class="test-title">[FAIL] throws InputError when daily.relative_humidity_2m_mean is missing</div><div class="test-status">passed</div><div class="test-duration">0s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">UNIT — processLocation()</div><div class="test-title">[FAIL] throws InputError when daily.precipitation_sum is missing</div><div class="test-status">passed</div><div class="test-duration">0.001s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">UNIT — processLocation()</div><div class="test-title">[FAIL] throws InputError when daily.wind_speed_10m_max is missing</div><div class="test-status">passed</div><div class="test-duration">0.001s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">UNIT — processLocation()</div><div class="test-title">[FAIL] throws InputError when daily.uv_index_max is missing</div><div class="test-status">passed</div><div class="test-duration">0.001s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">UNIT — processLocation()</div><div class="test-title">[EDGE] exactly 1 day of data processes without crashing</div><div class="test-status">passed</div><div class="test-duration">0s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">UNIT — processLocation()</div><div class="test-title">[EDGE] 365 days of data processes without crashing</div><div class="test-status">passed</div><div class="test-duration">0.013s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">UNIT — processLocation()</div><div class="test-title">[EDGE] ideal temperature (20°C) and humidity (50%) produce high comfort_index</div><div class="test-status">passed</div><div class="test-duration">0.001s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">UNIT — processLocation()</div><div class="test-title">[EDGE] extreme temperature (50°C) produces lower liveability than 20°C</div><div class="test-status">passed</div><div class="test-duration">0.001s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">UNIT — processLocation()</div><div class="test-title">[EDGE] latitude exactly 0 (equator) does not crash</div><div class="test-status">passed</div><div class="test-duration">0.001s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">UNIT — processLocation()</div><div class="test-title">[EDGE] season with no data entries returns null for that season</div><div class="test-status">passed</div><div class="test-duration">0.002s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">UNIT — processLocation()</div><div class="test-title">[EDGE] all-null uv_index_max array results in null uv_risk</div><div class="test-status">passed</div><div class="test-duration">0s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — POST /process</div><div class="test-title">[PASS] returns 200 with all score fields for valid payload</div><div class="test-status">passed</div><div class="test-duration">0.07s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — POST /process</div><div class="test-title">[PASS] liveability in response is between 0 and 100</div><div class="test-status">passed</div><div class="test-duration">0.009s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — POST /process</div><div class="test-title">[PASS] uv_risk is a valid enum value</div><div class="test-status">passed</div><div class="test-duration">0.005s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — POST /process</div><div class="test-title">[PASS] optional capital field does not cause error</div><div class="test-status">passed</div><div class="test-duration">0.004s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — POST /process</div><div class="test-title">[PASS] db.setLocation is called after successful process</div><div class="test-status">passed</div><div class="test-duration">0.006s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — POST /process</div><div class="test-title">[FAIL] returns 400 when country is missing</div><div class="test-status">passed</div><div class="test-duration">0.003s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — POST /process</div><div class="test-title">[FAIL] returns 400 when country_code is missing</div><div class="test-status">passed</div><div class="test-duration">0.005s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — POST /process</div><div class="test-title">[FAIL] returns 400 when latitude is missing</div><div class="test-status">passed</div><div class="test-duration">0.004s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — POST /process</div><div class="test-title">[FAIL] returns 400 when longitude is missing</div><div class="test-status">passed</div><div class="test-duration">0.004s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — POST /process</div><div class="test-title">[FAIL] returns 400 when daily object is missing</div><div class="test-status">passed</div><div class="test-duration">0.004s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — POST /process</div><div class="test-title">[FAIL] returns 400 when daily.time is missing</div><div class="test-status">passed</div><div class="test-duration">0.004s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — POST /process</div><div class="test-title">[FAIL] returns 400 when daily.temperature_2m_mean is missing</div><div class="test-status">passed</div><div class="test-duration">0.003s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — POST /process</div><div class="test-title">[FAIL] returns 400 when daily.uv_index_max is missing</div><div class="test-status">passed</div><div class="test-duration">0.003s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — POST /process</div><div class="test-title">[FAIL] returns 400 when body is completely empty</div><div class="test-status">passed</div><div class="test-duration">0.003s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — POST /process</div><div class="test-title">[EDGE] 1-day payload returns 200 without crashing</div><div class="test-status">passed</div><div class="test-duration">0.002s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — POST /process</div><div class="test-title">[EDGE] 365-day payload returns 200 without crashing</div><div class="test-status">passed</div><div class="test-duration">0.013s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — POST /process</div><div class="test-title">[EDGE] all-null uv_index_max is accepted and returns null uv_risk</div><div class="test-status">passed</div><div class="test-duration">0.003s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — GET /score</div><div class="test-title">[PASS] returns 200 with full score shape for AUS</div><div class="test-status">passed</div><div class="test-duration">0.008s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — GET /score</div><div class="test-title">[PASS] processed_at is a valid ISO timestamp</div><div class="test-status">passed</div><div class="test-duration">0.003s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — GET /score</div><div class="test-title">[PASS] liveability is between 0 and 100</div><div class="test-status">passed</div><div class="test-duration">0.004s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — GET /score</div><div class="test-title">[PASS] uv_risk is a valid enum value</div><div class="test-status">passed</div><div class="test-duration">0.005s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — GET /score</div><div class="test-title">[PASS] getLocation is called with the correct country_code</div><div class="test-status">passed</div><div class="test-duration">0.004s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — GET /score</div><div class="test-title">[FAIL] returns 400 when country_code is missing</div><div class="test-status">passed</div><div class="test-duration">0.002s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — GET /score</div><div class="test-title">[FAIL] returns 400 for unknown country_code</div><div class="test-status">passed</div><div class="test-duration">0.003s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — GET /score</div><div class="test-title">[EDGE] country just processed via POST is retrievable via GET</div><div class="test-status">passed</div><div class="test-duration">0.01s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — GET /score</div><div class="test-title">[EDGE] latitude and longitude are numbers, not strings</div><div class="test-status">passed</div><div class="test-duration">0.004s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — GET /score/compare</div><div class="test-title">[PASS] returns 200 with results array for AUS,NZL</div><div class="test-status">passed</div><div class="test-duration">0.003s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — GET /score/compare</div><div class="test-title">[PASS] results are sorted descending by liveability</div><div class="test-status">passed</div><div class="test-duration">0.007s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — GET /score/compare</div><div class="test-title">[PASS] unknown code returns error field inline (not a 404)</div><div class="test-status">passed</div><div class="test-duration">0.003s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — GET /score/compare</div><div class="test-title">[PASS] single code returns one result</div><div class="test-status">passed</div><div class="test-duration">0.003s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — GET /score/compare</div><div class="test-title">[PASS] spaces around commas are trimmed correctly</div><div class="test-status">passed</div><div class="test-duration">0.002s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — GET /score/compare</div><div class="test-title">[PASS] all known results have expected fields</div><div class="test-status">passed</div><div class="test-duration">0.004s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — GET /score/compare</div><div class="test-title">[FAIL] returns 400 when codes param is missing</div><div class="test-status">passed</div><div class="test-duration">0.004s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — GET /score/compare</div><div class="test-title">[FAIL] returns 400 when codes is empty string</div><div class="test-status">passed</div><div class="test-duration">0.002s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — GET /score/compare</div><div class="test-title">[FAIL] returns 400 for more than 20 codes</div><div class="test-status">passed</div><div class="test-duration">0.002s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — GET /score/compare</div><div class="test-title">[EDGE] exactly 20 codes (max allowed) does not return 400</div><div class="test-status">passed</div><div class="test-duration">0.002s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — GET /score/compare</div><div class="test-title">[EDGE] all unknown codes returns array of error objects only</div><div class="test-status">passed</div><div class="test-duration">0.004s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — GET /score/compare</div><div class="test-title">[EDGE] duplicate codes return one entry per occurrence</div><div class="test-status">passed</div><div class="test-duration">0.003s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — GET /score/ranking</div><div class="test-title">[PASS] returns 200 with results array (no filters)</div><div class="test-status">passed</div><div class="test-duration">0.003s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — GET /score/ranking</div><div class="test-title">[PASS] results are sorted descending by liveability</div><div class="test-status">passed</div><div class="test-duration">0.003s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — GET /score/ranking</div><div class="test-title">[PASS] each result has all expected fields</div><div class="test-status">passed</div><div class="test-duration">0.002s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — GET /score/ranking</div><div class="test-title">[PASS] min_score filter excludes countries below threshold</div><div class="test-status">passed</div><div class="test-duration">0.002s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — GET /score/ranking</div><div class="test-title">[PASS] max_score filter excludes countries above threshold</div><div class="test-status">passed</div><div class="test-duration">0.002s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — GET /score/ranking</div><div class="test-title">[PASS] combined min and max score filters work together</div><div class="test-status">passed</div><div class="test-duration">0.003s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — GET /score/ranking</div><div class="test-title">[PASS] bounding box filter only returns countries inside the box</div><div class="test-status">passed</div><div class="test-duration">0.002s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — GET /score/ranking</div><div class="test-title">[PASS] getAllLocations is called once</div><div class="test-status">passed</div><div class="test-duration">0.002s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — GET /score/ranking</div><div class="test-title">[FAIL] non-numeric min_score does not cause a 500</div><div class="test-status">passed</div><div class="test-duration">0.002s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — GET /score/ranking</div><div class="test-title">[EDGE] min_score higher than all stored scores returns empty results</div><div class="test-status">passed</div><div class="test-duration">0.002s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — GET /score/ranking</div><div class="test-title">[EDGE] bounding box with no matching countries returns empty array</div><div class="test-status">passed</div><div class="test-duration">0.002s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — GET /score/ranking</div><div class="test-title">[EDGE] no filters returns all stored countries</div><div class="test-status">passed</div><div class="test-duration">0.001s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — GET /score/seasonal</div><div class="test-title">[PASS] returns 200 with seasonal object for AUS</div><div class="test-status">passed</div><div class="test-duration">0.003s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — GET /score/seasonal</div><div class="test-title">[PASS] seasonal has all four season keys</div><div class="test-status">passed</div><div class="test-duration">0.002s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — GET /score/seasonal</div><div class="test-title">[PASS] each present season has liveability and comfort_index</div><div class="test-status">passed</div><div class="test-duration">0.002s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — GET /score/seasonal</div><div class="test-title">[PASS] getLocation is called with correct country_code</div><div class="test-status">passed</div><div class="test-duration">0.002s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — GET /score/seasonal</div><div class="test-title">[FAIL] returns 400 when country_code is missing</div><div class="test-status">passed</div><div class="test-duration">0.002s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — GET /score/seasonal</div><div class="test-title">[FAIL] returns 400 for unknown country_code</div><div class="test-status">passed</div><div class="test-duration">0.003s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — GET /score/seasonal</div><div class="test-title">[EDGE] season with null value in mock is returned as null (not missing key)</div><div class="test-status">passed</div><div class="test-duration">0.002s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — GET /score/monthly</div><div class="test-title">[PASS] returns 200 with monthly array for AUS</div><div class="test-status">passed</div><div class="test-duration">0.003s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — GET /score/monthly</div><div class="test-title">[PASS] monthly array has exactly 12 entries</div><div class="test-status">passed</div><div class="test-duration">0.004s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — GET /score/monthly</div><div class="test-title">[PASS] each monthly entry has all required fields</div><div class="test-status">passed</div><div class="test-duration">0.004s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — GET /score/monthly</div><div class="test-title">[PASS] months are in correct Jan–Dec calendar order</div><div class="test-status">passed</div><div class="test-duration">0.002s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — GET /score/monthly</div><div class="test-title">[PASS] all numeric fields in monthly entries are numbers (or null)</div><div class="test-status">passed</div><div class="test-duration">0.004s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — GET /score/monthly</div><div class="test-title">[PASS] getLocation is called with correct country_code</div><div class="test-status">passed</div><div class="test-duration">0.003s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — GET /score/monthly</div><div class="test-title">[FAIL] returns 400 when country_code is missing</div><div class="test-status">passed</div><div class="test-duration">0.002s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — GET /score/monthly</div><div class="test-title">[FAIL] returns 400 for unknown country_code</div><div class="test-status">passed</div><div class="test-duration">0.002s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — GET /score/monthly</div><div class="test-title">[EDGE] monthly uv values are non-negative where not null</div><div class="test-status">passed</div><div class="test-duration">0.002s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">INTEGRATION — GET /score/monthly</div><div class="test-title">[EDGE] monthly precipitation values are non-negative where not null</div><div class="test-status">passed</div><div class="test-duration">0.005s</div></div></div></div></div></div></body></html>
