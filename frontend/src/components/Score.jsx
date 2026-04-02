@@ -1,7 +1,7 @@
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { apiCallGet } from '../utils';
-import { computeLiveability } from '../scoring';
+import { computeLiveability, countQolIndicators } from '../scoring';
 import { PrefsContext } from '../prefsContext';
 import './Ranking.css';
 import './Score.css';
@@ -361,6 +361,75 @@ function Score() {
               ))}
             </div>
 
+          </div>
+        </div>
+
+        {/* ── Quality of Life breakdown ── */}
+        <div className="profile-inner-card">
+          <div className="qol-section">
+            <div className="qol-header">
+              <div className="qol-header-left">
+                <h2 className="qol-title">Quality of Life</h2>
+                <span className="qol-subtitle">HDI & supplementary indicators</span>
+              </div>
+              <div className="qol-header-scores">
+                <div className="qol-header-pill">
+                  <span className="qol-pill-label">Climate</span>
+                  <span className={`qol-pill-value ${scoreClass(computed?.climate_score)}`}>
+                    {computed?.climate_score?.toFixed(1) ?? '—'}
+                  </span>
+                </div>
+                <div className="qol-header-pill">
+                  <span className="qol-pill-label">QoL</span>
+                  <span className={`qol-pill-value ${scoreClass(computed?.qol_score)}`}>
+                    {computed?.qol_score?.toFixed(1) ?? '—'}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {countQolIndicators(result) < 3 && (
+              <div className="qol-data-warning">
+                <span className="qol-warn-icon">⚠️</span>
+                <span>
+                  <strong>Partial data</strong> — only {countQolIndicators(result)} of 5 QoL indicators are
+                  available for this country. The QoL score may not be representative.
+                </span>
+              </div>
+            )}
+
+            <div className="qol-grid">
+              {[
+                { label: 'HDI Index',      value: result.hdi,               fmt: (v) => v?.toFixed(3) ?? '—',                              score: result.hdi_score,           color: '#2563eb' },
+                { label: 'Safety',         value: result.homicide_rate,      fmt: (v) => v != null ? `${v.toFixed(1)} / 100k` : '—',        score: result.safety_score,        color: '#059669' },
+                { label: 'Internet',       value: result.internet_users,     fmt: (v) => v != null ? `${v.toFixed(1)}%` : '—',              score: result.internet_score,      color: '#7c3aed' },
+                { label: 'Sanitation',     value: result.sanitation_pct,     fmt: (v) => v != null ? `${v.toFixed(1)}%` : '—',              score: result.sanitation_score,    color: '#0891b2' },
+                { label: 'Mental Health',  value: result.suicide_rate,       fmt: (v) => v != null ? `${v.toFixed(1)} / 100k` : '—',        score: result.mental_health_score, color: '#db2777' },
+                { label: 'Affordability',  value: result.hfce_per_capita,    fmt: (v) => v != null ? `$${Math.round(v).toLocaleString()}` : '—', score: result.affordability_score, color: '#b45309' },
+              ].map((ind) => (
+                <div key={ind.label} className="qol-tile">
+                  <div className="qol-tile-bar" style={{ background: ind.color }} />
+                  <div className="qol-tile-body">
+                    <div className="qol-tile-label">{ind.label}</div>
+                    <div className="qol-tile-value">{ind.fmt(ind.value)}</div>
+                    <div className="qol-tile-score-row">
+                      <div className="qol-tile-score-track">
+                        <div
+                          className="qol-tile-score-fill"
+                          style={{
+                            width: `${ind.score != null ? ind.score : 0}%`,
+                            background: ind.color,
+                          }}
+                        />
+                      </div>
+                      <span className="qol-tile-score-num" style={{ color: ind.color }}>
+                        {ind.score != null ? ind.score.toFixed(0) : '—'}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 

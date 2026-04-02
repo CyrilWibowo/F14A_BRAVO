@@ -22,15 +22,20 @@
 
 /* Table wrapper */
 .leaderboard-table {
-  overflow: hidden;
+  overflow: visible;
+}
+
+/* Allow sticky header to work — override the parent .section-card overflow */
+.section-card:has(.leaderboard-page) {
+  overflow: visible;
 }
 
 /* Column layout: rank flag country | score comfort uv temp humidity precip wind */
 .table-row {
   display: grid;
-  grid-template-columns: 36px 48px minmax(140px, 1fr) 68px 68px 76px 64px 72px 64px 72px;
+  grid-template-columns: 36px 48px minmax(120px, 1fr) 62px 58px 58px 62px 72px 56px 64px 58px 64px;
   align-items: center;
-  column-gap: 8px;
+  column-gap: 6px;
   padding: 0 24px;
 }
 
@@ -38,6 +43,11 @@
 .table-header {
   border-bottom: 1px solid var(--border);
   background: #fafafa;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  border-radius: 12px 12px 0 0;
 }
 
 .table-header .col {
@@ -131,6 +141,15 @@
 .uv-very_high,
 .uv-extreme  { color: var(--score-low); }
 
+/* Sub-scores (climate / qol) */
+.col-subscore {
+  font-weight: 600;
+  font-size: 13px;
+}
+.col-subscore.high { color: var(--score-high); }
+.col-subscore.mid  { color: var(--score-mid); }
+.col-subscore.low  { color: var(--score-low); }
+
 /* Loading / error */
 .leaderboard-status {
   padding: 60px;
@@ -141,4 +160,21 @@
 
 .leaderboard-status.error {
   color: var(--score-low);
+}
+
+/* Insufficient QoL data badge in table */
+.qol-warn-badge {
+  display: inline-block;
+  font-size: 9px;
+  line-height: 1;
+  margin-left: 3px;
+  vertical-align: super;
+  color: #b45309;
+  cursor: help;
+  opacity: 0.85;
+  transition: opacity 0.1s;
+}
+
+.qol-warn-badge:hover {
+  opacity: 1;
 }
