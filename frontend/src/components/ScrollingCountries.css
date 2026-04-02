@@ -1,0 +1,117 @@
+.scrolling-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  padding: 20px 0 15px;
+  overflow: hidden;
+  background: linear-gradient(to top, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85));
+  backdrop-filter: blur(8px);
+  z-index: 100;
+  pointer-events: none;
+}
+
+.scroll-line {
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  margin: 4px 0;
+}
+
+.scroll-track {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.scroll-track--left {
+  animation: scrollLeft 25s linear infinite;
+}
+
+.scroll-track--right {
+  animation: scrollRight 30s linear infinite;
+}
+
+.scroll-line--top .scroll-track--left {
+  animation-duration: 35s; 
+}
+
+.scroll-line--middle .scroll-track--right {
+  animation-duration: 45s;
+}
+
+.scroll-line--bottom .scroll-track--right {
+  animation-duration: 50s;
+}
+
+.scroll-text {
+  display: inline-block;
+  margin: 0 20px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 500;
+  color: #2d6a2d91;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: color 0.2s ease;
+  white-space: nowrap;
+}
+
+.scroll-text--small {
+  font-size: 10px;
+  letter-spacing: 0.5px;
+}
+
+.scroll-text--medium {
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+
+.scroll-text--large {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 2px;
+}
+
+.scrolling-footer:hover .scroll-text {
+  color: rgba(45, 106, 45, 0.35);
+}
+
+@keyframes scrollLeft {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes scrollRight {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .scrolling-footer {
+    padding: 12px 0 10px;
+  }
+  
+  .scroll-text--large {
+    font-size: 14px;
+  }
+  
+  .scroll-text--medium {
+    font-size: 11px;
+  }
+  
+  .scroll-text--small {
+    font-size: 8px;
+  }
+  
+  .scroll-text {
+    margin: 0 12px;
+  }
+}

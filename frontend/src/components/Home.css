@@ -1,0 +1,315 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&display=swap');
+
+.home-page {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.home-hero {
+  position: relative;
+  overflow: hidden;
+  padding: 52px 40px 44px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  min-height: 280px;
+}
+
+/* Decorative background */
+.home-hero-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.home-hero-orb {
+  position: absolute;
+  border-radius: 50%;
+}
+
+.home-hero-orb-1 {
+  width: 420px;
+  height: 420px;
+  top: -180px;
+  right: -80px;
+  background: radial-gradient(circle, rgba(45,106,45,0.08) 0%, transparent 70%);
+}
+
+.home-hero-orb-2 {
+  width: 240px;
+  height: 240px;
+  bottom: -100px;
+  left: 30%;
+  background: radial-gradient(circle, rgba(134,193,134,0.10) 0%, transparent 70%);
+}
+
+.home-hero-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(45,106,45,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(45,106,45,0.04) 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.4) 40%, rgba(0,0,0,0.4) 70%, transparent 100%);
+}
+
+/* Hero content */
+.home-hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 520px;
+}
+
+.home-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #2d6a2d;
+  margin-bottom: 18px;
+  padding: 4px 10px 4px 8px;
+  background: rgba(45, 106, 45, 0.07);
+  border: 1px solid rgba(45, 106, 45, 0.15);
+  border-radius: 999px;
+}
+
+.home-eyebrow-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #2d6a2d;
+  animation: homeDotPulse 2.4s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+@keyframes homeDotPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(0.7); }
+}
+
+.home-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 700;
+  color: #0f1f0f;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  margin-bottom: 16px;
+}
+
+.home-title-accent {
+  font-style: italic;
+  color: #2d6a2d;
+}
+
+.home-desc {
+  font-size: 14px;
+  color: #5a7060;
+  line-height: 1.7;
+  margin-bottom: 28px;
+}
+
+.home-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.home-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
+  color: #ffffff;
+  background: #2d6a2d;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: background 0.13s, transform 0.1s, box-shadow 0.13s;
+  box-shadow: 0 2px 8px rgba(45,106,45,0.25);
+}
+
+.home-btn-primary:hover {
+  background: #245824;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(45,106,45,0.32);
+}
+
+.home-btn-primary svg { transition: transform 0.13s; }
+.home-btn-primary:hover svg { transform: translateX(2px); }
+
+.home-btn-secondary {
+  padding: 9px 18px;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: inherit;
+  color: #5a7060;
+  background: transparent;
+  border: 1px solid #d8e5d8;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: border-color 0.13s, color 0.13s, background 0.13s;
+}
+
+.home-btn-secondary:hover {
+  border-color: #2d6a2d;
+  color: #2d6a2d;
+  background: rgba(45,106,45,0.04);
+}
+
+.home-hero-stats {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-self: center;
+  flex-shrink: 0;
+}
+
+.home-hero-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid #d8e5d8;
+  border-radius: 10px;
+  padding: 14px 24px;
+  gap: 2px;
+  box-shadow: 0 2px 8px rgba(45,106,45,0.08);
+  min-width: 100px;
+}
+
+.home-hero-stat-num {
+  font-size: 26px;
+  font-weight: 700;
+  color: #2d6a2d;
+  line-height: 1;
+}
+
+.home-hero-stat-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #5a7060;
+}
+
+.home-features {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 0;
+}
+
+.home-feature-card {
+  padding: 28px 28px 24px;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: background 0.15s;
+}
+
+.home-feature-card:hover {
+  background: #fafcfa;
+}
+
+.home-feature-card:last-child,
+.home-feature-card:nth-child(3) {
+  border-right: none;
+}
+
+.home-feature-card--wide {
+  grid-column: 1 / 2;
+  grid-row: 1 / 3;
+  border-bottom: none;
+}
+
+.home-feature-card--accent {
+  background: linear-gradient(145deg, #f2f8f2 0%, #e8f4e8 100%);
+  border-right: none;
+}
+
+.home-feature-card--accent:hover {
+  background: linear-gradient(145deg, #edf6ed 0%, #e2f1e2 100%);
+}
+
+.home-feature-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.home-feature-tag {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: #2d6a2d;
+  background: rgba(45,106,45,0.09);
+  border: 1px solid rgba(45,106,45,0.15);
+  border-radius: 999px;
+  padding: 3px 9px;
+}
+
+.home-feature-tag--light {
+  background: rgba(45,106,45,0.06);
+  border-color: rgba(45,106,45,0.12);
+}
+
+.home-feature-card-icon {
+  color: #2d6a2d;
+  opacity: 0.7;
+}
+
+.home-feature-card-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f1f0f;
+  line-height: 1.25;
+}
+
+.home-feature-card--wide .home-feature-card-title {
+  font-size: 22px;
+}
+
+.home-feature-card--accent .home-feature-card-title {
+  font-size: 20px;
+}
+
+.home-feature-card-desc {
+  font-size: 13px;
+  color: #5a7060;
+  line-height: 1.65;
+  flex: 1;
+}
+
+.home-feature-card-link {
+  margin-top: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #2d6a2d;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  opacity: 0.75;
+  transition: opacity 0.12s;
+}
+
+.home-feature-card-link:hover {
+  opacity: 1;
+}

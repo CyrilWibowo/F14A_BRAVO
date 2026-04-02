@@ -59,28 +59,41 @@ function CountrySearch() {
 function TopBar() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const isHome = pathname === '/';
 
   return (
     <div className="top-bar-outer">
-      <div className="top-bar-ph" />
-      <div className="top-bar">
-        <div className="top-bar-nav">
-          <button
-            className={`top-bar-btn${pathname === '/' ? ' active' : ''}`}
-            onClick={() => navigate('/')}
-          >
-            Rankings
-          </button>
-          <button
-            className={`top-bar-btn${pathname === '/compare' ? ' active' : ''}`}
-            onClick={() => navigate('/compare')}
-          >
-            Compare
-          </button>
-        </div>
-        <CountrySearch />
+      <div className="top-bar-left">
+        <button
+          className={`top-bar-btn${pathname === '/ranking' ? ' active' : ''}`}
+          onClick={() => navigate('/ranking')}
+        >
+          Rankings
+        </button>
       </div>
-      <div className="top-bar-ph" />
+      
+      <div className="top-bar-center">
+        <button 
+          className="top-bar-logo"
+          onClick={() => navigate('/')}
+        >
+          <img 
+            src="/ARTEMISLOGO.png"
+            alt="Artemis Logo"
+            className="logo-image"
+          />
+        </button>
+      </div>
+      
+      <div className="top-bar-right">
+        <button
+          className={`top-bar-btn${pathname === '/compare' ? ' active' : ''}`}
+          onClick={() => navigate('/compare')}
+        >
+          Compare
+        </button>
+        {!isHome && <CountrySearch />}
+      </div>
     </div>
   );
 }

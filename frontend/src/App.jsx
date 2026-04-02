@@ -5,6 +5,8 @@ import Ranking from './components/Ranking';
 import ComparePage from './components/Compare';
 import Preferences from './components/Preferences';
 import TopBar from './components/TopBar';
+import HomePage from './components/Home';
+import ScrollingCountries from './components/ScrollingCountries';
 import { PrefsContext } from './prefsContext';
 import { DEFAULT_PREFS, PRESETS } from './scoring';
 import './App.css';
@@ -35,6 +37,29 @@ function Layout({ prefs, activePreset, onPrefChange, onPreset }) {
 
         <div className="sidebar-spacer" />
       </div>
+
+      <ScrollingCountries />
+    </>
+  );
+}
+
+function HomeLayout() {
+  return (
+    <>
+      <div className="banner">
+        <div className="banner-overlay" />
+        <TopBar />
+      </div>
+
+      <div className="page-body">
+        <div className="sidebar-spacer" />
+        <div className="main-content">
+          <Outlet />
+        </div>
+        <div className="sidebar-spacer" />
+      </div>
+
+      <ScrollingCountries />
     </>
   );
 }
@@ -65,6 +90,9 @@ function App() {
   return (
     <PrefsContext.Provider value={{ prefs }}>
       <Routes>
+        <Route element={<HomeLayout />}>
+          <Route path="/" element={<HomePage />} />
+        </Route>
         <Route element={
           <Layout
             prefs={prefs}
@@ -73,7 +101,7 @@ function App() {
             onPreset={handlePreset}
           />
         }>
-          <Route path="/"                    element={<RankingsPage />} />
+          <Route path="/ranking"             element={<RankingsPage />} />
           <Route path="/compare"             element={<ComparePage />} />
           <Route path="/score/:country_code" element={<Score />} />
         </Route>
