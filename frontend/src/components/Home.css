@@ -55,7 +55,6 @@
   mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.4) 40%, rgba(0,0,0,0.4) 70%, transparent 100%);
 }
 
-/* Hero content */
 .home-hero-content {
   position: relative;
   z-index: 1;

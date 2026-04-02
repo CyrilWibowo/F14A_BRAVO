@@ -40,7 +40,7 @@ function HomePage() {
           </div>
         </div>
 
-        {/* Floating stat cards in hero */}
+        {/* stat cards */}
         <div className="home-hero-stats">
           <div className="home-hero-stat">
             <span className="home-hero-stat-num">180+</span>
