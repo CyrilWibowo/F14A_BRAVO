@@ -1,0 +1,304 @@
+/* Dashboard.css — matches the existing green App.css theme */
+
+.dash-root {
+  padding: 4px 0 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ── header ─────────────────────────────────────────────────────────────── */
+
+.dash-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  background: #ffffff;
+  border: 1px solid #c4d9c4;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+}
+
+.dash-header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dash-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #0f1f0f;
+}
+
+.dash-env {
+  font-size: 11px;
+  padding: 2px 8px;
+  background: #e8f4e8;
+  color: #2d6a2d;
+  border-radius: 4px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.dash-header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.dash-refresh-label,
+.dash-last {
+  font-size: 12px;
+  color: #7a9a7a;
+}
+
+.dash-refresh-btn {
+  padding: 5px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  background: transparent;
+  border: 1px solid #c4d9c4;
+  border-radius: 6px;
+  color: #2d6a2d;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+
+.dash-refresh-btn:hover {
+  background: #f0f4f0;
+}
+
+/* ── status dot ─────────────────────────────────────────────────────────── */
+
+.status-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.status-dot.ok   { background: #2d6a2d; box-shadow: 0 0 0 3px rgba(45,106,45,0.18); }
+.status-dot.down { background: #c0392b; box-shadow: 0 0 0 3px rgba(192,57,43,0.18); }
+
+/* ── summary stat cards ─────────────────────────────────────────────────── */
+
+.dash-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.dash-stat {
+  background: #ffffff;
+  border: 1px solid #c4d9c4;
+  border-radius: 10px;
+  padding: 14px 16px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+}
+
+.dash-stat-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: #7a9a7a;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 6px;
+}
+
+.dash-stat-value {
+  font-size: 22px;
+  font-weight: 600;
+  color: #0f1f0f;
+  margin-bottom: 3px;
+  line-height: 1.1;
+}
+
+.dash-stat-sub {
+  font-size: 11px;
+  color: #7a9a7a;
+}
+
+/* ── main grid ──────────────────────────────────────────────────────────── */
+
+.dash-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* ── panels ─────────────────────────────────────────────────────────────── */
+
+.dash-panel {
+  background: #ffffff;
+  border: 1px solid #c4d9c4;
+  border-radius: 12px;
+  padding: 16px 18px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+}
+
+.dash-panel-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: #5a7a5a;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 14px;
+}
+
+.dash-empty {
+  font-size: 13px;
+  color: #aab8aa;
+  padding: 10px 0;
+}
+
+/* ── horizontal bar rows ────────────────────────────────────────────────── */
+
+.hbar-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 9px;
+}
+
+.hbar-row:last-child {
+  margin-bottom: 0;
+}
+
+.hbar-label {
+  font-size: 12px;
+  color: #3a5a3a;
+  width: 110px;
+  flex-shrink: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hbar-track {
+  flex: 1;
+  height: 8px;
+  background: #e8f0e8;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.hbar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.4s ease;
+  min-width: 2px;
+}
+
+.hbar-val {
+  font-size: 12px;
+  font-weight: 500;
+  color: #0f1f0f;
+  width: 64px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+/* ── upstream block ─────────────────────────────────────────────────────── */
+
+.dash-upstream-block {
+  margin-bottom: 16px;
+}
+
+.dash-upstream-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.dash-upstream-source {
+  font-size: 13px;
+  font-weight: 500;
+  color: #3a5a3a;
+  width: 30px;
+  flex-shrink: 0;
+}
+
+.dash-upstream-bar-wrap {
+  flex: 1;
+  height: 8px;
+  background: #e8f0e8;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.dash-upstream-bar {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.4s ease;
+  min-width: 2px;
+}
+
+.dash-upstream-pct {
+  font-size: 13px;
+  font-weight: 600;
+  color: #0f1f0f;
+  width: 36px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.dash-badge {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 5px;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+.badge-ok   { background: #e2f0e2; color: #1a5c1a; }
+.badge-warn { background: #fef3dc; color: #7a4e00; }
+.badge-err  { background: #fde8e8; color: #8c1a1a; }
+
+/* ── upstream stats grid ────────────────────────────────────────────────── */
+
+.dash-upstream-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.dash-us-stat {
+  background: #f4f8f4;
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+
+.dash-us-label {
+  font-size: 11px;
+  color: #7a9a7a;
+  display: block;
+  margin-bottom: 2px;
+}
+
+.dash-us-val {
+  font-size: 16px;
+  font-weight: 600;
+  color: #0f1f0f;
+}
+
+/* ── status / error ─────────────────────────────────────────────────────── */
+
+.dash-status {
+  padding: 40px;
+  text-align: center;
+  font-size: 14px;
+  color: #7a9a7a;
+}
+
+.dash-error {
+  color: #c0392b;
+  background: #fde8e8;
+  border-radius: 10px;
+  border: 1px solid #f0c0c0;
+}

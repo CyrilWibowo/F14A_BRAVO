@@ -77,6 +77,13 @@ function TopBar() {
           >
             Compare
           </button>
+          {/* ── ADD THIS BUTTON ── */}
+          <button
+            className={`top-bar-btn${pathname === '/dashboard' ? ' active' : ''}`}
+            onClick={() => navigate('/dashboard')}
+          >
+            Dashboard
+          </button>
         </div>
         <CountrySearch />
       </div>

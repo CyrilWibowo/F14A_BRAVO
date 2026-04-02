@@ -1,6 +1,10 @@
 import { InputError } from './error.js';
 import { setLocation } from './db.js';
 
+// ── ADDED ────────────────────────────────────────────────────────────────────
+import { recordScoreComputed } from './observability.js';
+// ────────────────────────────────────────────────────────────────────────────
+
 /***************************************************************
                        Normalisation Helpers
 ***************************************************************/
@@ -69,7 +73,8 @@ const uvClassification = (m) => {
   return 'extreme';
 };
 
-const computeScoresFromMeans = (means) => {
+// countryCode is threaded through from processLocation so we can log it
+const computeScoresFromMeans = (means, countryCode) => {
   const ts = tempScore(means.temp);
   const hs = humidityScore(means.humidity);
   const comfortIndex = round(ts * 0.6 + hs * 0.4);
@@ -85,6 +90,10 @@ const computeScoresFromMeans = (means) => {
     precipScore(means.precipitation) * precipWeight +
     windScore(means.wind) * windWeight,
   );
+
+  // ── ADDED ──────────────────────────────────────────────────────────────────
+  recordScoreComputed(liveability, countryCode);
+  // ── END ADDED ──────────────────────────────────────────────────────────────
 
   return {
     liveability,
@@ -136,7 +145,7 @@ const SEASON_MONTHS = {
   southern: { spring: [9, 10, 11], summer: [12, 1, 2], autumn: [3, 4, 5], winter: [6, 7, 8] },
 };
 
-const computeSeasonalScores = (cleaned, latitude) => {
+const computeSeasonalScores = (cleaned, latitude, countryCode) => {
   const hemisphere = latitude >= 0 ? 'northern' : 'southern';
   const seasons = SEASON_MONTHS[hemisphere];
   const seasonal = {};
@@ -162,7 +171,8 @@ const computeSeasonalScores = (cleaned, latitude) => {
       wind: mean(vals.wind.map((p) => p.value)),
       uv: vals.uv.length > 0 ? mean(vals.uv.map((p) => p.value)) : null,
     };
-    seasonal[season] = computeScoresFromMeans(means);
+    // ── MODIFIED: pass countryCode through so seasonal scores are also logged ─
+    seasonal[season] = computeScoresFromMeans(means, countryCode);
   }
 
   return seasonal;
@@ -200,8 +210,10 @@ export const processLocation = async (rawData) => {
     uv: cleaned.uv.length > 0 ? mean(cleaned.uv.map((p) => p.value)) : null,
   };
 
-  const scores = computeScoresFromMeans(overallMeans);
-  const seasonal = computeSeasonalScores(cleaned, rawData.latitude);
+  // ── MODIFIED: pass country_code as second arg ────────────────────────────
+  const scores = computeScoresFromMeans(overallMeans, rawData.country_code);
+  const seasonal = computeSeasonalScores(cleaned, rawData.latitude, rawData.country_code);
+  // ────────────────────────────────────────────────────────────────────────
   const monthly = computeMonthlyAverages(cleaned);
 
   await setLocation(rawData.country_code, {

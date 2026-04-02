@@ -5,6 +5,7 @@ import Ranking from './components/Ranking';
 import ComparePage from './components/Compare';
 import Preferences from './components/Preferences';
 import TopBar from './components/TopBar';
+import Dashboard from './components/Dashboard';          // ← ADD
 import { PrefsContext } from './prefsContext';
 import { DEFAULT_PREFS, PRESETS } from './scoring';
 import './App.css';
@@ -39,6 +40,23 @@ function Layout({ prefs, activePreset, onPrefChange, onPreset }) {
   );
 }
 
+// Dashboard gets its own layout — no preferences sidebar                    // ← ADD
+function DashboardLayout() {
+  return (
+    <>
+      <div className="banner">
+        <div className="banner-overlay" />
+        <TopBar />
+      </div>
+      <div className="page-body">
+        <div className="main-content" style={{ maxWidth: '100%' }}>
+          <Dashboard />
+        </div>
+      </div>
+    </>
+  );
+}
+
 function RankingsPage() {
   const { prefs } = useContext(PrefsContext);
   return (
@@ -65,6 +83,9 @@ function App() {
   return (
     <PrefsContext.Provider value={{ prefs }}>
       <Routes>
+        {/* ── dashboard sits outside the main layout ── */}
+        <Route path="/dashboard" element={<DashboardLayout />} />   {/* ← ADD */}
+
         <Route element={
           <Layout
             prefs={prefs}
