@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { apiCallGet } from '../utils';
-import { computeLiveability } from '../scoring';
+import { computeLiveability, countQolIndicators } from '../scoring';
 import './Ranking.css';
 
 const getFlagUrl = (code) =>
@@ -40,6 +40,8 @@ function Ranking({ prefs }) {
           <div className="col left" />
           <div className="col left" />
           <div className="col" style={{ color: 'var(--score-high)', fontWeight: 700 }}>Score</div>
+          <div className="col">Climate</div>
+          <div className="col">QoL</div>
           <div className="col">Comfort</div>
           <div className="col">UV Risk</div>
           <div className="col">Temp</div>
@@ -60,6 +62,18 @@ function Ranking({ prefs }) {
               </div>
               <div className="col left col-country">{loc.country}</div>
               <div className={`col col-score ${sc}`}>{loc.liveability != null ? loc.liveability.toFixed(1) : '—'}</div>
+              <div className={`col col-subscore ${scoreClass(loc.climate_score)}`}>{loc.climate_score != null ? loc.climate_score.toFixed(1) : '—'}</div>
+              <div className={`col col-subscore ${scoreClass(loc.qol_score)}`}>
+                {loc.qol_score != null ? loc.qol_score.toFixed(1) : '—'}
+                {/* Show a warning if fewer than 3 of the 5 QoL indicators have data.
+                    Countries like Monaco only have 2 indicators so their QoL score
+                    is unreliable — this badge lets users know without hiding the row. */}
+                {countQolIndicators(loc) < 3 && (
+                  <span className="qol-warn-badge" title={`Only ${countQolIndicators(loc)} of 5 QoL indicators available — score may not be reliable`}>
+                    ⚠
+                  </span>
+                )}
+              </div>
               <div className="col">{loc.comfort_index != null ? loc.comfort_index.toFixed(1) : '—'}</div>
               <div className={`col ${uvClass}`}>{loc.uv_risk ? loc.uv_risk.replace('_', ' ') : '—'}</div>
               <div className="col">{loc.temperature_mean != null ? `${loc.temperature_mean}°C` : '—'}</div>

@@ -81,6 +81,48 @@ function Preferences({ prefs, activePreset, onChange, onPreset }) {
           />
         </div>
       </div>
+
+      <div className="prefs-divider" />
+
+      <div className="prefs-controls">
+        <div className="pref-field">
+          <span className="pref-label">Climate vs QoL Weight</span>
+          <input
+            type="range" min={0} max={100} step={5}
+            value={(prefs.climateWeight ?? 0.5) * 100}
+            onChange={(e) => onChange('climateWeight', Number(e.target.value) / 100)}
+            className="pref-slider weight-slider"
+            style={{ '--climate-pct': `${Math.round((prefs.climateWeight ?? 0.5) * 100)}%` }}
+          />
+          <div className="pref-weight-labels-row">
+            <span className="pref-weight-label-left">
+              <span className="pref-weight-pct">{Math.round((prefs.climateWeight ?? 0.5) * 100)}%</span>
+              {' '}<span className="pref-weight-name">Climate</span>
+            </span>
+            <span className="pref-weight-label-right">
+              <span className="pref-weight-name">QoL</span>
+              {' '}<span className="pref-weight-pct">{Math.round((1 - (prefs.climateWeight ?? 0.5)) * 100)}%</span>
+            </span>
+          </div>
+        </div>
+
+        <div className="pref-field">
+          <div className="pref-toggle-row">
+            <div className="pref-toggle-text">
+              <span className="pref-label">Prioritise Affordability</span>
+              <span className="pref-toggle-sub">Blends cost-of-living into ranking (30%)</span>
+            </div>
+            <label className="pref-toggle-switch">
+              <input
+                type="checkbox"
+                checked={prefs.prioritiseAffordability ?? false}
+                onChange={(e) => onChange('prioritiseAffordability', e.target.checked)}
+              />
+              <span className="pref-toggle-thumb" />
+            </label>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
