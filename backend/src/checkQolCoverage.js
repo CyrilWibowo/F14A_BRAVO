@@ -16,7 +16,7 @@ for (const code of codes) {
 		continue;
 	}
 	const nullKeys = Object.entries(d)
-		.filter(([k, v]) => v === null || v === undefined)
+		.filter(([_k, v]) => v === null || v === undefined)
 		.map(([k]) => k);
 	if (nullKeys.length === 0) {
 		full++;

@@ -27,7 +27,7 @@ export const getLocation = async (code) => {
     if (useS3) {
       try {
         data = await s3Get(`processed/${code}.json`);
-      } catch (err) {
+      } catch (_err) {
         console.warn(`S3 fetch failed for ${code}, checking local...`);
       }
     }
