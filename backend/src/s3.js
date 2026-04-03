@@ -50,12 +50,15 @@ export const s3List = async (prefix) => {
   const start = Date.now();
   try {
     const res = await fetch(`${PUBLIC_URL}/${prefix}index.json`);
-    if (!res.ok) throw new Error(`S3 public list failed: ${res.status}`);
+    if (!res.ok) {
+      recordUpstream('s3', false, Date.now() - start, 'list');
+      return [];
+    }
     const keys = await res.json();
     recordUpstream('s3', true, Date.now() - start, 'list');
     return keys.map((code) => `${prefix}${code}.json`);
   } catch (err) {
     recordUpstream('s3', false, Date.now() - start, 'list');
-    throw err;
+    return [];
   }
 };
