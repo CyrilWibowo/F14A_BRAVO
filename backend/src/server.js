@@ -129,7 +129,7 @@ app.get(
 
 app.use(errorLogger);
 
-const PORT = 5005;
+const PORT = process.env.PORT || 5005;
 
 const server = app.listen(PORT, async () => {
   console.log(`Backend listening on port ${PORT}`);
