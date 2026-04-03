@@ -1,9 +1,6 @@
 import 'dotenv/config';
-import { S3Client, GetObjectCommand, PutObjectCommand, ListObjectsV2Command } from '@aws-sdk/client-s3';
-
-// ── ADDED ────────────────────────────────────────────────────────────────────
+import { S3Client, PutObjectCommand, ListObjectsV2Command } from '@aws-sdk/client-s3';
 import { recordUpstream } from './observability.js';
-// ────────────────────────────────────────────────────────────────────────────
 
 const s3 = new S3Client({
   region: process.env.AWS_REGION || 'us-east-1',
@@ -15,24 +12,23 @@ const s3 = new S3Client({
 });
 
 export const BUCKET = process.env.S3_BUCKET_NAME;
+const PUBLIC_URL = `https://${BUCKET}.s3.amazonaws.com`;
 
 export const s3Get = async (key) => {
-  // ── ADDED ──────────────────────────────────────────────────────────────────
   const start = Date.now();
   try {
-    const res = await s3.send(new GetObjectCommand({ Bucket: BUCKET, Key: key }));
-    const body = await res.Body.transformToString();
+    const res = await fetch(`${PUBLIC_URL}/${key}`);
+    if (!res.ok) throw new Error(`S3 public read failed: ${res.status}`);
+    const data = await res.json();
     recordUpstream('s3', true, Date.now() - start, 'get');
-    return JSON.parse(body);
+    return data;
   } catch (err) {
     recordUpstream('s3', false, Date.now() - start, 'get');
     throw err;
   }
-  // ── END ADDED ──────────────────────────────────────────────────────────────
 };
 
 export const s3Put = async (key, data) => {
-  // ── ADDED ──────────────────────────────────────────────────────────────────
   const start = Date.now();
   try {
     await s3.send(
@@ -48,11 +44,9 @@ export const s3Put = async (key, data) => {
     recordUpstream('s3', false, Date.now() - start, 'put');
     throw err;
   }
-  // ── END ADDED ──────────────────────────────────────────────────────────────
 };
 
 export const s3List = async (prefix) => {
-  // ── ADDED ──────────────────────────────────────────────────────────────────
   const start = Date.now();
   try {
     const res = await s3.send(new ListObjectsV2Command({ Bucket: BUCKET, Prefix: prefix }));
@@ -62,5 +56,4 @@ export const s3List = async (prefix) => {
     recordUpstream('s3', false, Date.now() - start, 'list');
     throw err;
   }
-  // ── END ADDED ──────────────────────────────────────────────────────────────
 };
