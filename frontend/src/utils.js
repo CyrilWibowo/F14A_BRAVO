@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5005';
+const API_URL = 'https://f14a-bravo.onrender.com';
 
 export const apiCallGet = (path) => {
   return fetch(`${API_URL}/${path}`, {
