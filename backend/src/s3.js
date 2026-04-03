@@ -57,7 +57,7 @@ export const s3List = async (prefix) => {
     const keys = await res.json();
     recordUpstream('s3', true, Date.now() - start, 'list');
     return keys.map((code) => `${prefix}${code}.json`);
-  } catch (err) {
+  } catch (_err) {
     recordUpstream('s3', false, Date.now() - start, 'list');
     return [];
   }
