@@ -138,15 +138,26 @@ const server = app.listen(PORT, async () => {
     const locations = await getAllLocations();
     if (locations.length === 0) {
       console.log('No processed data found — running auto-seed...');
-      const rawPath = join(__dirname, '..', 'src', 'qol_data.json');
-      const raw = JSON.parse(readFileSync(rawPath, 'utf-8'));
-      const codes = Object.keys(raw);
-      for (const code of codes) {
-        try {
-          await processLocation({ country_code: code });
-          console.log(`Seeded ${code}`);
-        } catch (err) {
-          console.warn(`Failed to seed ${code}:`, err.message);
+      const candidates = [
+        join(__dirname, '..', 'raw_data.json'),
+        join(__dirname, '..', '..', 'raw_data.json'),
+      ];
+      let rawPath = null;
+      for (const c of candidates) {
+        try { readFileSync(c, { encoding: 'utf-8', flag: 'r' }).slice(0, 1); rawPath = c; break; } catch {}
+      }
+      if (!rawPath) {
+        console.error('Auto-seed: could not find raw_data.json');
+      } else {
+        const raw = JSON.parse(readFileSync(rawPath, 'utf-8').replace(/^\uFEFF/, ''));
+        console.log(`Auto-seeding ${raw.length} countries...`);
+        for (const entry of raw) {
+          try {
+            await processLocation(entry);
+            console.log(`Seeded ${entry.country_code}`);
+          } catch (err) {
+            console.warn(`Failed to seed ${entry.country_code}:`, err.message);
+          }
         }
       }
       console.log('Auto-seed complete.');
