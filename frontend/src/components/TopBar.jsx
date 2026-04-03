@@ -19,8 +19,6 @@ function CountrySearch() {
 
   const filtered = query.length > 0
     ? countries
-        // Same guard as CountryPicker in Compare.jsx — the ranking API can return
-        // entries without a country field if a stub JSON exists in processed/.
         .filter((c) => c?.country?.toLowerCase().includes(query.toLowerCase()))
         .sort((a, b) => a.country.localeCompare(b.country))
         .slice(0, 3)
@@ -61,35 +59,47 @@ function CountrySearch() {
 function TopBar() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const isHome = pathname === '/';
 
   return (
     <div className="top-bar-outer">
-      <div className="top-bar-ph" />
-      <div className="top-bar">
-        <div className="top-bar-nav">
-          <button
-            className={`top-bar-btn${pathname === '/' ? ' active' : ''}`}
-            onClick={() => navigate('/')}
-          >
-            Rankings
-          </button>
-          <button
-            className={`top-bar-btn${pathname === '/compare' ? ' active' : ''}`}
-            onClick={() => navigate('/compare')}
-          >
-            Compare
-          </button>
-          {/* ── ADD THIS BUTTON ── */}
-          <button
-            className={`top-bar-btn${pathname === '/dashboard' ? ' active' : ''}`}
-            onClick={() => navigate('/dashboard')}
-          >
-            Dashboard
-          </button>
-        </div>
-        <CountrySearch />
+      <div className="top-bar-left">
+        <button
+          className={`top-bar-btn${pathname === '/ranking' ? ' active' : ''}`}
+          onClick={() => navigate('/ranking')}
+        >
+          Rankings
+        </button>
+        <button
+          className={`top-bar-btn${pathname === '/dashboard' ? ' active' : ''}`}
+          onClick={() => navigate('dashboard')}
+        >
+          Dashboard
+        </button>
       </div>
-      <div className="top-bar-ph" />
+      
+      <div className="top-bar-center">
+        <button 
+          className="top-bar-logo"
+          onClick={() => navigate('/')}
+        >
+          <img 
+            src="/ARTEMISLOGO.png"
+            alt="Artemis Logo"
+            className="logo-image"
+          />
+        </button>
+      </div>
+      
+      <div className="top-bar-right">
+        <button
+          className={`top-bar-btn${pathname === '/compare' ? ' active' : ''}`}
+          onClick={() => navigate('/compare')}
+        >
+          Compare
+        </button>
+        {!isHome && <CountrySearch />}
+      </div>
     </div>
   );
 }
