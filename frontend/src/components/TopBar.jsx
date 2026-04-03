@@ -70,6 +70,12 @@ function TopBar() {
         >
           Rankings
         </button>
+        <button
+          className={`top-bar-btn${pathname === '/dashboard' ? ' active' : ''}`}
+          onClick={() => navigate('dashboard')}
+        >
+          Dashboard
+        </button>
       </div>
       
       <div className="top-bar-center">

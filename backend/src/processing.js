@@ -25,6 +25,10 @@ try {
   // keyed by ISO alpha-2 country code. Generated manually from WB bulk download.
 } catch { console.warn('hfce_data.json not found — affordability scores will be null'); }
 
+// ── ADDED ────────────────────────────────────────────────────────────────────
+//import { recordScoreComputed } from './observability.js';
+// ────────────────────────────────────────────────────────────────────────────
+
 /***************************************************************
                        Normalisation Helpers
 ***************************************************************/
@@ -103,6 +107,7 @@ const uvClassification = (m) => {
   return 'extreme';
 };
 
+// countryCode is threaded through from processLocation so we can log it
 const computeScoresFromMeans = (means) => {
   const ts = tempScore(means.temp);
   const hs = humidityScore(means.humidity);
@@ -125,6 +130,10 @@ const computeScoresFromMeans = (means) => {
     precipScore(means.precipitation) * precipWeight +
     windScore(means.wind) * windWeight,
   );
+
+  // ── ADDED ──────────────────────────────────────────────────────────────────
+  //recordScoreComputed(liveability, countryCode);
+  // ── END ADDED ──────────────────────────────────────────────────────────────
 
   return {
     climate_score: climateScore,
@@ -178,7 +187,7 @@ const SEASON_MONTHS = {
   southern: { spring: [9, 10, 11], summer: [12, 1, 2], autumn: [3, 4, 5], winter: [6, 7, 8] },
 };
 
-const computeSeasonalScores = (cleaned, latitude) => {
+const computeSeasonalScores = (cleaned, latitude, countryCode) => {
   const hemisphere = latitude >= 0 ? 'northern' : 'southern';
   const seasons = SEASON_MONTHS[hemisphere];
   const seasonal = {};
@@ -206,7 +215,8 @@ const computeSeasonalScores = (cleaned, latitude) => {
       uv: vals.uv.length > 0 ? mean(vals.uv.map((p) => p.value)) : null,
       daylight: vals.daylight.length > 0 ? mean(vals.daylight.map((p) => p.value)) : null,
     };
-    seasonal[season] = computeScoresFromMeans(means);
+    // ── MODIFIED: pass countryCode through so seasonal scores are also logged ─
+    seasonal[season] = computeScoresFromMeans(means, countryCode);
   }
 
   return seasonal;
@@ -310,7 +320,7 @@ export const processLocation = async (rawData) => {
   for (const field of required) {
     if (rawData[field] === undefined) throw new InputError(`Missing required field: ${field}`);
   }
-
+ 
   const requiredDaily = [
     'time',
     'temperature_2m_mean',
@@ -321,9 +331,9 @@ export const processLocation = async (rawData) => {
   for (const field of requiredDaily) {
     if (!Array.isArray(rawData.daily[field])) throw new InputError(`Missing required daily field: ${field}`);
   }
-
+ 
   const cleaned = normalise(rawData);
-
+ 
   const overallMeans = {
     temp: mean(cleaned.temp.map((p) => p.value)),
     humidity: mean(cleaned.humidity.map((p) => p.value)),
@@ -332,27 +342,27 @@ export const processLocation = async (rawData) => {
     uv: cleaned.uv.length > 0 ? mean(cleaned.uv.map((p) => p.value)) : null,
     daylight: cleaned.daylight.length > 0 ? mean(cleaned.daylight.map((p) => p.value)) : null,
   };
-
-  const climateScores      = computeScoresFromMeans(overallMeans);
-  const qolScores           = computeQolScores(rawData.country_code);
+ 
+  // FIX 3: removed duplicate `const scores` — pass countryCode here instead
+  const climateScores      = computeScoresFromMeans(overallMeans, rawData.country_code);
+  const qolScores          = computeQolScores(rawData.country_code);
   const affordabilityScores = computeAffordabilityScore(rawData.country_code);
-
-  // Composite liveability: 50% climate, 50% QoL (when QoL available)
+ 
   let liveability = climateScores.climate_score;
   if (qolScores.qol_score !== null) {
     liveability = round(climateScores.climate_score * 0.5 + qolScores.qol_score * 0.5);
   }
-
+ 
   const scores = {
     liveability,
     ...climateScores,
     ...qolScores,
     ...affordabilityScores,
   };
-
-  const seasonal = computeSeasonalScores(cleaned, rawData.latitude);
+ 
+  const seasonal = computeSeasonalScores(cleaned, rawData.latitude, rawData.country_code);
   const monthly = computeMonthlyAverages(cleaned);
-
+ 
   await setLocation(rawData.country_code, {
     country: rawData.country,
     country_code: rawData.country_code,
@@ -364,6 +374,7 @@ export const processLocation = async (rawData) => {
     seasonal,
     monthly,
   });
-
+ 
   return { country_code: rawData.country_code, ...scores };
 };
+ 

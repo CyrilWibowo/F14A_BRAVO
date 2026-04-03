@@ -6,6 +6,7 @@ import ComparePage from './components/Compare';
 import Preferences from './components/Preferences';
 import TopBar from './components/TopBar';
 import HomePage from './components/Home';
+import Dashboard from './components/Dashboard';
 import ScrollingCountries from './components/ScrollingCountries';
 import { PrefsContext } from './prefsContext';
 import { DEFAULT_PREFS, PRESETS } from './scoring';
@@ -73,6 +74,18 @@ function RankingsPage() {
   );
 }
 
+function DashboardLayout() {
+  return (
+    <>
+      <div className="page-body">
+        <div className="main-content" style={{ maxWidth: '100%' }}>
+          <Dashboard />
+        </div>
+      </div>
+    </>
+  );
+}
+
 function App() {
   const [prefs, setPrefs]               = useState(DEFAULT_PREFS);
   const [activePreset, setActivePreset] = useState('temperate');
@@ -103,6 +116,7 @@ function App() {
         }>
           <Route path="/ranking"             element={<RankingsPage />} />
           <Route path="/compare"             element={<ComparePage />} />
+          <Route path="/dashboard"           element={<DashboardLayout />} />
           <Route path="/score/:country_code" element={<Score />} />
         </Route>
       </Routes>
