@@ -144,7 +144,11 @@ const server = app.listen(PORT, async () => {
       ];
       let rawPath = null;
       for (const c of candidates) {
-        try { readFileSync(c, { encoding: 'utf-8', flag: 'r' }).slice(0, 1); rawPath = c; break; } catch {}
+        try {
+          readFileSync(c, { encoding: 'utf-8', flag: 'r' }).slice(0, 1);
+          rawPath = c;
+          break;
+        } catch { /* file not found */ }
       }
       if (!rawPath) {
         console.error('Auto-seed: could not find raw_data.json');
