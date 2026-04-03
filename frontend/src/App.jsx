@@ -5,6 +5,9 @@ import Ranking from './components/Ranking';
 import ComparePage from './components/Compare';
 import Preferences from './components/Preferences';
 import TopBar from './components/TopBar';
+import HomePage from './components/Home';
+import Dashboard from './components/Dashboard';
+import ScrollingCountries from './components/ScrollingCountries';
 import { PrefsContext } from './prefsContext';
 import { DEFAULT_PREFS, PRESETS } from './scoring';
 import './App.css';
@@ -35,6 +38,29 @@ function Layout({ prefs, activePreset, onPrefChange, onPreset }) {
 
         <div className="sidebar-spacer" />
       </div>
+
+      <ScrollingCountries />
+    </>
+  );
+}
+
+function HomeLayout() {
+  return (
+    <>
+      <div className="banner">
+        <div className="banner-overlay" />
+        <TopBar />
+      </div>
+
+      <div className="page-body">
+        <div className="sidebar-spacer" />
+        <div className="main-content">
+          <Outlet />
+        </div>
+        <div className="sidebar-spacer" />
+      </div>
+
+      <ScrollingCountries />
     </>
   );
 }
@@ -45,6 +71,18 @@ function RankingsPage() {
     <div className="section-card">
       <Ranking prefs={prefs} />
     </div>
+  );
+}
+
+function DashboardLayout() {
+  return (
+    <>
+      <div className="page-body">
+        <div className="main-content" style={{ maxWidth: '100%' }}>
+          <Dashboard />
+        </div>
+      </div>
+    </>
   );
 }
 
@@ -59,14 +97,15 @@ function App() {
 
   const handlePreset = (key) => {
     setActivePreset(key);
-    // Spread the preset values but carry the affordability toggle across — it's
-    // an independent user choice that shouldn't get wiped when they pick a climate preset.
     setPrefs((p) => ({ ...PRESETS[key], prioritiseAffordability: p.prioritiseAffordability ?? false }));
   };
 
   return (
     <PrefsContext.Provider value={{ prefs }}>
       <Routes>
+        <Route element={<HomeLayout />}>
+          <Route path="/" element={<HomePage />} />
+        </Route>
         <Route element={
           <Layout
             prefs={prefs}
@@ -75,8 +114,9 @@ function App() {
             onPreset={handlePreset}
           />
         }>
-          <Route path="/"                    element={<RankingsPage />} />
+          <Route path="/ranking"             element={<RankingsPage />} />
           <Route path="/compare"             element={<ComparePage />} />
+          <Route path="/dashboard"           element={<DashboardLayout />} />
           <Route path="/score/:country_code" element={<Score />} />
         </Route>
       </Routes>

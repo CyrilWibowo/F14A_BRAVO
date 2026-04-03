@@ -12,6 +12,13 @@ import { getScore, compareScores, getRanking, getSeasonalScore, getMonthlyAverag
 import { processLocation } from './processing.js';
 import { getAllLocations } from './db.js';
 
+import {
+  requestLogger,
+  errorLogger,
+  healthHandler,
+  metricsHandler,
+} from './observability.js';
+
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const app = express();
@@ -20,6 +27,8 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(morgan(':method :url :status'));
+
+app.use(requestLogger);
 
 const catchErrors = (fn) => async (req, res) => {
   try {
@@ -35,6 +44,13 @@ const catchErrors = (fn) => async (req, res) => {
     }
   }
 };
+
+/***************************************************************
+                       Health & Metrics
+***************************************************************/
+
+app.get('/health', healthHandler);
+app.get('/metrics', metricsHandler);
 
 /***************************************************************
                        Processing
@@ -110,6 +126,8 @@ app.get(
 /***************************************************************
                        Running Server
 ***************************************************************/
+
+app.use(errorLogger);
 
 const PORT = 5005;
 
