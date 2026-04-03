@@ -7,8 +7,8 @@
     "start": "nodemon src/server.js",
     "seed": "node scripts/seed.js",
     "lint": "eslint src/*.js",
-    "test": "node --experimental-vm-modules node_modules/.bin/jest --runInBand --coverage",
-    "test:ci": "node --experimental-vm-modules node_modules/.bin/jest --runInBand --coverage --forceExit"
+    "test": "NODE_ENV=test node --experimental-vm-modules node_modules/.bin/jest --runInBand --coverage",
+    "test:ci": "NODE_ENV=test node --experimental-vm-modules node_modules/.bin/jest --runInBand --coverage --forceExit"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1009.0",

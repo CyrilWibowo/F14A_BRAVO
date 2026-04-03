@@ -134,6 +134,8 @@ const PORT = process.env.PORT || 5005;
 const server = app.listen(PORT, async () => {
   console.log(`Backend listening on port ${PORT}`);
 
+  if (process.env.NODE_ENV === 'test') return;
+
   try {
     const locations = await getAllLocations();
     if (locations.length < 100) {

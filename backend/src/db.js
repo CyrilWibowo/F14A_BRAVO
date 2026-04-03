@@ -72,8 +72,23 @@ export const getAllLocations = async () => {
 export const setLocation = async (code, data) => {
   if (useS3) {
     await s3Put(`processed/${code}.json`, data);
+    // Update the manifest so s3List can work without credentials
+    const existing = await getAllCodes();
+    if (!existing.includes(code)) {
+      existing.push(code);
+      await s3Put('processed/index.json', existing);
+    }
   } else {
     writeFileSync(join(LOCAL_DIR, `${code}.json`), JSON.stringify(data, null, 2));
   }
   cache[code] = data;
+};
+
+const getAllCodes = async () => {
+  try {
+    const res = await s3Get('processed/index.json');
+    return Array.isArray(res) ? res : [];
+  } catch {
+    return [];
+  }
 };

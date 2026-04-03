@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import { S3Client, PutObjectCommand, ListObjectsV2Command } from '@aws-sdk/client-s3';
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 import { recordUpstream } from './observability.js';
 
 const s3 = new S3Client({
@@ -49,9 +49,11 @@ export const s3Put = async (key, data) => {
 export const s3List = async (prefix) => {
   const start = Date.now();
   try {
-    const res = await s3.send(new ListObjectsV2Command({ Bucket: BUCKET, Prefix: prefix }));
+    const res = await fetch(`${PUBLIC_URL}/${prefix}index.json`);
+    if (!res.ok) throw new Error(`S3 public list failed: ${res.status}`);
+    const keys = await res.json();
     recordUpstream('s3', true, Date.now() - start, 'list');
-    return (res.Contents || []).map((obj) => obj.Key);
+    return keys.map((code) => `${prefix}${code}.json`);
   } catch (err) {
     recordUpstream('s3', false, Date.now() - start, 'list');
     throw err;
