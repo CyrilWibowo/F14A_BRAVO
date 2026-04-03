@@ -19,7 +19,9 @@ function CountrySearch() {
 
   const filtered = query.length > 0
     ? countries
-        .filter((c) => c.country.toLowerCase().includes(query.toLowerCase()))
+        // Same guard as CountryPicker in Compare.jsx — the ranking API can return
+        // entries without a country field if a stub JSON exists in processed/.
+        .filter((c) => c?.country?.toLowerCase().includes(query.toLowerCase()))
         .sort((a, b) => a.country.localeCompare(b.country))
         .slice(0, 3)
     : [];

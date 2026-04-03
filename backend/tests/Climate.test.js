@@ -348,10 +348,13 @@ describe('UNIT — processLocation()', () => {
     await expect(processLocation(payload)).rejects.toThrow('Missing required daily field: wind_speed_10m_max');
   });
 
-  it('[FAIL] throws InputError when daily.uv_index_max is missing', async () => {
+  it('[PASS] processes without error when daily.uv_index_max is missing (optional)', async () => {
     const payload = makePayload();
     delete payload.daily.uv_index_max;
-    await expect(processLocation(payload)).rejects.toThrow('Missing required daily field: uv_index_max');
+    const result = await processLocation(payload);
+    expect(result).toHaveProperty('liveability');
+    expect(result.uv_risk).toBeNull();
+    expect(result.uv_index_mean).toBeNull();
   });
 
   // ⚠️  EDGE
@@ -511,12 +514,13 @@ describe('INTEGRATION — POST /process', () => {
     expect(res.body).toHaveProperty('error');
   });
 
-  it('[FAIL] returns 400 when daily.uv_index_max is missing', async () => {
+  it('[PASS] returns 200 when daily.uv_index_max is missing (optional)', async () => {
     const payload = makePayload();
     delete payload.daily.uv_index_max;
     const res = await request(server).post('/process').send(payload);
-    expect(res.status).toBe(400);
-    expect(res.body).toHaveProperty('error');
+    expect(res.status).toBe(200);
+    expect(res.body.uv_risk).toBeNull();
+    expect(res.body.uv_index_mean).toBeNull();
   });
 
   it('[FAIL] returns 400 when body is completely empty', async () => {

@@ -77,7 +77,9 @@ function App() {
 
   const handlePreset = (key) => {
     setActivePreset(key);
-    setPrefs(PRESETS[key]);
+    // Spread the preset values but carry the affordability toggle across — it's
+    // an independent user choice that shouldn't get wiped when they pick a climate preset.
+    setPrefs((p) => ({ ...PRESETS[key], prioritiseAffordability: p.prioritiseAffordability ?? false }));
   };
 
   return (

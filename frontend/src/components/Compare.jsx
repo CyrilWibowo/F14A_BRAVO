@@ -15,7 +15,8 @@ function CountryPicker({ value, onChange, allCountries, placeholder }) {
 
   const filtered = query.length > 0
     ? allCountries
-        .filter((c) => c.country.toLowerCase().includes(query.toLowerCase()))
+        // Guard against malformed entries (e.g. stub files in processed/ that lack a country name)
+        .filter((c) => c?.country?.toLowerCase().includes(query.toLowerCase()))
         .sort((a, b) => a.country.localeCompare(b.country))
         .slice(0, 3)
     : [];
@@ -59,12 +60,15 @@ function CountryPicker({ value, onChange, allCountries, placeholder }) {
 }
 
 const STATS = [
-  { label: 'Liveability',   get: (r) => r.liveability,         fmt: (v) => v?.toFixed(1) ?? '—',             higherBetter: true  },
-  { label: 'Comfort',       get: (r) => r.comfort_index,       fmt: (v) => v?.toFixed(1) ?? '—',             higherBetter: true  },
-  { label: 'Avg Temp',      get: (r) => r.temperature_mean,    fmt: (v) => v != null ? `${v}°C`   : '—',     higherBetter: null  },
-  { label: 'Humidity',      get: (r) => r.humidity_mean,       fmt: (v) => v != null ? `${v}%`    : '—',     higherBetter: null  },
-  { label: 'Precipitation', get: (r) => r.precipitation_mean,  fmt: (v) => v != null ? `${v}mm`   : '—',     higherBetter: false },
-  { label: 'Wind Speed',    get: (r) => r.wind_speed_mean,     fmt: (v) => v != null ? `${v}km/h` : '—',     higherBetter: false },
+  { label: 'Liveability',    get: (r) => r.liveability,         fmt: (v) => v?.toFixed(1) ?? '—',             higherBetter: true  },
+  { label: 'Climate Score',  get: (r) => r.climate_score,       fmt: (v) => v?.toFixed(1) ?? '—',             higherBetter: true  },
+  { label: 'QoL Score',      get: (r) => r.qol_score,           fmt: (v) => v?.toFixed(1) ?? '—',             higherBetter: true  },
+  { label: 'Comfort',        get: (r) => r.comfort_index,       fmt: (v) => v?.toFixed(1) ?? '—',             higherBetter: true  },
+  { label: 'HDI',            get: (r) => r.hdi,                 fmt: (v) => v != null ? v.toFixed(3) : '—',   higherBetter: true  },
+  { label: 'Avg Temp',       get: (r) => r.temperature_mean,    fmt: (v) => v != null ? `${v}°C`   : '—',     higherBetter: null  },
+  { label: 'Humidity',       get: (r) => r.humidity_mean,       fmt: (v) => v != null ? `${v}%`    : '—',     higherBetter: null  },
+  { label: 'Precipitation',  get: (r) => r.precipitation_mean,  fmt: (v) => v != null ? `${v}mm`   : '—',     higherBetter: false },
+  { label: 'Wind Speed',     get: (r) => r.wind_speed_mean,     fmt: (v) => v != null ? `${v}km/h` : '—',     higherBetter: false },
 ];
 
 function CompareResult({ a, b }) {
