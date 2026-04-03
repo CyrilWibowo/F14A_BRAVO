@@ -49,14 +49,16 @@ export const s3Put = async (key, data) => {
 export const s3List = async (prefix) => {
   const start = Date.now();
   try {
-    const res = await fetch(`${PUBLIC_URL}/${prefix}index.json`);
+    const url = `https://${BUCKET}.s3.us-east-1.amazonaws.com/?list-type=2&prefix=${prefix}`;
+    const res = await fetch(url);
     if (!res.ok) {
       recordUpstream('s3', false, Date.now() - start, 'list');
       return [];
     }
-    const keys = await res.json();
+    const xml = await res.text();
+    const keys = [...xml.matchAll(/<Key>([^<]+)<\/Key>/g)].map((m) => m[1]);
     recordUpstream('s3', true, Date.now() - start, 'list');
-    return keys.map((code) => `${prefix}${code}.json`);
+    return keys;
   } catch (_err) {
     recordUpstream('s3', false, Date.now() - start, 'list');
     return [];
