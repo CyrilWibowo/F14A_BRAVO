@@ -136,7 +136,7 @@ const server = app.listen(PORT, async () => {
 
   try {
     const locations = await getAllLocations();
-    if (locations.length === 0) {
+    if (locations.length < 100) {
       console.log('No processed data found — running auto-seed...');
       const candidates = [
         join(__dirname, '..', 'raw_data.json'),
