@@ -3,10 +3,16 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import morgan from 'morgan';
+import { readFileSync } from 'fs';
+import { dirname, join } from 'path';
+import { fileURLToPath } from 'url';
 
 import { InputError, AccessError } from './error.js';
 import { getScore, compareScores, getRanking, getSeasonalScore, getMonthlyAverages } from './score.js';
 import { processLocation } from './processing.js';
+import { getAllLocations } from './db.js';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const app = express();
 
@@ -107,8 +113,31 @@ app.get(
 
 const PORT = 5005;
 
-const server = app.listen(PORT, () => {
+const server = app.listen(PORT, async () => {
   console.log(`Backend listening on port ${PORT}`);
+
+  try {
+    const locations = await getAllLocations();
+    if (locations.length === 0) {
+      console.log('No processed data found — running auto-seed...');
+      const rawPath = join(__dirname, '..', 'src', 'qol_data.json');
+      const raw = JSON.parse(readFileSync(rawPath, 'utf-8'));
+      const codes = Object.keys(raw);
+      for (const code of codes) {
+        try {
+          await processLocation({ country_code: code });
+          console.log(`Seeded ${code}`);
+        } catch (err) {
+          console.warn(`Failed to seed ${code}:`, err.message);
+        }
+      }
+      console.log('Auto-seed complete.');
+    } else {
+      console.log(`Found ${locations.length} locations — skipping seed.`);
+    }
+  } catch (err) {
+    console.error('Auto-seed error:', err.message);
+  }
 });
 
 export default server;

@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import { S3Client, GetObjectCommand, PutObjectCommand, ListObjectsV2Command } from '@aws-sdk/client-s3';
+import { S3Client, PutObjectCommand, ListObjectsV2Command } from '@aws-sdk/client-s3';
 
 const s3 = new S3Client({
   region: process.env.AWS_REGION || 'us-east-1',
@@ -11,11 +11,12 @@ const s3 = new S3Client({
 });
 
 export const BUCKET = process.env.S3_BUCKET_NAME;
+const PUBLIC_URL = `https://${BUCKET}.s3.amazonaws.com`;
 
 export const s3Get = async (key) => {
-  const res = await s3.send(new GetObjectCommand({ Bucket: BUCKET, Key: key }));
-  const body = await res.Body.transformToString();
-  return JSON.parse(body);
+  const res = await fetch(`${PUBLIC_URL}/${key}`);
+  if (!res.ok) throw new Error(`S3 public read failed: ${res.status}`);
+  return res.json();
 };
 
 export const s3Put = async (key, data) => {
