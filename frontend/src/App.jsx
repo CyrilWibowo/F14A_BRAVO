@@ -77,10 +77,6 @@ function RankingsPage() {
 function DashboardLayout() {
   return (
     <>
-      <div className="banner">
-        <div className="banner-overlay" />
-        <TopBar />
-      </div>
       <div className="page-body">
         <div className="main-content" style={{ maxWidth: '100%' }}>
           <Dashboard />

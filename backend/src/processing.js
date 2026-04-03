@@ -26,7 +26,7 @@ try {
 } catch { console.warn('hfce_data.json not found — affordability scores will be null'); }
 
 // ── ADDED ────────────────────────────────────────────────────────────────────
-import { recordScoreComputed } from './observability.js';
+//import { recordScoreComputed } from './observability.js';
 // ────────────────────────────────────────────────────────────────────────────
 
 /***************************************************************
@@ -108,7 +108,7 @@ const uvClassification = (m) => {
 };
 
 // countryCode is threaded through from processLocation so we can log it
-const computeScoresFromMeans = (means, countryCode) => {
+const computeScoresFromMeans = (means) => {
   const ts = tempScore(means.temp);
   const hs = humidityScore(means.humidity);
   const comfortIndex = round(ts * 0.6 + hs * 0.4);
@@ -132,7 +132,7 @@ const computeScoresFromMeans = (means, countryCode) => {
   );
 
   // ── ADDED ──────────────────────────────────────────────────────────────────
-  recordScoreComputed(liveability, countryCode);
+  //recordScoreComputed(liveability, countryCode);
   // ── END ADDED ──────────────────────────────────────────────────────────────
 
   return {
