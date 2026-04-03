@@ -1,7 +1,7 @@
-const port = 5005;
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5005';
 
 export const apiCallGet = (path) => {
-  return fetch(`http://localhost:${port}/${path}`, {
+  return fetch(`${API_URL}/${path}`, {
     method: 'GET',
     headers: {
       'Content-type': 'application/json',
