@@ -1,3 +1,5 @@
 node_modules/
 frontend/public/output.css
 dist/
+backend/.env
+backend/processed/

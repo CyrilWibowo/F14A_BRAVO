@@ -1,0 +1,1271 @@
+{
+  "ZH": {
+    "homicide_rate": 12.4,
+    "internet_users": 30.4,
+    "sanitation": 26.00782704483,
+    "suicide_rate": 8.35393194082256
+  },
+  "ZI": {
+    "homicide_rate": 11.9,
+    "internet_users": 42.4,
+    "sanitation": 25.7595302280122,
+    "suicide_rate": 5.76431172452505
+  },
+  "Z4": {
+    "homicide_rate": 0.8,
+    "internet_users": 88.4,
+    "sanitation": 63.6400138579317,
+    "suicide_rate": 8.60606658958021
+  },
+  "Z7": {
+    "homicide_rate": 2.1,
+    "internet_users": 92.4,
+    "sanitation": 80.202083220941,
+    "suicide_rate": 12.5413455740299
+  },
+  "F1": {
+    "homicide_rate": 12.9,
+    "internet_users": 38.5,
+    "suicide_rate": 6.49258034287326
+  },
+  "XF": {
+    "homicide_rate": 4.7,
+    "internet_users": 82.7,
+    "sanitation": 61.5342128377788,
+    "suicide_rate": 9.32997863876059
+  },
+  "XI": {
+    "homicide_rate": 7.7,
+    "internet_users": 36.1,
+    "sanitation": 30.2817726387072,
+    "suicide_rate": 5.76253796819527
+  },
+  "XG": {
+    "homicide_rate": 8.3,
+    "internet_users": 38.9,
+    "sanitation": 32.5673782633288,
+    "suicide_rate": 5.83727471170613
+  },
+  "ZJ": {
+    "homicide_rate": 19.7,
+    "internet_users": 83.7,
+    "sanitation": 51.2209972924919,
+    "suicide_rate": 6.88229896897105
+  },
+  "XL": {
+    "homicide_rate": 7.8,
+    "internet_users": 33.7,
+    "suicide_rate": 5.81035719261207
+  },
+  "ZQ": {
+    "homicide_rate": 3.9,
+    "internet_users": 63.7,
+    "sanitation": 54.4427793216174,
+    "suicide_rate": 3.42664885159732
+  },
+  "XU": {
+    "homicide_rate": 5.4,
+    "internet_users": 95.6,
+    "sanitation": 95.3904661396555,
+    "suicide_rate": 14.9908440933126
+  },
+  "8S": {
+    "homicide_rate": 2.8,
+    "internet_users": 67.8,
+    "sanitation": 60.0591907163454,
+    "suicide_rate": 11.5388461842082
+  },
+  "ZG": {
+    "homicide_rate": 12.2,
+    "internet_users": 35.7,
+    "sanitation": 25.9074828232473,
+    "suicide_rate": 7.30444209746288
+  },
+  "1W": {
+    "homicide_rate": 5.2,
+    "internet_users": 73.6,
+    "sanitation": 58.4951883486035,
+    "suicide_rate": 9.13025566966109
+  },
+  "AF": {
+    "homicide_rate": 4.0324584656778,
+    "internet_users": 17.7089,
+    "sanitation": 24.7773774153722,
+    "suicide_rate": 3.6
+  },
+  "AL": {
+    "homicide_rate": 1.38708340817063,
+    "internet_users": 83.1356,
+    "sanitation": 69.2783375346592,
+    "suicide_rate": 2.75
+  },
+  "DZ": {
+    "homicide_rate": 1.16107238811947,
+    "internet_users": 76.9081,
+    "sanitation": 62.4937976717106,
+    "suicide_rate": 2.18
+  },
+  "AD": {
+    "homicide_rate": 2.58464719565779,
+    "internet_users": 95.4456,
+    "sanitation": 100
+  },
+  "AG": {
+    "homicide_rate": 10.7163332993983,
+    "internet_users": 77.5756,
+    "suicide_rate": 1.46
+  },
+  "AR": {
+    "homicide_rate": 4.49291137824536,
+    "internet_users": 89.6672,
+    "suicide_rate": 7.94
+  },
+  "AM": {
+    "homicide_rate": 2.20833575400906,
+    "internet_users": 79.9966,
+    "sanitation": 10.7392367176734,
+    "suicide_rate": 2.46
+  },
+  "AU": {
+    "homicide_rate": 0.854406035826682,
+    "internet_users": 97.0631,
+    "sanitation": 95.7728957610068,
+    "suicide_rate": 13.08
+  },
+  "AT": {
+    "homicide_rate": 0.876191031111463,
+    "internet_users": 94.9197,
+    "sanitation": 98.5023184979939,
+    "suicide_rate": 14.51
+  },
+  "AZ": {
+    "homicide_rate": 2.16122820563689,
+    "internet_users": 89,
+    "sanitation": 68.0033446575086,
+    "suicide_rate": 1.56
+  },
+  "BS": {
+    "homicide_rate": 32.1981392997156,
+    "internet_users": 94.8186,
+    "suicide_rate": 3.25
+  },
+  "BH": {
+    "homicide_rate": 0.195636140255462,
+    "internet_users": 100,
+    "sanitation": 93.3525990269566,
+    "suicide_rate": 4.66
+  },
+  "BB": {
+    "homicide_rate": 7.43794627677661,
+    "internet_users": 79.9923,
+    "suicide_rate": 3.5
+  },
+  "BY": {
+    "homicide_rate": 2.38463165310244,
+    "internet_users": 94.2618,
+    "sanitation": 74.4371095135556,
+    "suicide_rate": 15.61
+  },
+  "BE": {
+    "homicide_rate": 1.08030153549307,
+    "internet_users": 95.7758,
+    "sanitation": 94.8970100467783,
+    "suicide_rate": 18.36
+  },
+  "BZ": {
+    "homicide_rate": 28.0582917218107,
+    "internet_users": 72.3595,
+    "suicide_rate": 4.18
+  },
+  "BM": {
+    "homicide_rate": 6.18257133141674
+  },
+  "BT": {
+    "homicide_rate": 2.46751324015657,
+    "internet_users": 88.426,
+    "sanitation": 49.481085264625,
+    "suicide_rate": 4.9
+  },
+  "BO": {
+    "homicide_rate": 4.41843313132273,
+    "internet_users": 70.2368,
+    "suicide_rate": 4.2
+  },
+  "BA": {
+    "homicide_rate": 1.22446173133237,
+    "internet_users": 86.1009,
+    "suicide_rate": 8.97
+  },
+  "BW": {
+    "homicide_rate": 11.3681767255945,
+    "internet_users": 81.36,
+    "suicide_rate": 8.35
+  },
+  "BR": {
+    "homicide_rate": 19.2752957673079,
+    "internet_users": 84.4635,
+    "sanitation": 54.9560379092862,
+    "suicide_rate": 7.59
+  },
+  "BG": {
+    "homicide_rate": 1.08890737415431,
+    "internet_users": 82.439,
+    "sanitation": 75.7193859528703,
+    "suicide_rate": 9.51
+  },
+  "CV": {
+    "homicide_rate": 6.99464423976475,
+    "internet_users": 73.539,
+    "suicide_rate": 14.9
+  },
+  "CM": {
+    "homicide_rate": 6.76008919336955,
+    "internet_users": 41.9088,
+    "suicide_rate": 8.5
+  },
+  "CA": {
+    "homicide_rate": 1.97968887560784,
+    "internet_users": 93.9564,
+    "sanitation": 81.2988965702501,
+    "suicide_rate": 9.44
+  },
+  "KY": {
+    "homicide_rate": 4.3677976836113
+  },
+  "CL": {
+    "homicide_rate": 6.34829073035101,
+    "internet_users": 94.4574,
+    "sanitation": 95.1313578977443,
+    "suicide_rate": 7.69
+  },
+  "CN": {
+    "homicide_rate": 0.5018560705357,
+    "internet_users": 92,
+    "sanitation": 68.869967958972,
+    "suicide_rate": 8.95
+  },
+  "CO": {
+    "homicide_rate": 24.9134420347488,
+    "internet_users": 77.3369,
+    "sanitation": 18.6911716966687,
+    "suicide_rate": 4.96
+  },
+  "CR": {
+    "homicide_rate": 17.7454798727379,
+    "internet_users": 85.3951,
+    "sanitation": 26.2861896707273,
+    "suicide_rate": 8.06
+  },
+  "HR": {
+    "homicide_rate": 0.667347104040825,
+    "internet_users": 83.6324,
+    "sanitation": 74.7324296019516,
+    "suicide_rate": 15.68
+  },
+  "CU": {
+    "homicide_rate": 4.46315139638841,
+    "internet_users": 71.275,
+    "sanitation": 45.8768880917379,
+    "suicide_rate": 13.79
+  },
+  "CY": {
+    "homicide_rate": 0.81785876397005,
+    "internet_users": 91.2211,
+    "sanitation": 76.9720455894549,
+    "suicide_rate": 3.02
+  },
+  "CZ": {
+    "homicide_rate": 0.767827757917044,
+    "internet_users": 87.6878,
+    "sanitation": 91.3792839631227,
+    "suicide_rate": 13.33
+  },
+  "DK": {
+    "homicide_rate": 0.840599404536194,
+    "internet_users": 99.7692,
+    "sanitation": 98.9010988092373,
+    "suicide_rate": 10.46
+  },
+  "DM": {
+    "homicide_rate": 27.063396005142,
+    "internet_users": 83.8255
+  },
+  "DO": {
+    "homicide_rate": 10.9166976980638,
+    "internet_users": 91.0022,
+    "sanitation": 42.9685910441268,
+    "suicide_rate": 4.2
+  },
+  "EC": {
+    "homicide_rate": 45.7228145164847,
+    "internet_users": 77.1727,
+    "sanitation": 49.2872368974807,
+    "suicide_rate": 7.56
+  },
+  "SV": {
+    "homicide_rate": 7.89768799960639,
+    "internet_users": 67.6558,
+    "sanitation": 35.9732370193077,
+    "suicide_rate": 7.63
+  },
+  "EE": {
+    "homicide_rate": 1.53599045052794,
+    "internet_users": 92.238,
+    "sanitation": 90.5570137559248,
+    "suicide_rate": 14.94
+  },
+  "SZ": {
+    "homicide_rate": 12.5145709802017,
+    "internet_users": 57.62,
+    "sanitation": 60.8358301515398,
+    "suicide_rate": 27.23
+  },
+  "FJ": {
+    "homicide_rate": 2.0559533103824,
+    "internet_users": 79.3485,
+    "sanitation": 48.502881186914,
+    "suicide_rate": 8.27
+  },
+  "FI": {
+    "homicide_rate": 0.98193498501344,
+    "internet_users": 93.5139,
+    "sanitation": 90.1173134358904,
+    "suicide_rate": 14.57
+  },
+  "FR": {
+    "homicide_rate": 1.33506280409367,
+    "internet_users": 88.6538,
+    "sanitation": 89.9921457215606,
+    "suicide_rate": 16.58
+  },
+  "GE": {
+    "homicide_rate": 2.02806499553233,
+    "internet_users": 81.8843,
+    "sanitation": 62.9712131128227,
+    "suicide_rate": 5.1
+  },
+  "DE": {
+    "homicide_rate": 0.910722780231795,
+    "internet_users": 93.5,
+    "sanitation": 96.76522146362,
+    "suicide_rate": 12.9
+  },
+  "GH": {
+    "homicide_rate": 1.83111773115644,
+    "internet_users": 69.9445,
+    "sanitation": 18.763531148516,
+    "suicide_rate": 5.32
+  },
+  "GR": {
+    "homicide_rate": 0.839605274224601,
+    "internet_users": 86.2697,
+    "sanitation": 92.8864934862192,
+    "suicide_rate": 4.68
+  },
+  "GD": {
+    "homicide_rate": 13.6657527694502,
+    "internet_users": 74.1201,
+    "suicide_rate": 1.3
+  },
+  "GU": {
+    "homicide_rate": 4.32611490161179
+  },
+  "GT": {
+    "homicide_rate": 23.3657267272051,
+    "internet_users": 56.0535,
+    "suicide_rate": 4.94
+  },
+  "GY": {
+    "homicide_rate": 19.1201580922439,
+    "internet_users": 81.7221,
+    "sanitation": 43.4351843746555,
+    "suicide_rate": 24.78
+  },
+  "HT": {
+    "homicide_rate": 41.1518089717388,
+    "suicide_rate": 7.81
+  },
+  "HN": {
+    "homicide_rate": 31.4424316507577,
+    "internet_users": 58.2789,
+    "suicide_rate": 2.97
+  },
+  "HK": {
+    "homicide_rate": 0.376205815214825,
+    "internet_users": 95.9778,
+    "sanitation": 94.834373461349
+  },
+  "HU": {
+    "homicide_rate": 0.722657964901225,
+    "internet_users": 93.779,
+    "sanitation": 91.7088480248698,
+    "suicide_rate": 16.45
+  },
+  "IS": {
+    "homicide_rate": 1.29013114183057,
+    "internet_users": 99.8301,
+    "suicide_rate": 11.91
+  },
+  "IN": {
+    "homicide_rate": 2.81530423021647,
+    "internet_users": 70,
+    "sanitation": 62.7850105515952,
+    "suicide_rate": 12.56
+  },
+  "ID": {
+    "homicide_rate": 0.303768746039586,
+    "internet_users": 72.7808,
+    "suicide_rate": 1.2
+  },
+  "IE": {
+    "homicide_rate": 0.654270171245596,
+    "internet_users": 96.4974,
+    "sanitation": 81.2615959599938,
+    "suicide_rate": 8.55
+  },
+  "IL": {
+    "homicide_rate": 1.62581066709758,
+    "internet_users": 88.1824,
+    "sanitation": 97.1694999721232,
+    "suicide_rate": 4.37
+  },
+  "IT": {
+    "homicide_rate": 0.568072449338316,
+    "internet_users": 89.2207,
+    "sanitation": 78.2076546758922,
+    "suicide_rate": 6.99
+  },
+  "JM": {
+    "homicide_rate": 49.4403451527686,
+    "internet_users": 89.473,
+    "sanitation": 73.6139506323097,
+    "suicide_rate": 1.69
+  },
+  "JP": {
+    "homicide_rate": 0.229153196964695,
+    "internet_users": 86.9815,
+    "sanitation": 99.1857131221674,
+    "suicide_rate": 17.43
+  },
+  "JO": {
+    "homicide_rate": 0.987830151085125,
+    "internet_users": 92.5344,
+    "sanitation": 80.0755731216364,
+    "suicide_rate": 0.6
+  },
+  "KZ": {
+    "homicide_rate": 2.55058633787163,
+    "internet_users": 93.3917,
+    "suicide_rate": 14.6
+  },
+  "KE": {
+    "homicide_rate": 4.87166844718499,
+    "internet_users": 34.9762,
+    "sanitation": 35.8269657963595,
+    "suicide_rate": 4.58
+  },
+  "KR": {
+    "homicide_rate": 0.477306316584835,
+    "internet_users": 97.8956,
+    "sanitation": 99.3284416041044,
+    "suicide_rate": 27.53
+  },
+  "XK": {
+    "homicide_rate": 1.89497747704421
+  },
+  "KW": {
+    "homicide_rate": 0.249991818449578,
+    "internet_users": 99.7473,
+    "sanitation": 100,
+    "suicide_rate": 2.31
+  },
+  "KG": {
+    "homicide_rate": 1.74734308054439,
+    "internet_users": 88.4701,
+    "sanitation": 93.0270797378203,
+    "suicide_rate": 6.8
+  },
+  "LV": {
+    "homicide_rate": 2.49681788529087,
+    "internet_users": 92.7076,
+    "sanitation": 92.5346142806387,
+    "suicide_rate": 15.21
+  },
+  "LB": {
+    "homicide_rate": 2.24466989542556,
+    "internet_users": 83.4933,
+    "sanitation": 25.6726802158649,
+    "suicide_rate": 0.7
+  },
+  "LI": {
+    "homicide_rate": 5.12242598094458,
+    "internet_users": 97.3444,
+    "sanitation": 96.3008562453003
+  },
+  "LT": {
+    "homicide_rate": 2.62779952622526,
+    "internet_users": 88.5029,
+    "sanitation": 96.3965645962382,
+    "suicide_rate": 22.12
+  },
+  "LU": {
+    "homicide_rate": 1.5306610542428,
+    "internet_users": 98.7606,
+    "sanitation": 96.3220039091808,
+    "suicide_rate": 8.22
+  },
+  "MO": {
+    "homicide_rate": 0.560293537784445,
+    "internet_users": 89.1806,
+    "sanitation": 79.9557401770362
+  },
+  "MY": {
+    "homicide_rate": 0.734492430713877,
+    "internet_users": 98.0206,
+    "sanitation": 85.7863441595325,
+    "suicide_rate": 5.65
+  },
+  "MV": {
+    "homicide_rate": 0.615093155858455,
+    "internet_users": 84.6851,
+    "suicide_rate": 1.47
+  },
+  "MT": {
+    "homicide_rate": 0.562898250512237,
+    "internet_users": 92.0727,
+    "sanitation": 100,
+    "suicide_rate": 6.47
+  },
+  "MR": {
+    "homicide_rate": 0.999971522550119,
+    "internet_users": 37.3809,
+    "suicide_rate": 2.71
+  },
+  "MU": {
+    "homicide_rate": 2.27249663925174,
+    "internet_users": 79.5,
+    "suicide_rate": 10.52
+  },
+  "MX": {
+    "homicide_rate": 24.8589948436701,
+    "internet_users": 81.1832,
+    "sanitation": 62.7483600306072,
+    "suicide_rate": 6.95
+  },
+  "FM": {
+    "homicide_rate": 0.906766290056401,
+    "suicide_rate": 19.76
+  },
+  "MD": {
+    "homicide_rate": 2.54314378217647,
+    "internet_users": 80.2126,
+    "suicide_rate": 14.14
+  },
+  "MN": {
+    "homicide_rate": 5.91503475082916,
+    "internet_users": 83.0162,
+    "sanitation": 69.9469928494417,
+    "suicide_rate": 18.5
+  },
+  "ME": {
+    "homicide_rate": 0.789201202111271,
+    "internet_users": 88.8826,
+    "sanitation": 50.8653935806351,
+    "suicide_rate": 11.31
+  },
+  "MA": {
+    "homicide_rate": 1.70500474577332,
+    "internet_users": 91,
+    "sanitation": 8.4240714170847,
+    "suicide_rate": 2.91
+  },
+  "MM": {
+    "homicide_rate": 2.57510107248619,
+    "internet_users": 58.5357,
+    "sanitation": 60.5335397782737,
+    "suicide_rate": 2.89
+  },
+  "NA": {
+    "homicide_rate": 11.2077806904171,
+    "internet_users": 64.4061,
+    "suicide_rate": 8.59
+  },
+  "NP": {
+    "homicide_rate": 2.13004129984372,
+    "internet_users": 55.7716,
+    "sanitation": 53.4119460561394,
+    "suicide_rate": 10.14
+  },
+  "NL": {
+    "homicide_rate": 0.690893081283378,
+    "internet_users": 97.0068,
+    "sanitation": 97.4979048764686,
+    "suicide_rate": 11.5
+  },
+  "NZ": {
+    "homicide_rate": 1.46149415952832,
+    "internet_users": 96.1638,
+    "sanitation": 88.7996547487802,
+    "suicide_rate": 11.92
+  },
+  "NI": {
+    "homicide_rate": 11.3473196321723,
+    "internet_users": 58.2314,
+    "suicide_rate": 4.24
+  },
+  "NG": {
+    "homicide_rate": 15.7466808233499,
+    "internet_users": 39.2136,
+    "sanitation": 32.2082592818415,
+    "suicide_rate": 4.99
+  },
+  "MK": {
+    "homicide_rate": 1.52854990019388,
+    "internet_users": 87.1819,
+    "sanitation": 12.1085676786862,
+    "suicide_rate": 5.78
+  },
+  "NO": {
+    "homicide_rate": 0.724747049690651,
+    "internet_users": 99,
+    "sanitation": 77.930319871296,
+    "suicide_rate": 13.19
+  },
+  "OM": {
+    "homicide_rate": 0.138633928990513,
+    "internet_users": 95.2517,
+    "suicide_rate": 0.91
+  },
+  "PK": {
+    "homicide_rate": 4.33487075793336,
+    "internet_users": 27.3759,
+    "suicide_rate": 5.64
+  },
+  "PA": {
+    "homicide_rate": 11.7072934419645,
+    "internet_users": 68.5485,
+    "suicide_rate": 3.29
+  },
+  "PY": {
+    "homicide_rate": 6.7795163925492,
+    "internet_users": 81.5781,
+    "sanitation": 58.5283334580355,
+    "suicide_rate": 6.36
+  },
+  "PE": {
+    "homicide_rate": 8.60480803979216,
+    "internet_users": 81.9571,
+    "sanitation": 56.4924094824286,
+    "suicide_rate": 1.54
+  },
+  "PH": {
+    "homicide_rate": 4.34759149828352,
+    "internet_users": 83.7661,
+    "sanitation": 62.1743615399215,
+    "suicide_rate": 3.49
+  },
+  "PL": {
+    "homicide_rate": 0.802314721828908,
+    "internet_users": 88.585,
+    "sanitation": 97.8277048403773,
+    "suicide_rate": 13.67
+  },
+  "PT": {
+    "homicide_rate": 0.719971949892832,
+    "internet_users": 88.487,
+    "sanitation": 93.9246010109268,
+    "suicide_rate": 11.52
+  },
+  "PR": {
+    "homicide_rate": 14.5896581532053,
+    "internet_users": 87.2918,
+    "sanitation": 32.5091608798098,
+    "suicide_rate": 5.42
+  },
+  "QA": {
+    "homicide_rate": 0.0691454145354033,
+    "internet_users": 99.6528,
+    "sanitation": 99.936545083788,
+    "suicide_rate": 4.7
+  },
+  "RO": {
+    "homicide_rate": 1.10887485110282,
+    "internet_users": 91.2905,
+    "sanitation": 89.7986287516482,
+    "suicide_rate": 9.62
+  },
+  "RU": {
+    "homicide_rate": 6.76512531955806,
+    "internet_users": 94.365,
+    "sanitation": 58.1856567616193,
+    "suicide_rate": 21.37
+  },
+  "RW": {
+    "homicide_rate": 3.61247427164444,
+    "internet_users": 34.2005,
+    "suicide_rate": 8.68
+  },
+  "SA": {
+    "homicide_rate": 0.935259944754359,
+    "internet_users": 100,
+    "sanitation": 83.8898965219249,
+    "suicide_rate": 0.95
+  },
+  "RS": {
+    "homicide_rate": 1.31400205013848,
+    "internet_users": 87.6907,
+    "sanitation": 24.0657869371989,
+    "suicide_rate": 15.14
+  },
+  "SC": {
+    "homicide_rate": 7.96669919735506,
+    "internet_users": 87.4009,
+    "suicide_rate": 4.27
+  },
+  "SL": {
+    "homicide_rate": 2.22431228940123,
+    "internet_users": 20.635,
+    "sanitation": 16.8455242283203,
+    "suicide_rate": 6.14
+  },
+  "SG": {
+    "homicide_rate": 0.0690954942050905,
+    "internet_users": 94.3776,
+    "sanitation": 100,
+    "suicide_rate": 8.1
+  },
+  "SK": {
+    "homicide_rate": 1.12358440823663,
+    "internet_users": 89.8251,
+    "sanitation": 83.4254267213409,
+    "suicide_rate": 9.91
+  },
+  "SI": {
+    "homicide_rate": 0.566466326409227,
+    "internet_users": 90.7636,
+    "sanitation": 84.5426326049707,
+    "suicide_rate": 18.85
+  },
+  "ZA": {
+    "homicide_rate": 43.7202551331462,
+    "internet_users": 75.6592,
+    "sanitation": 73.7806370822536,
+    "suicide_rate": 22.3
+  },
+  "ES": {
+    "homicide_rate": 0.690855954769765,
+    "internet_users": 95.7575,
+    "sanitation": 88.2812302795534,
+    "suicide_rate": 8.72
+  },
+  "LK": {
+    "homicide_rate": 3.31094038448808,
+    "internet_users": 51.2,
+    "suicide_rate": 14.74
+  },
+  "KN": {
+    "homicide_rate": 64.1601437187219,
+    "internet_users": 76.4208
+  },
+  "LC": {
+    "homicide_rate": 39.0440891432332,
+    "internet_users": 70.0834,
+    "suicide_rate": 5.27
+  },
+  "VC": {
+    "homicide_rate": 51.3212761232698,
+    "internet_users": 75.9927,
+    "suicide_rate": 0.41
+  },
+  "SR": {
+    "homicide_rate": 6.51946457704576,
+    "internet_users": 78.3958,
+    "sanitation": 25.1297026286031,
+    "suicide_rate": 22.26
+  },
+  "SE": {
+    "homicide_rate": 1.14675703743944,
+    "internet_users": 95.5293,
+    "sanitation": 95.3516469463789,
+    "suicide_rate": 13.84
+  },
+  "CH": {
+    "homicide_rate": 0.597481940544685,
+    "internet_users": 97.3444,
+    "sanitation": 99.686471113166,
+    "suicide_rate": 14.02
+  },
+  "TJ": {
+    "homicide_rate": 0.892370798940089,
+    "internet_users": 56.791,
+    "suicide_rate": 2.43
+  },
+  "TZ": {
+    "homicide_rate": 3.74921291744897,
+    "internet_users": 29.0638,
+    "sanitation": 28.4607925768988,
+    "suicide_rate": 5.1
+  },
+  "TO": {
+    "homicide_rate": 0.946346864516251,
+    "internet_users": 58.5334,
+    "sanitation": 31.2462228659936,
+    "suicide_rate": 4.73
+  },
+  "TT": {
+    "homicide_rate": 40.4432986623964,
+    "internet_users": 84.6994,
+    "sanitation": 38.0201589918231,
+    "suicide_rate": 13.34
+  },
+  "TN": {
+    "homicide_rate": 4.69348024650292,
+    "internet_users": 72.3542,
+    "sanitation": 79.7855170219304,
+    "suicide_rate": 1.84
+  },
+  "TR": {
+    "homicide_rate": 3.22789482308636,
+    "internet_users": 87.3079,
+    "sanitation": 78.8643590744389,
+    "suicide_rate": 2.69
+  },
+  "TC": {
+    "homicide_rate": 76.3400403511642,
+    "sanitation": 33.9116398034325
+  },
+  "UG": {
+    "homicide_rate": 8.97308867739149,
+    "internet_users": 8.94983,
+    "sanitation": 20.3622611691786,
+    "suicide_rate": 5.5
+  },
+  "UA": {
+    "homicide_rate": 3.77663964401616,
+    "internet_users": 82.3755,
+    "sanitation": 92.3938896027806,
+    "suicide_rate": 21.21
+  },
+  "AE": {
+    "homicide_rate": 0.693218125037315,
+    "internet_users": 100,
+    "sanitation": 98.4496998209727,
+    "suicide_rate": 1.71
+  },
+  "GB": {
+    "homicide_rate": 1.11868407522333,
+    "internet_users": 96.2988,
+    "sanitation": 97.8424774304309,
+    "suicide_rate": 9.55
+  },
+  "US": {
+    "homicide_rate": 5.76340794073065,
+    "internet_users": 93.1444,
+    "sanitation": 97.0094700141013,
+    "suicide_rate": 15.63
+  },
+  "UY": {
+    "homicide_rate": 11.2453054170348,
+    "internet_users": 91.9911,
+    "suicide_rate": 24.75
+  },
+  "UZ": {
+    "homicide_rate": 1.39879762685076,
+    "internet_users": 89.0136,
+    "sanitation": 74.5975903651394,
+    "suicide_rate": 8.34
+  },
+  "VU": {
+    "homicide_rate": 0.3346065111081,
+    "internet_users": 45.7313,
+    "suicide_rate": 15.73
+  },
+  "VE": {
+    "homicide_rate": 12.6466448562847,
+    "sanitation": 26.0166822447189,
+    "suicide_rate": 8.63
+  },
+  "PS": {
+    "homicide_rate": 0.622023007311598,
+    "internet_users": 86.6377,
+    "sanitation": 73.5119845057758,
+    "suicide_rate": 0.65
+  },
+  "ZW": {
+    "homicide_rate": 6.75833125350771,
+    "internet_users": 38.4266,
+    "sanitation": 23.5592013201954,
+    "suicide_rate": 17.34
+  },
+  "4E": {
+    "internet_users": 88.1,
+    "sanitation": 62.3495088335773,
+    "suicide_rate": 7.56534202599406
+  },
+  "T4": {
+    "internet_users": 88.9,
+    "sanitation": 62.2799597028577,
+    "suicide_rate": 7.5435718407834
+  },
+  "7E": {
+    "internet_users": 87.5,
+    "sanitation": 74.7956322098479,
+    "suicide_rate": 8.95736822311728
+  },
+  "T7": {
+    "internet_users": 90.8,
+    "sanitation": 68.6487554274505,
+    "suicide_rate": 13.3216274997192
+  },
+  "ZT": {
+    "internet_users": 70.3,
+    "sanitation": 53.4409789783594,
+    "suicide_rate": 8.38266600846354
+  },
+  "XH": {
+    "internet_users": 44.2,
+    "sanitation": 36.8532421429282,
+    "suicide_rate": 5.97600726345879
+  },
+  "XJ": {
+    "internet_users": 83.6,
+    "sanitation": 51.4288590578189,
+    "suicide_rate": 6.65565185796581
+  },
+  "T2": {
+    "internet_users": 83.9,
+    "sanitation": 51.4420183900487,
+    "suicide_rate": 6.77087023812098
+  },
+  "XQ": {
+    "internet_users": 0,
+    "sanitation": 51.3827622109871,
+    "suicide_rate": 3.5592504293388
+  },
+  "T3": {
+    "internet_users": 60.2,
+    "sanitation": 51.2176215681784,
+    "suicide_rate": 3.5797232978641
+  },
+  "S1": {
+    "internet_users": 0,
+    "suicide_rate": 10.8173198999716
+  },
+  "T5": {
+    "internet_users": 67.8,
+    "sanitation": 60.0591907163454,
+    "suicide_rate": 11.5388461842082
+  },
+  "ZF": {
+    "internet_users": 36.5,
+    "sanitation": 27.9423361817952,
+    "suicide_rate": 7.44474470165064
+  },
+  "T6": {
+    "internet_users": 35.2,
+    "sanitation": 25.9074828232473,
+    "suicide_rate": 7.30444209746288
+  },
+  "AO": {
+    "internet_users": 44.7581,
+    "suicide_rate": 8.11
+  },
+  "BD": {
+    "internet_users": 44.5027,
+    "sanitation": 37.3204979088046,
+    "suicide_rate": 2.81
+  },
+  "BJ": {
+    "internet_users": 32.2083,
+    "sanitation": 16.3576250471354,
+    "suicide_rate": 7.12
+  },
+  "BN": {
+    "internet_users": 99.0336,
+    "suicide_rate": 3.05
+  },
+  "BF": {
+    "internet_users": 17.0226,
+    "sanitation": 24.7234672904326,
+    "suicide_rate": 8.5
+  },
+  "BI": {
+    "internet_users": 11.0784,
+    "suicide_rate": 7.65
+  },
+  "KH": {
+    "internet_users": 60.7171,
+    "sanitation": 51.6016205224991,
+    "suicide_rate": 4.5
+  },
+  "TD": {
+    "internet_users": 13.1832,
+    "sanitation": 11.0867671123645,
+    "suicide_rate": 5.21
+  },
+  "KM": {
+    "internet_users": 35.6678,
+    "sanitation": 49.3554795591876,
+    "suicide_rate": 6
+  },
+  "CD": {
+    "internet_users": 30.548,
+    "sanitation": 13.0842738903164,
+    "suicide_rate": 8.77
+  },
+  "CG": {
+    "internet_users": 38.3791,
+    "suicide_rate": 6.71
+  },
+  "CI": {
+    "internet_users": 40.6528,
+    "sanitation": 27.1027540829127,
+    "suicide_rate": 7.39
+  },
+  "DJ": {
+    "internet_users": 65.0248,
+    "sanitation": 39.6553838822901,
+    "suicide_rate": 7.96
+  },
+  "EG": {
+    "internet_users": 72.6899,
+    "sanitation": 57.3358101507241,
+    "suicide_rate": 0.63
+  },
+  "GQ": {
+    "internet_users": 60.3661,
+    "suicide_rate": 7.03
+  },
+  "ER": {
+    "internet_users": 20.0104,
+    "suicide_rate": 13.23
+  },
+  "ET": {
+    "internet_users": 16.6981,
+    "sanitation": 8.05103335263916,
+    "suicide_rate": 6.07
+  },
+  "GA": {
+    "internet_users": 71.9256,
+    "suicide_rate": 7.3
+  },
+  "GM": {
+    "internet_users": 45.9137,
+    "sanitation": 28.089385403017,
+    "suicide_rate": 4.81
+  },
+  "GN": {
+    "internet_users": 26.5014,
+    "suicide_rate": 4.82
+  },
+  "GW": {
+    "internet_users": 32.4661,
+    "sanitation": 22.6043420037121,
+    "suicide_rate": 7.67
+  },
+  "IR": {
+    "internet_users": 79.6309,
+    "suicide_rate": 4.07
+  },
+  "IQ": {
+    "internet_users": 81.7291,
+    "sanitation": 50.8975045193032,
+    "suicide_rate": 2.97
+  },
+  "KI": {
+    "internet_users": 88,
+    "sanitation": 24.648360534188,
+    "suicide_rate": 17.47
+  },
+  "LA": {
+    "internet_users": 63.6255,
+    "sanitation": 71.3822366403769,
+    "suicide_rate": 4.58
+  },
+  "LS": {
+    "internet_users": 47.991,
+    "sanitation": 43.7549537714056,
+    "suicide_rate": 28.66
+  },
+  "LR": {
+    "internet_users": 23.4979,
+    "suicide_rate": 5.97
+  },
+  "LY": {
+    "internet_users": 88.4989,
+    "sanitation": 21.7469168678011,
+    "suicide_rate": 5
+  },
+  "MG": {
+    "internet_users": 20.3671,
+    "sanitation": 12.8016931314505,
+    "suicide_rate": 6.09
+  },
+  "MW": {
+    "internet_users": 17.9881,
+    "sanitation": 46.1529166344501,
+    "suicide_rate": 7.57
+  },
+  "ML": {
+    "internet_users": 35.0921,
+    "sanitation": 20.0090526597646,
+    "suicide_rate": 4.16
+  },
+  "MH": {
+    "internet_users": 65.7177
+  },
+  "MC": {
+    "internet_users": 99.1497,
+    "sanitation": 100
+  },
+  "MZ": {
+    "internet_users": 19.8434,
+    "sanitation": 33.9433045861423,
+    "suicide_rate": 10.61
+  },
+  "NE": {
+    "internet_users": 23.1879,
+    "sanitation": 9.14683342354384,
+    "suicide_rate": 4.48
+  },
+  "PG": {
+    "internet_users": 24.0667,
+    "sanitation": 16.6644443256609,
+    "suicide_rate": 1.82
+  },
+  "WS": {
+    "internet_users": 58.1386,
+    "sanitation": 44.1167316650394,
+    "suicide_rate": 12
+  },
+  "SM": {
+    "internet_users": 87.0278,
+    "sanitation": 90.1925
+  },
+  "ST": {
+    "internet_users": 61.4607,
+    "sanitation": 34.692024025377,
+    "suicide_rate": 0.86
+  },
+  "SN": {
+    "internet_users": 60.6122,
+    "sanitation": 30.0761504408284,
+    "suicide_rate": 6.76
+  },
+  "SB": {
+    "internet_users": 42.4597,
+    "suicide_rate": 19.6
+  },
+  "SO": {
+    "internet_users": 27.6,
+    "sanitation": 16.3823397337184,
+    "suicide_rate": 7.96
+  },
+  "TH": {
+    "internet_users": 90.8672,
+    "sanitation": 26.7187994375737,
+    "suicide_rate": 16.59
+  },
+  "TL": {
+    "internet_users": 34.0207,
+    "suicide_rate": 3.56
+  },
+  "TG": {
+    "internet_users": 37.0223,
+    "sanitation": 13.0248800875831,
+    "suicide_rate": 9.34
+  },
+  "TV": {
+    "internet_users": 74.3146,
+    "sanitation": 39.7052193077986
+  },
+  "VN": {
+    "internet_users": 84.15,
+    "sanitation": 45.3744041929296,
+    "suicide_rate": 7.3
+  },
+  "ZM": {
+    "internet_users": 33,
+    "suicide_rate": 7.13
+  },
+  "AS": {
+    "sanitation": 42.93338385795
+  },
+  "CF": {
+    "sanitation": 13.5258815488793,
+    "suicide_rate": 9.19
+  },
+  "GL": {
+    "sanitation": 0
+  },
+  "IM": {
+    "sanitation": 84.8214285714286
+  },
+  "NR": {
+    "sanitation": 33.1556929416166
+  },
+  "YE": {
+    "sanitation": 43.1211742417875,
+    "suicide_rate": 4.21
+  },
+  "1A": {
+    "suicide_rate": 2.25413336060138
+  },
+  "S3": {
+    "suicide_rate": 13.1501372353444
+  },
+  "B8": {
+    "suicide_rate": 13.1235789521502
+  },
+  "V2": {
+    "suicide_rate": 7.95655299824276
+  },
+  "XC": {
+    "suicide_rate": 11.9250934935273
+  },
+  "EU": {
+    "suicide_rate": 12.0919116516832
+  },
+  "XE": {
+    "suicide_rate": 6.40875790299418
+  },
+  "V3": {
+    "suicide_rate": 9.58941413489847
+  },
+  "XO": {
+    "suicide_rate": 8.09270554673047
+  },
+  "XP": {
+    "suicide_rate": 8.25772275250508
+  },
+  "OE": {
+    "suicide_rate": 12.452490183198
+  },
+  "S4": {
+    "suicide_rate": 9.4172763272551
+  },
+  "S2": {
+    "suicide_rate": 13.6973319630253
+  },
+  "V4": {
+    "suicide_rate": 14.6738776420735
+  },
+  "V1": {
+    "suicide_rate": 6.02780036586646
+  },
+  "KP": {
+    "suicide_rate": 9.31
+  },
+  "SS": {
+    "suicide_rate": 7.89
+  },
+  "SD": {
+    "suicide_rate": 3.16
+  },
+  "SY": {
+    "suicide_rate": 0.59
+  },
+  "TM": {
+    "suicide_rate": 6.83
+  }
+}

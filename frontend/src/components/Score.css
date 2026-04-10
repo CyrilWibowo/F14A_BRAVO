@@ -1,0 +1,456 @@
+/* ── Outer darker card ──────────────────────────────── */
+.profile-outer {
+  background: #e4ece4;
+  border: 1px solid #c4d9c4;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07), 0 0 0 1px rgba(45,106,45,0.06);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ── Inner white cards ──────────────────────────────── */
+.profile-inner-card {
+  background: #ffffff;
+  border: 1px solid #d4e4d4;
+  border-radius: 9px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+
+/* ── Info row ───────────────────────────────────────── */
+.info-row {
+  display: flex;
+  align-items: center;
+  padding: 20px 20px;
+  gap: 0;
+}
+
+/* Left: flag + country name + liveability */
+.info-identity {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 190px;
+  flex-shrink: 0;
+}
+
+.info-flag-name {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.profile-flag {
+  border-radius: 3px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.14);
+  flex-shrink: 0;
+}
+
+.info-country {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.15;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.info-meta {
+  display: block;
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* Rank badge under country name */
+.info-rank {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.info-rank-num {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.info-rank-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-secondary);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* Vertical dividers */
+.info-vdivider {
+  width: 1px;
+  height: 80px;
+  background: var(--border);
+  margin: 0 22px;
+  flex-shrink: 0;
+}
+
+/* Liveability hero block */
+.info-live {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  min-width: 100px;
+  flex-shrink: 0;
+}
+
+.info-live-score {
+  font-size: 52px;
+  font-weight: 800;
+  line-height: 1;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+.info-live-score.high { color: var(--score-high); }
+.info-live-score.mid  { color: var(--score-mid);  }
+.info-live-score.low  { color: var(--score-low);  }
+
+.info-live-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-secondary);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* Remaining stats */
+.info-rest {
+  display: flex;
+  flex: 1;
+  justify-content: space-around;
+  gap: 6px;
+}
+
+.info-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.info-stat-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.info-stat-value {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* ── Seasonal card ──────────────────────────────────── */
+.season-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  background: var(--border);
+  gap: 1px;
+}
+
+.season-tile {
+  display: flex;
+  flex-direction: column;
+}
+
+.season-name {
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin-bottom: 2px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.season-body {
+  padding: 18px 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.season-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.season-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex-shrink: 0;
+}
+
+.season-score {
+  font-size: 42px;
+  font-weight: 800;
+  line-height: 1;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.season-score-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  margin-top: 3px;
+}
+
+.season-name {
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin-bottom: 2px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.season-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex: 1;
+}
+
+.season-stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 6px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.season-stat-label {
+  font-size: 11px;
+  font-weight: 500;
+  opacity: 0.75;
+}
+
+.season-stat-value {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* ── Chart inner card ───────────────────────────────── */
+.chart-card-title {
+  padding: 16px 20px 0;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.chart-wrap {
+  padding: 10px 20px 16px;
+}
+
+.chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 10px;
+}
+
+.legend-item {
+  font-size: 11px;
+  font-weight: 600;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.legend-temp       { color: #f97316; }
+.legend-hum        { color: #0369a1; }
+.legend-precip     { color: #7c3aed; }
+.legend-ideal-temp { color: rgba(249, 115, 22, 0.6); }
+.legend-ideal-hum  { color: rgba(3, 105, 161, 0.55); }
+
+.chart-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ── Quality of Life section ────────────────────────── */
+.qol-section {
+  padding: 18px 20px 20px;
+}
+
+.qol-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.qol-header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.qol-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.qol-subtitle {
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.qol-header-scores {
+  display: flex;
+  gap: 8px;
+}
+
+.qol-header-pill {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 5px 12px;
+  background: #f5f8f5;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+}
+
+.qol-pill-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.qol-pill-value {
+  font-size: 16px;
+  font-weight: 700;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.qol-pill-value.high { color: var(--score-high); }
+.qol-pill-value.mid  { color: var(--score-mid); }
+.qol-pill-value.low  { color: var(--score-low); }
+
+/* Indicator grid */
+.qol-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.qol-tile {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  background: #fafcfa;
+  transition: box-shadow 0.15s;
+}
+
+.qol-tile:hover {
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+}
+
+.qol-tile-bar {
+  height: 3px;
+}
+
+.qol-tile-body {
+  padding: 12px 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.qol-tile-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.qol-tile-value {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  line-height: 1.2;
+}
+
+.qol-tile-score-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.qol-tile-score-track {
+  flex: 1;
+  height: 4px;
+  background: #e5e7eb;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.qol-tile-score-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+
+.qol-tile-score-num {
+  font-size: 11px;
+  font-weight: 700;
+  min-width: 20px;
+  text-align: right;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* ── QoL partial-data warning banner ───────────────── */
+.qol-data-warning {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  background: #fffbeb;
+  border: 1px solid #fcd34d;
+  border-radius: 7px;
+  padding: 10px 14px;
+  margin-bottom: 14px;
+  font-size: 13px;
+  color: #78350f;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  line-height: 1.45;
+}
+
+.qol-warn-icon {
+  font-size: 15px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}

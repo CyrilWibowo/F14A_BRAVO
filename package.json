@@ -6,7 +6,7 @@
     "start:backend": "cd backend && npm start",
     "build:frontend": "cd frontend && npm run build",
     "dev:frontend": "cd frontend && npm run dev",
-    "test": "jest --coverage",
+    "test": "cd backend && npm test",
     "lint": "eslint backend/src/**/*.js",
     "typecheck": "tsc --noEmit",
     "build": "tsc",
@@ -29,5 +29,8 @@
         "branches": 85
       }
     }
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.1011.0"
   }
 }

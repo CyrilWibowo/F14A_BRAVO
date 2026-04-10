@@ -1,0 +1,267 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #ffffff;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  overflow-x: hidden;
+  background-image: url('/wallpaper.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+
+.banner {
+  width: 100%;
+  height: auto;
+  min-height: 80px;
+  position: relative;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid #2b2b2b38;
+}
+
+.banner-overlay {
+  display: none;
+}
+
+.top-bar-outer {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 12px 24px;
+  gap: 20px;
+  pointer-events: none;
+}
+
+.top-bar-left {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  pointer-events: all;
+  padding-right: 12px;
+}
+
+.top-bar-center {
+  flex-shrink: 0;
+  pointer-events: all;
+}
+
+.top-bar-right {
+  flex: 1;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 16px;
+  pointer-events: all;
+  padding-left: 12px;
+}
+
+/* logo style */
+.top-bar-logo {
+  display: flex;
+  align-items: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 8px;
+  transition: background 0.12s;
+}
+
+.logo-image {
+  height: 120px;
+  width: auto;
+  display: block;
+}
+
+/* nav buttons */
+.top-bar-btn {
+  padding: 5px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #5a7060;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  letter-spacing: 0.01em;
+  transition: color 0.12s, background 0.12s;
+}
+
+.top-bar-btn:hover {
+  color: #2d6a2d;
+}
+
+.top-bar-btn.active {
+  color: #2d6a2d;
+}
+
+/* Country search */
+.search-wrap {
+  position: relative;
+  width: 210px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 5px 12px;
+  font-size: 13px;
+  background: rgba(45, 106, 45, 0.06);
+  border: 1px solid rgba(45, 106, 45, 0.2);
+  border-radius: 6px;
+  color: #0f1f0f;
+  outline: none;
+  transition: background 0.12s, border-color 0.12s;
+}
+
+.search-input::placeholder {
+  color: #8aaa8a;
+}
+
+.search-input:focus {
+  background: rgba(45, 106, 45, 0.09);
+  border-color: rgba(45, 106, 45, 0.38);
+}
+
+.search-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  border: 1px solid #c4d9c4;
+  border-radius: 8px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.14);
+  z-index: 200;
+  list-style: none;
+  overflow: hidden;
+}
+
+.search-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  font-size: 13px;
+  color: #0f1f0f;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+
+.search-option:hover {
+  background: #f0f4f0;
+}
+
+.page-body {
+  display: flex;
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 24px 24px 100px;
+  gap: 20px;
+  position: relative;
+  z-index: 1;
+  align-items: flex-start;
+}
+.sidebar {
+  width: 240px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sidebar-nav {
+  background: #ffffff;
+  border: 1px solid #d8e5d8;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-btn {
+  padding: 11px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #5a7060;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #d8e5d8;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+}
+
+.sidebar-btn:last-child {
+  border-bottom: none;
+}
+
+.sidebar-btn:hover {
+  background: #f0f4f0;
+  color: #0f1f0f;
+}
+
+.sidebar-btn.active {
+  background: #2d6a2d;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.sidebar-filters {
+  background: #ffffff;
+  border: 1px solid #d8e5d8;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.main-content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.content-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.section-card {
+  background: #ffffff;
+  border: 1px solid #86c186;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px rgba(45, 106, 45, 0.08),
+    0 0 12px rgba(45, 106, 45, 0.18),
+    0 0 28px rgba(45, 106, 45, 0.10),
+    0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.sidebar-spacer {
+  width: 240px;
+  flex-shrink: 0;
+}
+
+.home-page {
+  margin-bottom: 20px;
+}
