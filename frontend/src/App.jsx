@@ -7,7 +7,6 @@ import Preferences from './components/Preferences';
 import TopBar from './components/TopBar';
 import HomePage from './components/Home';
 import Dashboard from './components/Dashboard';
-import ScrollingCountries from './components/ScrollingCountries';
 import { PrefsContext } from './prefsContext';
 import { DEFAULT_PREFS, PRESETS } from './scoring';
 import './App.css';
@@ -19,7 +18,6 @@ function Layout({ prefs, activePreset, onPrefChange, onPreset }) {
         <div className="banner-overlay" />
         <TopBar />
       </div>
-
       <div className="page-body">
         <aside className="sidebar">
           <div className="sidebar-filters">
@@ -31,15 +29,11 @@ function Layout({ prefs, activePreset, onPrefChange, onPreset }) {
             />
           </div>
         </aside>
-
         <div className="main-content">
           <Outlet />
         </div>
-
         <div className="sidebar-spacer" />
       </div>
-
-      <ScrollingCountries />
     </>
   );
 }
@@ -51,7 +45,6 @@ function HomeLayout() {
         <div className="banner-overlay" />
         <TopBar />
       </div>
-
       <div className="page-body">
         <div className="sidebar-spacer" />
         <div className="main-content">
@@ -59,8 +52,6 @@ function HomeLayout() {
         </div>
         <div className="sidebar-spacer" />
       </div>
-
-      <ScrollingCountries />
     </>
   );
 }
@@ -71,18 +62,6 @@ function RankingsPage() {
     <div className="section-card">
       <Ranking prefs={prefs} />
     </div>
-  );
-}
-
-function DashboardLayout() {
-  return (
-    <>
-      <div className="page-body">
-        <div className="main-content" style={{ maxWidth: '100%' }}>
-          <Dashboard />
-        </div>
-      </div>
-    </>
   );
 }
 
@@ -102,24 +81,29 @@ function App() {
 
   return (
     <PrefsContext.Provider value={{ prefs }}>
-      <Routes>
-        <Route element={<HomeLayout />}>
-          <Route path="/" element={<HomePage />} />
-        </Route>
-        <Route element={
-          <Layout
-            prefs={prefs}
-            activePreset={activePreset}
-            onPrefChange={handlePrefChange}
-            onPreset={handlePreset}
-          />
-        }>
-          <Route path="/ranking"             element={<RankingsPage />} />
-          <Route path="/compare"             element={<ComparePage />} />
-          <Route path="/dashboard"           element={<DashboardLayout />} />
-          <Route path="/score/:country_code" element={<Score />} />
-        </Route>
-      </Routes>
+      <>
+        <video id="bg-video" autoPlay muted loop playsInline>
+          <source src="/your-video.webm" type="video/webm" />
+        </video>
+        <Routes>
+          <Route element={<HomeLayout />}>
+            <Route path="/" element={<HomePage />} />
+          </Route>
+          <Route element={
+            <Layout
+              prefs={prefs}
+              activePreset={activePreset}
+              onPrefChange={handlePrefChange}
+              onPreset={handlePreset}
+            />
+          }>
+            <Route path="/ranking"             element={<RankingsPage />} />
+            <Route path="/compare"             element={<ComparePage />} />
+            <Route path="/dashboard"           element={<Dashboard />} />
+            <Route path="/score/:country_code" element={<Score />} />
+          </Route>
+        </Routes>
+      </>
     </PrefsContext.Provider>
   );
 }

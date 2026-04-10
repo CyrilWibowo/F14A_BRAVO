@@ -59,7 +59,6 @@ function CountrySearch() {
 function TopBar() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const isHome = pathname === '/';
 
   return (
     <div className="top-bar-outer">
@@ -77,20 +76,20 @@ function TopBar() {
           Dashboard
         </button>
       </div>
-      
+
       <div className="top-bar-center">
-        <button 
+        <button
           className="top-bar-logo"
           onClick={() => navigate('/')}
         >
-          <img 
+          <img
             src="/ARTEMISLOGO.png"
             alt="Artemis Logo"
             className="logo-image"
           />
         </button>
       </div>
-      
+
       <div className="top-bar-right">
         <button
           className={`top-bar-btn${pathname === '/compare' ? ' active' : ''}`}
@@ -98,7 +97,7 @@ function TopBar() {
         >
           Compare
         </button>
-        {!isHome && <CountrySearch />}
+        <CountrySearch />
       </div>
     </div>
   );
