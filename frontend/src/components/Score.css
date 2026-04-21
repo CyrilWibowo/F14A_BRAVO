@@ -454,3 +454,275 @@
   flex-shrink: 0;
   margin-top: 1px;
 }
+
+/* ── Geopolitical Risk section ──────────────────────── */
+
+.geo-section {
+  padding: 18px 20px 20px;
+}
+
+.geo-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.geo-header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.geo-risk-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 16px;
+  border-radius: 10px;
+  flex-shrink: 0;
+  gap: 2px;
+}
+
+.geo-risk-modifier {
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.geo-risk-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* Stats row */
+.geo-stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.geo-stat-tile {
+  background: #fafcfa;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.geo-stat-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.geo-stat-value {
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1.1;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.geo-stat-sub {
+  font-size: 10px;
+  color: var(--text-secondary);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  line-height: 1.3;
+}
+
+/* Bottom row: quad distribution + sparkline */
+.geo-bottom-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.geo-sub-title {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* Quad class distribution bars */
+.geo-quad-section {
+  background: #fafcfa;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px;
+}
+
+.geo-quad-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.geo-quad-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.geo-quad-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  min-width: 140px;
+  flex-shrink: 0;
+}
+
+.geo-quad-track {
+  flex: 1;
+  height: 6px;
+  background: #e5e7eb;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.geo-quad-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.5s ease;
+}
+
+.geo-quad-pct {
+  font-size: 11px;
+  font-weight: 700;
+  min-width: 28px;
+  text-align: right;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* Sparkline */
+.geo-trend-section {
+  background: #fafcfa;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px;
+}
+
+.geo-sparkline-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.geo-sparkline {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.geo-sparkline-legend {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.geo-spark-dot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+/* Top conflict events */
+.geo-events-section {
+  margin-bottom: 12px;
+}
+
+.geo-events-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.geo-event-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #fafcfa;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 14px;
+}
+
+.geo-event-quad {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 3px 8px;
+  border-radius: 4px;
+  flex-shrink: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.geo-event-title {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.geo-event-meta {
+  display: flex;
+  gap: 12px;
+  flex-shrink: 0;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* Footer */
+.geo-footer {
+  font-size: 10px;
+  color: var(--text-secondary);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  margin-top: 4px;
+}
+
+/* Loading state */
+.geo-loading-bar {
+  height: 4px;
+  background: #e5e7eb;
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 4px;
+}
+
+.geo-loading-fill {
+  height: 100%;
+  width: 40%;
+  background: #86efac;
+  border-radius: 2px;
+  animation: geoLoadingSlide 1.4s ease-in-out infinite;
+}
+
+@keyframes geoLoadingSlide {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(350%); }
+}

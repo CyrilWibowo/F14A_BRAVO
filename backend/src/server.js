@@ -11,6 +11,7 @@ import { InputError, AccessError } from './error.js';
 import { getScore, compareScores, getRanking, getSeasonalScore, getMonthlyAverages } from './score.js';
 import { processLocation } from './processing.js';
 import { getAllLocations } from './db.js';
+import { getGeopoliticalSummary } from './Geopolitical_Service.js';
 
 import {
   requestLogger,
@@ -120,6 +121,25 @@ app.get(
   catchErrors(async (req, res) => {
     const { country_code } = req.query;
     return res.status(200).json(await getMonthlyAverages(country_code));
+  }),
+);
+
+app.get(
+  '/score/geopolitical',
+  catchErrors(async (req, res) => {
+    const { country_code, months } = req.query;
+    try {
+      const result = await getGeopoliticalSummary(
+        country_code,
+        months !== undefined ? parseInt(months, 10) : 6,
+      );
+      return res.status(200).json(result);
+    } catch (err) {
+      if (err?.isCore5Error) {
+        return res.status(503).json({ error: err.message });
+      }
+      throw err;
+    }
   }),
 );
 

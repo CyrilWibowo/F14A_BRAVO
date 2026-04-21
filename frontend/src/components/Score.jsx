@@ -13,6 +13,174 @@ const scoreClass = (s) => (s >= 65 ? 'high' : s >= 40 ? 'mid' : 'low');
 
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
+// ── Geopolitical Risk Card ────────────────────────────────────────────────────
+
+const QUAD_LABELS = {
+  verbal_cooperation:   { label: 'Verbal Cooperation',  color: '#16a34a' },
+  material_cooperation: { label: 'Material Cooperation', color: '#0891b2' },
+  verbal_conflict:      { label: 'Verbal Conflict',      color: '#d97706' },
+  material_conflict:    { label: 'Material Conflict',    color: '#dc2626' },
+};
+
+const riskColor = (modifier) => {
+  if (modifier >= -3)  return '#16a34a';
+  if (modifier >= -8)  return '#d97706';
+  return '#dc2626';
+};
+
+const riskLabel = (modifier) => {
+  if (modifier >= -3)  return 'Low Risk';
+  if (modifier >= -8)  return 'Moderate Risk';
+  return 'High Risk';
+};
+
+function GeopoliticalCard({ geo }) {
+  if (!geo) return null;
+  const { geopoliticalRisk, iso2 } = geo;
+  if (!geopoliticalRisk) return null;
+
+  const {
+    riskModifier,
+    goldsteinAvg,
+    conflictRatio,
+    recentEventCount,
+    conflictTrend,
+    quadClassDistribution,
+    topEvents,
+    retrievedAt,
+  } = geopoliticalRisk;
+
+  const color     = riskColor(riskModifier);
+  const label     = riskLabel(riskModifier);
+  const quadTotal = Object.values(quadClassDistribution ?? {}).reduce((a, b) => a + b, 0) || 1;
+  const trendData = (conflictTrend ?? []).slice(-12);
+  const maxTotal  = Math.max(...trendData.map((t) => t.total), 1);
+
+  return (
+    <div className="profile-inner-card">
+      <div className="geo-section">
+
+        <div className="geo-header">
+          <div className="geo-header-left">
+            <h2 className="qol-title">Geopolitical Risk</h2>
+            <span className="qol-subtitle">
+              Powered by CORE5 · GDELT data · ISO {iso2} · Last {geo.periodMonths} months
+            </span>
+          </div>
+          <div className="geo-risk-badge" style={{ background: `${color}18`, border: `1.5px solid ${color}40` }}>
+            <span className="geo-risk-modifier" style={{ color }}>{riskModifier > 0 ? '+' : ''}{riskModifier}</span>
+            <span className="geo-risk-label" style={{ color }}>{label}</span>
+          </div>
+        </div>
+
+        <div className="geo-stats-row">
+          {[
+            { label: 'Goldstein Avg',   value: goldsteinAvg?.toFixed(2) ?? '—',                                                              sub: 'stability index (−10 to +10)', color: goldsteinAvg >= 0 ? '#16a34a' : '#dc2626' },
+            { label: 'Conflict Ratio',  value: conflictRatio != null ? `${(conflictRatio * 100).toFixed(0)}%` : '—',                         sub: 'events classified as conflict', color: conflictRatio > 0.4 ? '#dc2626' : conflictRatio > 0.2 ? '#d97706' : '#16a34a' },
+            { label: 'Events Analysed', value: recentEventCount ?? '—',                                                                       sub: 'GDELT events retrieved',        color: '#0369a1' },
+            { label: 'Risk Modifier',   value: riskModifier != null ? `${riskModifier > 0 ? '+' : ''}${riskModifier}` : '—',                 sub: 'liveability score impact',      color },
+          ].map((s) => (
+            <div key={s.label} className="geo-stat-tile">
+              <div className="geo-stat-label">{s.label}</div>
+              <div className="geo-stat-value" style={{ color: s.color }}>{s.value}</div>
+              <div className="geo-stat-sub">{s.sub}</div>
+            </div>
+          ))}
+        </div>
+
+        <div className="geo-bottom-row">
+
+          {quadClassDistribution && (
+            <div className="geo-quad-section">
+              <div className="geo-sub-title">Event Distribution</div>
+              <div className="geo-quad-bars">
+                {Object.entries(QUAD_LABELS).map(([key, meta]) => {
+                  const count = quadClassDistribution[key] ?? 0;
+                  const pct   = Math.round((count / quadTotal) * 100);
+                  return (
+                    <div key={key} className="geo-quad-row">
+                      <div className="geo-quad-label">{meta.label}</div>
+                      <div className="geo-quad-track">
+                        <div className="geo-quad-fill" style={{ width: `${pct}%`, background: meta.color }} />
+                      </div>
+                      <div className="geo-quad-pct" style={{ color: meta.color }}>{pct}%</div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {trendData.length > 1 && (
+            <div className="geo-trend-section">
+              <div className="geo-sub-title">Weekly Event Trend</div>
+              <div className="geo-sparkline-wrap">
+                <svg viewBox={`0 0 ${trendData.length * 20} 60`} className="geo-sparkline">
+                  {trendData.map((t, i) => {
+                    const barH      = (t.total / maxTotal) * 44;
+                    const conflictH = ((t.verbal_conflict + t.material_conflict) / maxTotal) * 44;
+                    const x         = i * 20 + 2;
+                    return (
+                      <g key={i}>
+                        <rect x={x} y={48 - barH}      width={16} height={barH}      fill="#d1fae5" rx="2" />
+                        <rect x={x} y={48 - conflictH} width={16} height={conflictH} fill="#fca5a5" rx="2" />
+                      </g>
+                    );
+                  })}
+                </svg>
+                <div className="geo-sparkline-legend">
+                  <span className="geo-spark-dot" style={{ background: '#d1fae5', border: '1px solid #16a34a' }} /> Total events
+                  <span className="geo-spark-dot" style={{ background: '#fca5a5', border: '1px solid #dc2626', marginLeft: 10 }} /> Conflict events
+                </div>
+              </div>
+            </div>
+          )}
+
+        </div>
+
+        {topEvents && topEvents.length > 0 && (
+          <div className="geo-events-section">
+            <div className="geo-sub-title">Recent Conflict Events</div>
+            <div className="geo-events-list">
+              {topEvents.map((ev, i) => (
+                <div key={i} className="geo-event-row">
+                  <div
+                    className="geo-event-quad"
+                    style={{
+                      background: ev.quadClass === 4 ? '#fee2e2' : '#fef3c7',
+                      color:      ev.quadClass === 4 ? '#dc2626'  : '#d97706',
+                    }}
+                  >
+                    {ev.quadClass === 4 ? 'Material Conflict' : 'Verbal Conflict'}
+                  </div>
+                  <div className="geo-event-title">{ev.title}</div>
+                  <div className="geo-event-meta">
+                    {ev.date && <span>{ev.date}</span>}
+                    {ev.goldstein != null && (
+                      <span style={{ color: ev.goldstein >= 0 ? '#16a34a' : '#dc2626' }}>
+                        Goldstein: {ev.goldstein > 0 ? '+' : ''}{ev.goldstein}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {retrievedAt && (
+          <div className="geo-footer">
+            Data retrieved {new Date(retrievedAt).toLocaleString()} · Source: CORE5 Fivecore Geopolitical Events API
+          </div>
+        )}
+
+      </div>
+    </div>
+  );
+}
+
+// ── Monthly Chart ─────────────────────────────────────────────────────────────
+
 function MonthlyChart({ monthly, prefs, latitude }) {
   const [hoveredIdx, setHoveredIdx] = useState(null);
 
@@ -34,8 +202,8 @@ function MonthlyChart({ monthly, prefs, latitude }) {
     { name: 'Winter', months: isNorth ? [11,0,1] : [5,6,7],  fill: '#bfdbfe', labelColor: '#1e3a8a' },
   ];
 
-  const colLeft  = (i) => i === 0     ? PAD.left            : (x(i - 1) + x(i)) / 2;
-  const colRight = (i) => i === n - 1 ? PAD.left + innerW   : (x(i) + x(i + 1)) / 2;
+  const colLeft  = (i) => i === 0     ? PAD.left          : (x(i - 1) + x(i)) / 2;
+  const colRight = (i) => i === n - 1 ? PAD.left + innerW : (x(i) + x(i + 1)) / 2;
 
   const seasonRects = (months) => {
     const sorted = [...months].sort((a, b) => a - b);
@@ -181,8 +349,8 @@ function MonthlyChart({ monthly, prefs, latitude }) {
         />
 
         <path d={precipPath} fill="none" stroke="#7c3aed" strokeWidth="1.5" strokeLinejoin="round" strokeLinecap="round" />
-        <path d={humPath} fill="none" stroke="#0369a1" strokeWidth="1.5" strokeLinejoin="round" strokeLinecap="round" />
-        <path d={tempPath} fill="none" stroke="#f97316" strokeWidth="2.5" strokeLinejoin="round" strokeLinecap="round" />
+        <path d={humPath}    fill="none" stroke="#0369a1" strokeWidth="1.5" strokeLinejoin="round" strokeLinecap="round" />
+        <path d={tempPath}   fill="none" stroke="#f97316" strokeWidth="2.5" strokeLinejoin="round" strokeLinecap="round" />
 
         {monthly.map((_, i) => (
           <text key={i} x={x(i)} y={H - 4} textAnchor="middle" fontSize="9.5"
@@ -243,6 +411,8 @@ function MonthlyChart({ monthly, prefs, latitude }) {
   );
 }
 
+// ── Score Page ────────────────────────────────────────────────────────────────
+
 function Score() {
   const { country_code } = useParams();
   const { prefs }                   = useContext(PrefsContext);
@@ -250,6 +420,8 @@ function Score() {
   const [monthly, setMonthly]       = useState(null);
   const [seasonal, setSeasonal]     = useState(null);
   const [rawRanking, setRawRanking] = useState([]);
+  const [geo, setGeo]               = useState(null);
+  const [geoError, setGeoError]     = useState(null);
   const [error, setError]           = useState(null);
 
   useEffect(() => {
@@ -267,6 +439,11 @@ function Score() {
         setRawRanking(ranking.results ?? ranking);
       })
       .catch((err) => setError(err.message));
+
+    // Geopolitical fetch is independent — CORE5 failure won't break the page
+    apiCallGet(`score/geopolitical?country_code=${code}`)
+      .then(setGeo)
+      .catch((err) => setGeoError(err.message));
   }, [country_code]);
 
   const computed = useMemo(
@@ -313,6 +490,7 @@ function Score() {
     <div className="content-section">
       <div className="profile-outer">
 
+        {/* ── Hero card ── */}
         <div className="profile-inner-card">
           <div className="info-row">
 
@@ -400,12 +578,12 @@ function Score() {
 
             <div className="qol-grid">
               {[
-                { label: 'HDI Index',      value: result.hdi,               fmt: (v) => v?.toFixed(3) ?? '—',                              score: result.hdi_score,           color: '#2563eb' },
-                { label: 'Safety',         value: result.homicide_rate,      fmt: (v) => v != null ? `${v.toFixed(1)} / 100k` : '—',        score: result.safety_score,        color: '#059669' },
-                { label: 'Internet',       value: result.internet_users,     fmt: (v) => v != null ? `${v.toFixed(1)}%` : '—',              score: result.internet_score,      color: '#7c3aed' },
-                { label: 'Sanitation',     value: result.sanitation_pct,     fmt: (v) => v != null ? `${v.toFixed(1)}%` : '—',              score: result.sanitation_score,    color: '#0891b2' },
-                { label: 'Mental Health',  value: result.suicide_rate,       fmt: (v) => v != null ? `${v.toFixed(1)} / 100k` : '—',        score: result.mental_health_score, color: '#db2777' },
-                { label: 'Affordability',  value: result.hfce_per_capita,    fmt: (v) => v != null ? `$${Math.round(v).toLocaleString()}` : '—', score: result.affordability_score, color: '#b45309' },
+                { label: 'HDI Index',     value: result.hdi,            fmt: (v) => v?.toFixed(3) ?? '—',                                   score: result.hdi_score,           color: '#2563eb' },
+                { label: 'Safety',        value: result.homicide_rate,  fmt: (v) => v != null ? `${v.toFixed(1)} / 100k` : '—',             score: result.safety_score,        color: '#059669' },
+                { label: 'Internet',      value: result.internet_users, fmt: (v) => v != null ? `${v.toFixed(1)}%` : '—',                   score: result.internet_score,      color: '#7c3aed' },
+                { label: 'Sanitation',    value: result.sanitation_pct, fmt: (v) => v != null ? `${v.toFixed(1)}%` : '—',                   score: result.sanitation_score,    color: '#0891b2' },
+                { label: 'Mental Health', value: result.suicide_rate,   fmt: (v) => v != null ? `${v.toFixed(1)} / 100k` : '—',             score: result.mental_health_score, color: '#db2777' },
+                { label: 'Affordability', value: result.hfce_per_capita,fmt: (v) => v != null ? `$${Math.round(v).toLocaleString()}` : '—', score: result.affordability_score, color: '#b45309' },
               ].map((ind) => (
                 <div key={ind.label} className="qol-tile">
                   <div className="qol-tile-bar" style={{ background: ind.color }} />
@@ -433,6 +611,44 @@ function Score() {
           </div>
         </div>
 
+        {/* ── Geopolitical Risk ── */}
+        {geo
+          ? <GeopoliticalCard geo={geo} />
+          : geoError
+            ? (
+              <div className="profile-inner-card">
+                <div className="geo-section">
+                  <div className="geo-header">
+                    <div className="geo-header-left">
+                      <h2 className="qol-title">Geopolitical Risk</h2>
+                      <span className="qol-subtitle">Powered by CORE5 · GDELT data</span>
+                    </div>
+                  </div>
+                  <div className="qol-data-warning">
+                    <span className="qol-warn-icon">⚠️</span>
+                    <span><strong>Geopolitical data unavailable</strong> — {geoError}</span>
+                  </div>
+                </div>
+              </div>
+            )
+            : (
+              <div className="profile-inner-card">
+                <div className="geo-section">
+                  <div className="geo-header">
+                    <div className="geo-header-left">
+                      <h2 className="qol-title">Geopolitical Risk</h2>
+                      <span className="qol-subtitle">Loading CORE5 data…</span>
+                    </div>
+                  </div>
+                  <div className="geo-loading-bar">
+                    <div className="geo-loading-fill" />
+                  </div>
+                </div>
+              </div>
+            )
+        }
+
+        {/* ── Seasonal breakdown ── */}
         {computedSeasons && computedSeasons.length > 0 && (
           <div className="profile-inner-card">
             <div className="season-grid">
@@ -468,6 +684,7 @@ function Score() {
           </div>
         )}
 
+        {/* ── Monthly chart ── */}
         {monthly && monthly.length > 0 && (
           <div className="profile-inner-card chart-inner-card">
             <div className="chart-card-title">Monthly Averages</div>
