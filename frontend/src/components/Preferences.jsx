@@ -1,4 +1,6 @@
+import { useEffect, useRef, useState } from 'react';
 import { PRESETS } from '../scoring';
+import { apiCallGet } from '../utils';
 import './Preferences.css';
 
 const SegControl = ({ value, onChange, options }) => (
@@ -11,9 +13,93 @@ const SegControl = ({ value, onChange, options }) => (
   </div>
 );
 
-function Preferences({ prefs, activePreset, onChange, onPreset }) {
+const statsToPrefs = (loc) => {
+  const out = {};
+  if (loc.temperature_mean != null)
+    out.idealTemp = Math.round(Math.max(0, Math.min(40, loc.temperature_mean)));
+  if (loc.humidity_mean != null)
+    out.idealHumidity = Math.round(Math.max(10, Math.min(90, loc.humidity_mean)) / 5) * 5;
+  if (loc.uv_index_mean != null)
+    out.uvSensitivity = loc.uv_index_mean >= 7 ? 'tolerant' : loc.uv_index_mean >= 4 ? 'moderate' : 'sensitive';
+  if (loc.precipitation_mean != null)
+    out.precipitation = loc.precipitation_mean <= 1 ? 'dry' : loc.precipitation_mean <= 4 ? 'moderate' : 'wet';
+  if (loc.wind_speed_mean != null)
+    out.windTolerance = loc.wind_speed_mean <= 8 ? 'low' : loc.wind_speed_mean <= 15 ? 'moderate' : 'high';
+  return out;
+};
+
+function CountrySearch({ onSelect }) {
+  const [query, setQuery]       = useState('');
+  const [countries, setCountries] = useState([]);
+  const [open, setOpen]         = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    apiCallGet('score/ranking')
+      .then((data) => {
+        const list = data.results ?? data;
+        setCountries([...list].sort((a, b) => a.country.localeCompare(b.country)));
+      })
+      .catch(() => {});
+  }, []);
+
+  useEffect(() => {
+    const close = (e) => { if (ref.current && !ref.current.contains(e.target)) setOpen(false); };
+    document.addEventListener('mousedown', close);
+    return () => document.removeEventListener('mousedown', close);
+  }, []);
+
+  const filtered = query.length >= 1
+    ? countries.filter((c) => c.country.toLowerCase().includes(query.toLowerCase())).slice(0, 7)
+    : [];
+
+  const handleSelect = (loc) => {
+    onSelect(loc);
+    setQuery('');
+    setOpen(false);
+  };
+
+  return (
+    <div className="country-search" ref={ref}>
+      <div className="country-search-wrap">
+        <span className="country-search-icon">&#x2315;</span>
+        <input
+          className="country-search-input"
+          placeholder="Match a country's climate…"
+          value={query}
+          onChange={(e) => { setQuery(e.target.value); setOpen(true); }}
+          onFocus={() => query.length >= 1 && setOpen(true)}
+        />
+        {query && (
+          <button className="country-search-clear" onClick={() => { setQuery(''); setOpen(false); }}>×</button>
+        )}
+      </div>
+      {open && filtered.length > 0 && (
+        <div className="country-search-dropdown">
+          {filtered.map((loc) => (
+            <button key={loc.country_code} className="country-search-item" onMouseDown={() => handleSelect(loc)}>
+              <img
+                src={`https://flagcdn.com/w20/${loc.country_code.toLowerCase()}.png`}
+                alt=""
+                className="country-search-flag"
+              />
+              <span className="country-search-name">{loc.country}</span>
+              {loc.temperature_mean != null && (
+                <span className="country-search-temp">{loc.temperature_mean}°C</span>
+              )}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function Preferences({ prefs, activePreset, onChange, onBulkChange, onPreset }) {
   return (
     <div className="prefs">
+      <CountrySearch onSelect={(loc) => onBulkChange(statsToPrefs(loc))} />
+
       <div className="prefs-presets">
         <span className="prefs-presets-label">Presets</span>
         <div className="prefs-preset-btns">

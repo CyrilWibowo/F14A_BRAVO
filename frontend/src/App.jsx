@@ -7,11 +7,12 @@ import Preferences from './components/Preferences';
 import TopBar from './components/TopBar';
 import HomePage from './components/Home';
 import Dashboard from './components/Dashboard';
+import AiChat from './components/AiChat';
 import { PrefsContext } from './prefsContext';
 import { DEFAULT_PREFS, PRESETS } from './scoring';
 import './App.css';
 
-function Layout({ prefs, activePreset, onPrefChange, onPreset }) {
+function Layout({ prefs, activePreset, onPrefChange, onBulkChange, onPreset }) {
   return (
     <>
       <div className="banner">
@@ -25,6 +26,7 @@ function Layout({ prefs, activePreset, onPrefChange, onPreset }) {
               prefs={prefs}
               activePreset={activePreset}
               onChange={onPrefChange}
+              onBulkChange={onBulkChange}
               onPreset={onPreset}
             />
           </div>
@@ -32,7 +34,7 @@ function Layout({ prefs, activePreset, onPrefChange, onPreset }) {
         <div className="main-content">
           <Outlet />
         </div>
-        <div className="sidebar-spacer" />
+        <AiChat />
       </div>
     </>
   );
@@ -74,6 +76,11 @@ function App() {
     setPrefs((p) => ({ ...p, [key]: value }));
   };
 
+  const handleBulkChange = (updates) => {
+    setActivePreset(null);
+    setPrefs((p) => ({ ...p, ...updates }));
+  };
+
   const handlePreset = (key) => {
     setActivePreset(key);
     setPrefs((p) => ({ ...PRESETS[key], prioritiseAffordability: p.prioritiseAffordability ?? false }));
@@ -94,6 +101,7 @@ function App() {
               prefs={prefs}
               activePreset={activePreset}
               onPrefChange={handlePrefChange}
+              onBulkChange={handleBulkChange}
               onPreset={handlePreset}
             />
           }>
