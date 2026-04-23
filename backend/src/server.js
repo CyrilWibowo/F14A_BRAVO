@@ -50,6 +50,7 @@ const catchErrors = (fn) => async (req, res) => {
                        Health & Metrics
 ***************************************************************/
 
+app.get('/', (req, res) => res.status(200).json({ status: 'ok', service: 'ClimateScore API' }));
 app.get('/health', healthHandler);
 app.get('/metrics', metricsHandler);
 
