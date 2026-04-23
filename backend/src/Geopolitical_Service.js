@@ -1,4 +1,4 @@
-import { toAlpha2 } from './Country_code_map.js';
+import { toFIPS } from './Country_code_map.js';
 import { InputError } from './error.js';
 
 const CORE5_BASE = 'https://6uy0kye9xi.execute-api.ap-southeast-2.amazonaws.com';
@@ -51,12 +51,8 @@ const computeRiskModifier = (goldsteinAvg, conflictRatio) => {
 export const getGeopoliticalSummary = async (countryCode, months = 6) => {
   if (!countryCode) throw new InputError('Must provide a country_code');
 
-  let iso2;
-  try {
-    iso2 = toAlpha2(countryCode);
-  } catch {
-    throw new InputError(`Cannot map country_code to ISO alpha-2: ${countryCode}`);
-  }
+  // CORE5/GDELT uses FIPS country codes, not ISO alpha-2
+  const fipsCode = toFIPS(countryCode.toUpperCase());
 
   const dateFrom = new Date();
   dateFrom.setMonth(dateFrom.getMonth() - months);
@@ -65,8 +61,8 @@ export const getGeopoliticalSummary = async (countryCode, months = 6) => {
   // Two CORE5 calls in parallel. /events gives us everything we need per country.
   // /events/timeline adds the trend chart.
   const [eventsData, timelineData] = await Promise.all([
-    core5Fetch('/events', { country: iso2, date_from: dateFromStr, limit: 100 }),
-    core5Fetch('/events/timeline', { country: iso2, date_from: dateFromStr, bucket: 'week' }),
+    core5Fetch('/events', { country: fipsCode, date_from: dateFromStr, limit: 100 }),
+    core5Fetch('/events/timeline', { country: fipsCode, date_from: dateFromStr, bucket: 'week' }),
   ]);
 
   const events = Array.isArray(eventsData) ? eventsData : (eventsData?.events ?? []);
@@ -131,7 +127,7 @@ export const getGeopoliticalSummary = async (countryCode, months = 6) => {
 
   return {
     country_code: countryCode.toUpperCase(),
-    iso2,
+    iso2: countryCode.toUpperCase(),
     periodMonths: months,
     geopoliticalRisk: {
       riskModifier: computeRiskModifier(goldsteinAvg, conflictRatio),
